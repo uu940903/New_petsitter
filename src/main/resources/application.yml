@@ -1,0 +1,37 @@
+#Server
+server:
+  port: 8500
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+
+#DataBase
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://gettersettersitter.cocxfarlqxip.ap-northeast-2.rds.amazonaws.com:3306/GetterSetterSitter?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: admin
+    password: gst12345
+
+
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        naming:
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
+
+
+
+
