@@ -19,7 +19,7 @@ public class Notice {
 
     @Column(length = 45)
     @NotNull
-    private String no_tilte;
+    private String no_title;
 
     @Column(columnDefinition = "text")
     @NotNull
