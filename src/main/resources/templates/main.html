@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+</head>
+<body>
+<h1>Main.임시</h1>
+<p>UserID:<span th:text="${session.userID}"></span></p>
+<p>Name:<span th:text="${session.name}"></span></p>
+<p>Nickname:<span th:text="${session.nickname}"></span></p>
+
+<form action="/member/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
+</body>
+</html>
