@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="">
+<head>
+    <meta charset="UTF-8">
+    <title>글 등록</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" th:href="@{mainboard/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+    <form id="writeForm" th:action="@{/mainboard/write}" method="post" enctype="multipart/form-data">
+        <!-- 유효성 검사시 에러 메세지 출력 영역 -->
+        <div class="mb-3">
+            <input type="file" multiple="multiple" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="pet_title" class="form-label">제목</label>
+            <input type="text" id="pet_title" class="form-control">
+        </div>
+        <div class="mb-3">
+            <input type="radio" value="category">강아지
+            <input type="radio" value="category">고양이
+        </div>
+        <div class="mb-3">
+            <div><input type="text"></div>
+            <div><input type="place"></div>
+            <div><input type="day"></div>
+            <div><input type="start_time"></div>
+            <div><input type="end_time"></div>
+        </div>
+        <div class="mb-3">
+            <label for="pet_content" class="form-label">내용</label>
+            <textarea type="text" id="pet_content" class="form-control" rows="8"></textarea>
+        </div>
+        <!-- 지도 API 구현 -->
+        <div>
+            <button type="button">연락하기</button>
+        </div>
+        <!-- 추천게시물 -->
+        <input type="submit" value="글등록" class="btn btn-primary my-2">
+    </form>
+</div>
+<script src="mainboard/js/bootstrap.min.js" th:src="@{mainboard/js/bootstrap.min.js}"></script>
+</body>
+</html>
