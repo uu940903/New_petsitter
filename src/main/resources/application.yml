@@ -17,6 +17,16 @@ spring:
     url: jdbc:mysql://gettersettersitter.cocxfarlqxip.ap-northeast-2.rds.amazonaws.com:3306/GetterSetterSitter?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
     username: admin
     password: gst12345
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: false
+  freemarker:
+    cache: false
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
 
 
   jpa:
@@ -31,7 +41,6 @@ spring:
         naming:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
-
-
-
-
+jwt:
+  secret:
+    key: x!A%D*G-KaPdSgVkYp3s5v8y/B?E(H+J
