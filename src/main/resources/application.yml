@@ -40,7 +40,3 @@ spring:
         show_sql: true
         naming:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-
-jwt:
-  secret:
-    key: x!A%D*G-KaPdSgVkYp3s5v8y/B?E(H+J
