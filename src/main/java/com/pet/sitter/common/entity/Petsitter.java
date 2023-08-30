@@ -2,8 +2,7 @@ package com.pet.sitter.common.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,54 +10,57 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Petsitter {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer sitter_no;
+    private Long sitterNo;
 
     @Column
     @NotNull
-    private String pet_title;
+    private String petTitle;
 
     @Column
     @NotNull
-    private String pet_content;
+    private String petContent;
 
     @Column
     @NotNull
     private String category;
 
     @Column
-    private LocalDateTime pet_date;
+    private LocalDateTime petRegdate;
 
     @Column
     @NotNull
-    private Integer pet_view_cnt;
+    private Integer petViewCnt;
 
     @Column
     @NotNull
-    private Integer pet_like;
+    private Integer LikeCnt;
 
     @Column
     private Integer price;
 
     @Column
     @NotNull
-    private String pet_category;
+    private String petCategory;
 
     @Column
-    private LocalDateTime start_time;
+    private LocalDateTime startTime;
 
     @Column
-    private LocalDateTime end_time;
+    private LocalDateTime endTime;
 
     @ManyToOne
     @JoinColumn(name="id", referencedColumnName = "id")
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name="pet_address_no", referencedColumnName = "pet_address_no")
+    @JoinColumn(name="petAddressNo", referencedColumnName = "petAddressNo")
     private AreaSearch areaSearch;
 
     @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
@@ -73,4 +75,19 @@ public class Petsitter {
     @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
     private List<ChatRoom> chatRoomList;
 
+    @Builder
+    public Petsitter(Long sitterNo, String petTitle, String petContent, String category, LocalDateTime petRegdate, Integer petViewCnt, Integer LikeCnt, Integer price, String petCategory, LocalDateTime startTime, LocalDateTime endTime, Member member) {
+        this.sitterNo = sitterNo;
+        this.petTitle = petTitle;
+        this.petContent = petContent;
+        this.category = category;
+        this.petRegdate = petRegdate;
+        this.petViewCnt = petViewCnt;
+        this.LikeCnt = LikeCnt;
+        this.price = price;
+        this.petCategory = petCategory;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.member = member;
+    }
 }

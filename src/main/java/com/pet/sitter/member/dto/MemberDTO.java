@@ -1,41 +1,51 @@
 package com.pet.sitter.member.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.pet.sitter.common.entity.Member;
+import lombok.*;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class MemberDTO {
 
-    private String id;
+    private Long id;
+    private String memberId;
     private String pw;
     private String name;
     private String phone;
-    private String e_mail;
+    private String eMail;
     private String birth;
     private String address;
     private String nickname;
-    private char isshow;
+    private String isshow;
 
-    public MemberDTO() {
+    @Builder
+    public MemberDTO(Member member) {
+        this.id = member.getId();
+        this.memberId = member.getMemberId();
+        this.pw = member.getPw();
+        this.name = member.getName();
+        this.phone = member.getPhone();
+        this.eMail = member.getEMail();
+        this.birth = member.getBirth();
+        this.address = member.getAddress();
+        this.nickname = member.getNickname();
+        this.isshow = member.getIsshow();
     }
 
-    public MemberDTO(String id, String pw, String name, String phone, String e_mail, String birth, String address, String nickname, char isshow) {
-        this.id = id;
-        this.pw = pw;
-        this.name = name;
-        this.phone = phone;
-        this.e_mail = e_mail;
-        this.birth = birth;
-        this.address = address;
-        this.nickname = nickname;
-        this.isshow = isshow;
-    }
 
-    public MemberDTO(String id, String name, String nickname) {
-        this.id = id;
-        this.name = name;
-        this.nickname = nickname;
-
+    public Member toEntity(){
+        return Member.builder()
+                .id(this.id)
+                .memberId(this.memberId)
+                .pw(this.pw)
+                .name(this.name)
+                .phone(this.phone)
+                .eMail(this.eMail)
+                .birth(this.birth)
+                .address(this.address)
+                .nickname(this.nickname)
+                .isshow(this.isshow)
+                .build();
     }
 }

@@ -2,34 +2,34 @@ package com.pet.sitter.common.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Member {
-
     @Id
-    private String id;
-
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
+    private String memberId;
     @Column
     @NotNull
     private String pw;
     @Column
     @NotNull
     private String name;
-
     @Column
     @NotNull
     private String phone;
 
     @Column
     @NotNull
-    private String e_mail;
+    private String eMail;
 
     @Column
     @NotNull
@@ -39,7 +39,7 @@ public class Member {
     @NotNull
     private String address;
 
-    @Column
+    @Column(unique = true)
     @NotNull
     private String nickname;
 
@@ -62,4 +62,19 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Matching> matchingList;
 
+
+    @Builder
+    public Member(Long id, String memberId, String pw, String name, String phone, String eMail, String birth, String address, String nickname, String isshow, List<Petsitter> petsitterList) {
+        this.id = id;
+        this.memberId = memberId;
+        this.pw = pw;
+        this.name = name;
+        this.phone = phone;
+        this.eMail = eMail;
+        this.birth = birth;
+        this.address = address;
+        this.nickname = nickname;
+        this.isshow = isshow;
+        this.petsitterList = petsitterList;
+    }
 }
