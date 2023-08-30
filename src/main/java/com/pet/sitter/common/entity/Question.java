@@ -3,48 +3,61 @@ package com.pet.sitter.common.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer qna_no;
+    private Long qnaNo;
 
     @Column
     @NotNull
-    private String qna_title;
+    private String qnaTitle;
 
     @Column
     @NotNull
-    private String qna_content;
+    private String qnaContent;
 
     @Column
     @NotNull
-    private LocalDateTime qna_date;
+    private LocalDateTime qnaDate;
 
     @Column
     @NotNull
-    private Integer qna_pw;
+    private Integer qnaPw;
 
     @Column
     @NotNull
-    private Integer qna_view_cnt;
+    private Integer qnaViewCnt;
 
     @Column
-    private String qna_file;
+    private String qnaFile;
 
     @Column
-    private String qna_comment;
+    private String qnaComment;
 
     @ManyToOne
     @JoinColumn (name = "id", referencedColumnName = "id")
     private Member member;
 
+    @Builder
+
+    public Question(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, Integer qnaPw, Integer qnaViewCnt, String qnaFile, String qnaComment, Member member) {
+        this.qnaNo = qnaNo;
+        this.qnaTitle = qnaTitle;
+        this.qnaContent = qnaContent;
+        this.qnaDate = qnaDate;
+        this.qnaPw = qnaPw;
+        this.qnaViewCnt = qnaViewCnt;
+        this.qnaFile = qnaFile;
+        this.qnaComment = qnaComment;
+        this.member = member;
+    }
 }

@@ -2,26 +2,45 @@ package com.pet.sitter.common.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 public class PetsitterFile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer file_no;
+    private Long fileNo;
 
     @Column
     @NotNull
-    private String file_name;
+    private String originFileName;
+
+    @Column
+    @NotNull
+    private String newFileName;
+
+    @Column
+    @NotNull
+    private String filePath;
 
     @Column
     @NotNull
     private String type;
 
     @ManyToOne
-    @JoinColumn(name="sitter_no", referencedColumnName = "sitter_no")
+    @JoinColumn(name="sitterNo", referencedColumnName = "sitterNo")
     private Petsitter petsitter;
+
+    @Builder
+
+    public PetsitterFile(Long fileNo, String originFileName, String newFileName, String filePath, String type, Petsitter petsitter) {
+        this.fileNo = fileNo;
+        this.originFileName = originFileName;
+        this.newFileName = newFileName;
+        this.filePath = filePath;
+        this.type = type;
+        this.petsitter = petsitter;
+    }
 }
