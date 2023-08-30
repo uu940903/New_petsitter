@@ -2,9 +2,7 @@ package com.pet.sitter.common.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
@@ -12,28 +10,30 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long no_no;
+    private Long noNo;
 
     @Column(length = 45)
     @NotNull
-    private String no_title;
+    private String noTitle;
 
     @Column(columnDefinition = "text")
     @NotNull
-    private String no_content;
+    private String noContent;
 
     @Column
     @NotNull
-    private LocalDateTime no_date;
+    private LocalDateTime noDate;
 
     @Column
     @NotNull
     @ColumnDefault("0")
-    private Integer no_view_cnt;
+    private Integer noViewCnt;
 
     @Column(length = 255)
-    private String no_file;
+    private String noFile;
 }
