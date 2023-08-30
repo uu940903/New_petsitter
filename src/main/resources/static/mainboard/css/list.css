@@ -1,0 +1,43 @@
+/* style.css */
+.wrap {
+   max-width: 1280px;
+   margin: 0 auto;
+}
+
+
+.petSitterContainer {
+   display: grid;
+   place-items: center;
+   grid-template-columns: 600px 600px;
+   gap: 80px;
+   margin-left: 50px;
+}
+
+
+.thumbnail-crop {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.thumbnail {
+    position: absolute;
+    top: -72px;
+    left: -35px;
+    width: 240px;
+}
+
+.tem_thumbnail {
+    width: 200px;
+    height: 200px;
+}
+
+
+
+/*
+.petSitterItem {
+   box-shadow: 3px 3px 2px rgb(0, 0, 0, 0.1);
+   padding: 40px;
+}
+*/

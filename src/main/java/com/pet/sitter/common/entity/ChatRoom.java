@@ -14,8 +14,7 @@ import java.util.List;
 public class ChatRoom {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long chatRoomNo;
+    private String chatRoomNo;
 
     @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     @NotNull
@@ -33,7 +32,7 @@ public class ChatRoom {
     private List<ChatMessages> chatMessagesList;
 
     @Builder
-    public ChatRoom(Long chatRoomNo, LocalDateTime createdate, Petsitter petsitter, Member member, List<ChatMessages> chatMessagesList) {
+    public ChatRoom(String chatRoomNo, LocalDateTime createdate, Petsitter petsitter, Member member, List<ChatMessages> chatMessagesList) {
         this.chatRoomNo = chatRoomNo;
         this.createdate = createdate;
         this.petsitter = petsitter;

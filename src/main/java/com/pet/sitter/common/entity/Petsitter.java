@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Petsitter {
 
     @Id
@@ -40,7 +39,7 @@ public class Petsitter {
 
     @Column
     @NotNull
-    private Integer LikeCnt;
+    private Integer likeCnt;
 
     @Column
     private Integer price;
@@ -55,13 +54,18 @@ public class Petsitter {
     @Column
     private LocalDateTime endTime;
 
+    @Transient
+    private int startTimeHour;
+
+    @Transient
+    private int endTimeHour;
+
+    @Column
+    private String petAddress;
+
     @ManyToOne
     @JoinColumn(name="id", referencedColumnName = "id")
     private Member member;
-
-    @ManyToOne
-    @JoinColumn(name="petAddressNo", referencedColumnName = "petAddressNo")
-    private AreaSearch areaSearch;
 
     @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
     private List<PetsitterFile> petsitterFileList;
@@ -76,18 +80,32 @@ public class Petsitter {
     private List<ChatRoom> chatRoomList;
 
     @Builder
-    public Petsitter(Long sitterNo, String petTitle, String petContent, String category, LocalDateTime petRegdate, Integer petViewCnt, Integer LikeCnt, Integer price, String petCategory, LocalDateTime startTime, LocalDateTime endTime, Member member) {
+    public Petsitter(Long sitterNo, String petTitle, String petContent, String category, LocalDateTime petRegdate, Integer petViewCnt, Integer likeCnt, Integer price, String petCategory, LocalDateTime startTime, LocalDateTime endTime, String petAddress, Member member) {
         this.sitterNo = sitterNo;
         this.petTitle = petTitle;
         this.petContent = petContent;
         this.category = category;
         this.petRegdate = petRegdate;
         this.petViewCnt = petViewCnt;
-        this.LikeCnt = LikeCnt;
+        this.likeCnt = likeCnt;
         this.price = price;
         this.petCategory = petCategory;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.petAddress = petAddress;
         this.member = member;
     }
+
+    public boolean isPetsitterFileListEmpty () {
+        return petsitterFileList == null || petsitterFileList.isEmpty();
+    }
+
+    /*
+    @PostLoad
+    public void calculateHour() {
+        this.startTimeHour = this.startTime.getHour();
+        this.endTimeHour = this.endTime.getHour();
+    }
+     */
+
 }

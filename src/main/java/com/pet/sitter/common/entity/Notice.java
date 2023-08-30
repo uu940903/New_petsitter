@@ -34,6 +34,4 @@ public class Notice {
     @ColumnDefault("0")
     private Integer noViewCnt;
 
-    @Column(length = 255)
-    private String noFile;
 }

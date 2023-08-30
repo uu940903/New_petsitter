@@ -3,11 +3,17 @@ package com.pet.sitter.mainboard.dto;
 import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.common.entity.PetsitterFile;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 public class PetSitterFileDTO {
+
+    private List<MultipartFile> boardFile; //html에서 controller로 파일 담는 용도
+
     private Long fileNo;
     private String originFileName;
     private String newFileName;
