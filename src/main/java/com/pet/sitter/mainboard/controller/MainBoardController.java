@@ -20,15 +20,14 @@ public class MainBoardController {
     @Autowired
     public MainBoardService mainBoardService;
 
-    /*
-    @GetMapping("/list")
+ /*   @GetMapping("/list")
     public String getList(Model model) {
         List<Petsitter> petSitterList = mainBoardService.getList();
         System.out.println("더미 데이터 개수"+petSitterList.size());
         model.addAttribute("petSitterList", petSitterList);
         return "mainboard/list";
     }
-     */
+*/
 
     @GetMapping("/list")
     public String getList(Model model) {

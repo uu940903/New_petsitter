@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>회원가입</title>
 </head>
 <body>
+<h1>회원가입</h1>
+<form th:action="@{/member/join}" th:object="${userCreateForm}" method="post">
+    <div th:if="${param.error}">
+        사용자 ID 어쩌구 저쩌구
+    </div>
+    <div th:if="${#fields.hasAnyErrors()}">
+        <div th:each="err: ${#fields.allErrors()}" th:text="${err}"></div>
+    </div>
+    <div class="mb-3">
+        <label for="memberId" class="form-label">ID</label>
+        <input type="text" th:field="*{memberId}" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="name" class="form-label">이름</label>
+        <input type="text" th:field="*{name}" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="nickname" class="form-label">닉네임</label>
+        <input type="text" th:field="*{nickname}" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="pw1" class="form-label">비밀번호</label>
+        <input type="password" th:field="*{pw1}" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="pw2" class="form-label">비번확인</label>
+        <input type="password" th:field="*{pw2}" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="eMail" class="form-label">이메일</label>
+        <input type="email" th:field="*{eMail}" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="address" class="form-label">주소</label>
+        <input type="text" th:field="*{address}" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="birth" class="form-label">생년월일</label>
+        <input type="date" th:field="*{birth}" class="form-control"/>
+    </div>
+    <div class="mb-3">
+        <label for="phone" class="form-label">휴대번호</label>
+        <input type="text" th:field="*{phone}" class="form-control"/>
+    </div>
 
+    <input type="submit" value="회원가입" class="btn"/>
+</form>
 </body>
 </html>
