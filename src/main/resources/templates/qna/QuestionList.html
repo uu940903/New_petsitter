@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<a th:href="@{/question/write}">글쓰기</a>
+
+<!-- <form action="/notice/search" method="GET">
+     <div class="search">
+         <input name="keyword" type="text" placeholder="검색어를 입력해주세요">
+     </div>
+
+     <button>검색하기</button>
+ </form>  -->
+
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>(loop)번호</th>
+        <th>글제목</th>
+        <th>작성일</th>
+        <th>조회수</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <!-- CONTENTS !-->
+    <tr th:each="quesiton, loop: ${qustionList}">
+        <td th:text="${loop.count}"></td>
+        <td th:text="${question.qnaNo}"></td>
+        <td>
+            <a th:href="@{'/question/detail/' + ${question.qnaNo}}">
+                <span th:text="${question.qnaTitle}"></span>
+                <span th:text="${question.qnaDate}"></span>
+            </a>
+        </td>
+        <td>
+            <span th:text="${#temporals.format(question.noDate, 'yyyy-MM-dd HH:mm')}"></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+<!--<div>
+<span th:each="pageNum : ${pageList}" th:inline="text">
+    <a th:href="@{'/?page=' + ${pageNum}}">[[${pageNum}]]</a>
+</span>
+</div> -->

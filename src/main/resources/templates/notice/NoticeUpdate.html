@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form  th:action="@{/notice/update}" enctype="multipart/form-data" method="post">
+    <input type="hidden" name="_method" value="put"/>
+    <input type="hidden" name="no_no" th:value="${noticeDTO.noNo}"/>
+    제목 : <input type="text" name="no_title" th:value="${noticeDTO.noTitle}"> <br>
+    <textarea name="no_content" th:text="${noticeDTO.noContent}"></textarea><br>
+    <input type="submit" value="수정">
+</form>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<form id="QuestionForm"   th:action="@{/question/write}" th:object="${questionDTO}" enctype="multipart/form-data" method="post">
+
+    <div>
+      <input type="text" name="qnaTitle" placeholder="제목"> <br>
+        <textarea name="qnaContent" rows="8"></textarea><br>
+        <input type="password" name="qnaPw" placeholder="비밀번호"><br>
+        <input type="submit" value="등록">
+
+    </div>
+</form>
+<br>
+
+
+<body>
+
+</body>
+</html>

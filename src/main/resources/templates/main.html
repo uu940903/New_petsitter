@@ -9,6 +9,8 @@
 <p>UserID:<span th:text="${session.memberId}"></span></p>
 <p>Name:<span th:text="${session.name}"></span></p>
 <p>Nickname:<span th:text="${session.nickname}"></span></p>
+<a th:href="@{/question/list}">QnA게시판</a>
+<a th:href="@{/notice/list}">공지게시판</a>
 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
     <!--sec:authorize="isAnonymous()"-로그인 되지 않은 경우에만 해당 엘리먼트가 표시되게 한다.
         sec:authorize="isAuthenticated()"-로그인 된 경우에만 해당 엘리먼트가 표시되게 한다.-->
