@@ -44,6 +44,8 @@ public class PetSitterDTO {
         this.endTime = petsitter.getEndTime();
     }
 
+
+
     public Petsitter toEntity(){
         return Petsitter.builder()
                 .sitterNo(this.sitterNo)

@@ -26,6 +26,8 @@ public class MemberService {
         member.setMemberId(userCreateForm.getMemberId());
         member.setPw(passwordEncoder.encode(userCreateForm.getPw1()));
         member.setAddress(userCreateForm.getAddress());
+        member.setDetailaddress(userCreateForm.getDetailaddress());
+        member.setZipcode(userCreateForm.getZipcode());
         member.setNickname(userCreateForm.getNickname());
         member.setName(userCreateForm.getName());
         member.setPhone(userCreateForm.getPhone());

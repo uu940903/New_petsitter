@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 정보</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+        .member-info {
+            width: 400px; /* 원하는 너비로 조정하세요 */
+            height: 500px; /* 원하는 높이로 조정하세요 */
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
+        }
+        .info {
+            margin-bottom: 50px; /* 간격을 더 늘리려면 값을 더 크게 조정하세요 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .label {
+            font-weight: bold;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="member-info">
+    <h1>회원 정보</h1>
+    <div class="info">
+        <div>
+            <span class="label">아이디:</span>
+            <span class="value" th:text="${memberDTO.id}"></span>
+        </div>
+
+    </div>
+    <div class="info">
+        <div>
+            <span class="label">이름:</span>
+            <span class="value" th:text="${memberDTO.name}"></span>
+        </div>
+        <button class="button">수정</button>
+    </div>
+    <div class="info">
+        <div>
+            <span class="label">연락처:</span>
+            <span class="value" th:text="${memberDTO.phone}"></span>
+        </div>
+        <button class="button">수정</button>
+    </div>
+    <div class="info">
+        <div>
+            <span class="label">닉네임:</span>
+            <span class="value" th:text="${memberDTO.nickname}"></span>
+        </div>
+        <button class="button">수정</button>
+    </div>
+    <div class="info">
+        <div>
+            <span class="label">회원 주소:</span>
+            <span class="value" th:text="${memberDTO.address}"> </span>
+        </div>
+        <button class="button">수정</button>
+    </div>
+    <div class="center-bottom">
+        <div></div>
+        <a href="/my-posts" class="button">내 글 목록 보기</a>
+    </div>
+</div>
+</body>
+</html>
