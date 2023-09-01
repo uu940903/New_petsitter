@@ -2,7 +2,6 @@ package com.pet.sitter.notice.controller;
 
 import com.pet.sitter.common.entity.NoticeFile;
 import com.pet.sitter.notice.dto.NoticeDTO;
-import com.pet.sitter.notice.repository.NoticeFileRepository;
 import com.pet.sitter.notice.service.NoticeService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -138,8 +137,8 @@ public class NoticeController {
 
     //공지게시판 수정하기
     @PutMapping("/update")
-    public String getUpdate(Model model,Long no_no,NoticeDTO noticeDTO) throws IOException {
-        noticeService.getUpdate(no_no,noticeDTO);
+    public String getUpdate(Model model,Long noNo,NoticeDTO noticeDTO) throws IOException {
+        noticeService.getUpdate(noNo,noticeDTO);
         model.addAttribute("noticeDTO",noticeDTO);
         return "redirect:/notice/list";
     }
