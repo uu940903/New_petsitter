@@ -12,7 +12,7 @@ import lombok.Setter;
 //SiteUser Entity관련 유효성검사용 클래스
 //회원가입폼 페이지에서 입력.선택사항에 적용되는 유효성검사 클래스
 public class UserCreateForm {
-    @Size(min = 3, max = 20)
+    @Size(min = 3, max = 255)
     @NotEmpty(message = "ID는 필수입력입니다.")
     private String memberId;//회원명
 
