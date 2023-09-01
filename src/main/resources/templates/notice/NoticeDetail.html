@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <h2 th:text="${noticeDTO.noTitle}"></h2>
+    <span th:text="${#temporals.format(noticeDTO.noDate, 'yyyy-MM-dd HH:mm')}"></span>
+    <p th:text="${noticeDTO.noContent}"></p>
+
+    <br/><br/>
+    <h3>이미지 출력</h3>
+    <form th:action="@{/detail/{noNo}}" enctype="multipart/form-data" method="get">
+        <!-- 파일네임을 명시해서 주소에 넘겨줌 -->
+            <img  th:src="| '/notice/detail/'${noticeFile.getNoSavedNm()}(filename=${noticeFile.getNoSavedNm()})|" width="150" height="150">
+    </form>
+       <!-- 수정삭제-->
+    <div>
+        <a th:href="@{'/notice/edit/'+${noticeDTO.noNo}}" >
+            <button>수정</button>
+        </a>
+
+        <form th:action="@{'/notice/delete/' + ${noticeDTO.noNo}}" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <button type="submit" id="deleteBtn">삭제</button>
+        </form>
+    </div>
+    </form>
+</html>

@@ -37,6 +37,12 @@ public class UserCreateForm {
     @NotEmpty(message = "주소는 필수입력입니다.")
     private String address;
 
+    @NotEmpty(message = "상세주소는 필수입력입니다.")
+    private String detailaddress;
+
+    @NotEmpty(message = "우편번호는 필수입력입니다.")
+    private String zipcode;
+
     @NotEmpty(message = "별칭은 필수입력입니다.")
     private String nickname;
 
