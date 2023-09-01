@@ -39,6 +39,14 @@ public class Member {
     @NotNull
     private String address;
 
+    @Column
+    @NotNull
+    private String detailaddress;
+
+    @Column
+    @NotNull
+    private String zipcode;
+
     @Column(unique = true)
     @NotNull
     private String nickname;
@@ -64,7 +72,7 @@ public class Member {
 
 
     @Builder
-    public Member(Long id, String memberId, String pw, String name, String phone, String eMail, String birth, String address, String nickname, String isshow, List<Petsitter> petsitterList) {
+    public Member(Long id, String memberId, String pw, String name, String phone, String eMail, String birth, String address, String detailaddress, String zipcode, String nickname, String isshow, List<Petsitter> petsitterList) {
         this.id = id;
         this.memberId = memberId;
         this.pw = pw;
@@ -73,6 +81,8 @@ public class Member {
         this.eMail = eMail;
         this.birth = birth;
         this.address = address;
+        this.detailaddress = detailaddress;
+        this.zipcode = zipcode;
         this.nickname = nickname;
         this.isshow = isshow;
         this.petsitterList = petsitterList;
