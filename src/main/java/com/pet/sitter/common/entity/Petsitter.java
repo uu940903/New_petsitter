@@ -1,5 +1,8 @@
 package com.pet.sitter.common.entity;
 
+import com.pet.sitter.mainboard.dto.PetSitterDTO;
+import com.pet.sitter.mainboard.dto.PetSitterFileDTO;
+import com.pet.sitter.mainboard.dto.WeekDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -35,12 +38,10 @@ public class Petsitter {
     private LocalDateTime petRegdate;
 
     @Column
-    @NotNull
     private Integer petViewCnt;
 
     @Column
-    @NotNull
-    private Integer LikeCnt;
+    private Integer likeCnt;
 
     @Column
     private Integer price;
@@ -56,12 +57,11 @@ public class Petsitter {
     private LocalDateTime endTime;
 
     @ManyToOne
-    @JoinColumn(name="id", referencedColumnName = "id")
+    @JoinColumn(name = "id", referencedColumnName = "id")
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name="petAddressNo", referencedColumnName = "petAddressNo")
-    private AreaSearch areaSearch;
+    @Column
+    private String petAddress;
 
     @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
     private List<PetsitterFile> petsitterFileList;
@@ -76,18 +76,26 @@ public class Petsitter {
     private List<ChatRoom> chatRoomList;
 
     @Builder
-    public Petsitter(Long sitterNo, String petTitle, String petContent, String category, LocalDateTime petRegdate, Integer petViewCnt, Integer LikeCnt, Integer price, String petCategory, LocalDateTime startTime, LocalDateTime endTime, Member member) {
+    public Petsitter(Long sitterNo, String petTitle, String petContent, String category, LocalDateTime petRegdate, Integer petViewCnt, Integer likeCnt, Integer price, String petCategory, LocalDateTime startTime, LocalDateTime endTime, Member member, String petAddress) {
         this.sitterNo = sitterNo;
         this.petTitle = petTitle;
         this.petContent = petContent;
         this.category = category;
         this.petRegdate = petRegdate;
         this.petViewCnt = petViewCnt;
-        this.LikeCnt = LikeCnt;
+        this.likeCnt = likeCnt;
         this.price = price;
         this.petCategory = petCategory;
         this.startTime = startTime;
         this.endTime = endTime;
         this.member = member;
+        this.petAddress = petAddress;
     }
+
+
+
+    public boolean isPetsitterFileListEmpty () {
+        return petsitterFileList == null || petsitterFileList.isEmpty();
+    }
+
 }

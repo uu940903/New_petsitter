@@ -1,13 +1,20 @@
 package com.pet.sitter.common.entity;
 
+import com.pet.sitter.mainboard.dto.WeekDTO;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
 @Getter
 @NoArgsConstructor
-public class Week {
+@IdClass(WeekId.class)
+public class Week implements Serializable {
+
     @Id
     @ManyToOne
     @JoinColumn(name="sitterNo", referencedColumnName = "sitterNo")
@@ -22,4 +29,13 @@ public class Week {
         this.petsitter = petsitter;
         this.day = day;
     }
+
+    /*public static List<Week> dtoToEntity (WeekDTO weekDTO) {
+        List<Week> weekList = new ArrayList<>();
+        Week week = new Week();
+        week.setDay(weekDTO.getDay());
+        weekList.add();
+
+        return weekList;
+    }*/
 }

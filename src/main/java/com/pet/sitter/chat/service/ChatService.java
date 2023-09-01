@@ -1,3 +1,4 @@
+/*
 package com.pet.sitter.chat.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,4 +43,4 @@ public class ChatService {
 
         return chatRoom;
     }
-}
+}*/

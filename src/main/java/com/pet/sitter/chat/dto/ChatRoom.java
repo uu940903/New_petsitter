@@ -1,3 +1,4 @@
+/*
 package com.pet.sitter.chat.dto;
 
 import lombok.Getter;
@@ -22,3 +23,4 @@ public class ChatRoom {
         return room;
     }
 }
+*/

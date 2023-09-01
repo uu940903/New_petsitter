@@ -1,3 +1,4 @@
+/*
 package com.pet.sitter.chat.controller;
 
 import com.pet.sitter.chat.dto.ChatRoom;
@@ -52,4 +53,4 @@ public class ChatRoomController {
     public ChatRoom roomInfo(@PathVariable String roomId) {
         return chatService.findRoomById(roomId);
     }
-}
+}*/

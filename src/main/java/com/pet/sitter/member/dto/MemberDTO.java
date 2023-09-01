@@ -16,6 +16,8 @@ public class MemberDTO {
     private String eMail;
     private String birth;
     private String address;
+    private String detailaddress;
+    private String zipcode;
     private String nickname;
     private String isshow;
 
@@ -29,6 +31,8 @@ public class MemberDTO {
         this.eMail = member.getEMail();
         this.birth = member.getBirth();
         this.address = member.getAddress();
+        this.detailaddress = member.getDetailaddress();
+        this.zipcode = member.getZipcode();
         this.nickname = member.getNickname();
         this.isshow = member.getIsshow();
     }

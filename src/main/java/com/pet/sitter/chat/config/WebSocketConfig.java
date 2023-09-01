@@ -1,3 +1,4 @@
+/*
 package com.pet.sitter.chat.config;
 
 import lombok.RequiredArgsConstructor;
@@ -25,4 +26,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         registry.setApplicationDestinationPrefixes("/app");
     }
-}
+}*/
