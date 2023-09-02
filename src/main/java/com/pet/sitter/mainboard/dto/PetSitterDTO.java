@@ -20,7 +20,6 @@ public class PetSitterDTO {
     private Integer LikeCnt;
     private List<PetSitterFileDTO> fileDTOList;
     private Integer price;
-    private AreaSearchDTO areaSearchDTO;
     private Member member;
     private String petCategory;
     private LocalDateTime petRegdate;

@@ -1,12 +1,12 @@
 package com.pet.sitter.qna.controller;
 
 import com.pet.sitter.common.entity.Member;
-import com.pet.sitter.member.dto.MemberDTO;
-import com.pet.sitter.member.service.MemberService;
+import com.pet.sitter.common.entity.Notice;
+import com.pet.sitter.common.entity.Question;
 import com.pet.sitter.qna.dto.QuestionDTO;
 import com.pet.sitter.qna.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +17,10 @@ import java.util.List;
 @RequestMapping("/question")
 public class QuestionController {
     private final QuestionService questionService;
-    private final MemberService memberService;
 
     @Autowired
-    public QuestionController(QuestionService questionService, MemberService memberService) {
+    public QuestionController(QuestionService questionService) {
         this.questionService = questionService;
-        this.memberService = memberService;
     }
 
     //question 글 작성 폼 보여주기
@@ -34,19 +32,31 @@ public class QuestionController {
 
     //quesiton 글 작성
     @PostMapping("/write")
-    public String write(QuestionDTO questionDTO){
-        Member member = questionDTO.getMember();
-        member.getId();
+    public String write(QuestionDTO questionDTO) {
+        Member member = new Member();
+        member.setId(6L);
+
+        questionDTO.setMember(member);
         questionService.savePost(questionDTO);
         return "redirect:/question/list";
     }
+//        Member member = questionDTO.getMember();
+//        if(member != null){
+//            member.getId();
+//        }
+//
+//        questionService.savePost(questionDTO);
+//        return "redirect:/question/list";
+//    }
 
     //question list 조회
     @GetMapping("/list")
-    public String list(Model model){
-        List<QuestionDTO> questionList = questionService.questionList();
-        model.addAttribute("questionList",questionList);
+    public String list(Model model,@RequestParam(value = "page", defaultValue = "0") int page){
+        Page<Question> questionPage = questionService.questionList(page);
+        model.addAttribute("questionPage",questionPage);
         return "qna/QuestionList";
+
+//        List<QuestionDTO> questionList = questionService.questionList();
     }
 
     //question 상세 조회

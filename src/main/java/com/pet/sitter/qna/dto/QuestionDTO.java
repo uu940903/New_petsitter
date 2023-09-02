@@ -1,12 +1,14 @@
 package com.pet.sitter.qna.dto;
 
 
+import com.pet.sitter.common.entity.Answer;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Question;
 import com.pet.sitter.member.dto.MemberDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,9 +23,9 @@ public class QuestionDTO {
     private String qnaPw;
     private Integer qnaViewCnt = 0;
     private String qnaFile;
-    private String qnaComment;
 
     private Member member;
+    private List<Answer> answerList;
 
     public Question toEntity(){
         Question build = Question.builder()
@@ -34,14 +36,13 @@ public class QuestionDTO {
                 .qnaPw(qnaPw)
                 .qnaViewCnt(qnaViewCnt)
                 .qnaFile(qnaFile)
-                .qnaComment(qnaComment)
                 .member(member)
                 .build();
         return build;
     }
 
     @Builder
-    public QuestionDTO(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, String qnaComment, Member member) {
+    public QuestionDTO(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, Member member) {
         this.qnaNo = qnaNo;
         this.qnaTitle = qnaTitle;
         this.qnaContent = qnaContent;
@@ -49,7 +50,6 @@ public class QuestionDTO {
         this.qnaPw = qnaPw;
         this.qnaViewCnt = qnaViewCnt;
         this.qnaFile = qnaFile;
-        this.qnaComment = qnaComment;
         this.member = member;
     }
 }

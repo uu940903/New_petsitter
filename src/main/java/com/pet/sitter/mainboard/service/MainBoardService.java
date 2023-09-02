@@ -1,7 +1,6 @@
 package com.pet.sitter.mainboard.service;
 
 import com.pet.sitter.common.entity.Petsitter;
-import com.pet.sitter.mainboard.dto.AreaSearchDTO;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.mainboard.dto.PetSitterFileDTO;
 import com.pet.sitter.mainboard.dto.WeekDTO;

@@ -3,6 +3,7 @@ package com.pet.sitter.common.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -28,8 +29,9 @@ public class NoticeFile {
     @Column
     private String noSavedPath;
 
-    @OneToOne
-    @JoinColumn(name="noNo", referencedColumnName = "noNo")
+    // NoticeFile 엔티티에서 Notice와의 관계 설정
+    @ManyToOne
+    @JoinColumn(name = "noNo", referencedColumnName = "noNo")
     private Notice notice;
 
     @DateTimeFormat(pattern = "yyyy-mm-dd")

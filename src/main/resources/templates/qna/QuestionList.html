@@ -1,59 +1,74 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html layout:decorate="~{layout}" class="container-lg my-3">
+<div layout:fragment="content">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+    <div class="d-flex justify-content-between align-items-center">
+        <h2>Q&A게시판</h2>
+        <a th:href="@{/question/write}" class="btn btn-dark text-white">글쓰기</a>
+    </div>
 
-<a th:href="@{/question/write}">글쓰기</a>
+    <div>
+        <table class="text-center w-100 table table-hover">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <!--            <th>(loop)번호</th>-->
+                <th>글제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>조회수</th>
+            </tr>
+            </thead>
 
-<!-- <form action="/notice/search" method="GET">
-     <div class="search">
-         <input name="keyword" type="text" placeholder="검색어를 입력해주세요">
-     </div>
+            <tbody>
+            <!-- CONTENTS !-->
+            <tr th:each="question, loop: ${questionPage}" style="height: 40px;">
+                <!--            <td th:text="${loop.count}"></td>-->
+                <td th:text="${questionPage.getTotalElements() - (questionPage.number * questionPage.size) - loop.index}"></td>
+                <td>
+                    <a th:href="@{'/question/detail/' + ${question.qnaNo}}" style="color: black;">
+                        <span class="col-5" th:text="${question.qnaTitle}"></span>
+                    </a>
+                <td class="col-3" th:text="${question.member.nickname}"></td>
+                <td>
+                    <span class="col-2" th:text="${#temporals.format(question.qnaDate, 'yyyy-MM-dd HH:mm')}"></span>
+                </td>
+                <td>
+                    <span class="col-1" th:text="${question.qnaViewCnt}"></span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 
-     <button>검색하기</button>
- </form>  -->
+        <!-- PageNation -->
+        <div th:if="${!questionPage.isEmpty()}">
+            <ul class="pagination justify-content-center">
+                <!-- 이전 버튼 : 조건 충족시 노출 -->
+                <!-- 삼항 연산자 => 조건 ? true false -->
+                <li class="page-item" th:classappend="${!questionPage.hasPrevious} ? 'disabled'">
+                    <!-- Page class의 hasPrevious() : 이전 페이지의 여부 / getNumber : 현재 페이지 번호-->
+                    <a class="page-link" th:href="@{|?page=${questionPage.number-1}|}"><span>이전</span></a>
+                </li>
+                <!-- 페이지번호 : 반복& <a>태그 연결 & 부트스트랩 [1] [2] [3] ~ [10] -->
+                <!-- page : 반복변수명  / '?page=' : localhost:8090/question/list?page=페이지전호-->
+                <li class="page-item" th:each="page : ${#numbers.sequence(0,questionPage.totalPages-1)}"
+                    th:if="${page>=questionPage.number-5 and page<=questionPage.number+5}"
+                    th:classappend="${page==questionPage.number} ? 'active'">
+                    <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page+1}"></a>
+                </li>
+                <!-- 다음 버튼 : 조건 충족시 노출 -->
+                <li class="page-item" th:classappend="${!questionPage.hasNext} ? 'disabled'">
+                    <!-- Page class의 hasPrevious() : 이전 페이지의 여부 / getNumber : 현재 페이지 번호-->
+                    <a class="page-link" th:href="@{|?page=${questionPage.number+1}|}"><span>다음</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
-<table>
-    <thead>
-    <tr>
-        <th>번호</th>
-        <th>(loop)번호</th>
-        <th>글제목</th>
-        <th>작성자</th>
-        <th>작성일</th>
-        <th>조회수</th>
-    </tr>
-    </thead>
 
-    <tbody>
-    <!-- CONTENTS !-->
-    <tr th:each="question, loop: ${questionList}">
-        <td th:text="${loop.count}"></td>
-        <td th:text="${question.qnaNo}"></td>
-        <td>
-            <a th:href="@{'/question/detail/' + ${question.qnaNo}}">
-                <span th:text="${question.qnaTitle}"></span>
-            </a>
-        </td>
-        <td th:text="${question.member.nickname}">
-        </td>
-
-        <td>
-            <span th:text="${#temporals.format(question.qnaDate, 'yyyy-MM-dd HH:mm')}"></span>
-        </td>
-        <td>   <span th:text="${question.qnaViewCnt}"></span></td>
-    </tr>
-    </tbody>
-</table>
-</body>
+    </body>
+</div>
 </html>
-
-
-<!--<div>
-<span th:each="pageNum : ${pageList}" th:inline="text">
-    <a th:href="@{'/?page=' + ${pageNum}}">[[${pageNum}]]</a>
-</span>
-</div> -->

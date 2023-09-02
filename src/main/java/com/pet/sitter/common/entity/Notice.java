@@ -7,6 +7,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -33,9 +34,14 @@ public class Notice {
     private Integer noViewCnt;
 
 
-    @OneToOne(mappedBy = "notice", cascade = CascadeType.REMOVE)
-    private NoticeFile noticeFile;
+    //조회수증가
+    public void increaseViewCount() {
+        this.noViewCnt++;
+    }
 
+    // Notice 엔티티에서 NoticeFile 리스트를 관리
+    @OneToMany(mappedBy = "notice", cascade = CascadeType.REMOVE)
+    private List<NoticeFile> noticeFiles;
 
     @Builder
     public Notice(Long noNo, String noTitle, String noContent, LocalDateTime noDate, Integer noViewCnt ) {

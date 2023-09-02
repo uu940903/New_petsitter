@@ -1,21 +1,43 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout}" class="container my-3">
+<div layout:fragment="content">
 
-<form  th:action="@{/question/write}"  enctype="multipart/form-data" method="post">
-
-    <div>
-      <input type="text" name="qnaTitle" placeholder="제목"> <br>
-        <textarea name="qnaContent" rows="8"></textarea><br>
-
-        <input type="password" name="qnaPw" placeholder="비밀번호"><br>
-        <input type="submit" value="등록">
-
-    </div>
-</form>
-<br>
-
-
-<body>
-
-</body>
+    <form id="NoticeForm" th:action="@{/notice/write}" enctype="multipart/form-data" method="post">
+        <div class="container">
+            <h1>Q&A게시판</h1>
+            <div class="row row1">
+                <table class="table">
+                    <tr>
+                        <th class="text-right">제목</th>
+                        <td>
+                            <input type="text" name="noTitle" size=50 class="input-sm">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">내용</th>
+                        <td>
+                            <textarea rows="10" cols="50" v-model="noContent"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">비밀번호</th>
+                        <td>
+                            <input type=password name="qnaPw" size=15 class="input-sm">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">첨부파일</th>
+                        <td>
+                            <input type=file name="qnaFile" size=15 class="input-sm">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="text-center border-0" >
+                            <input type="submit" value="등록">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
 </html>

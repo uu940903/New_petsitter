@@ -7,6 +7,10 @@ import com.pet.sitter.notice.repository.NoticeFileRepository;
 import com.pet.sitter.notice.repository.NoticeRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +26,7 @@ import java.util.UUID;
 @Transactional
 public class NoticeService {
     @Value("${resource.location}")
-    private String fileDir;
+    private String uploadDirectory;
     private final NoticeRepository noticeRepository;
     private final NoticeFileRepository noticeFileRepository;
 
@@ -39,11 +43,65 @@ public class NoticeService {
 
     //공지게시판목록조회
     @Transactional
-    public List<NoticeDTO> getNoticeList() {
-        List<Notice> notices = noticeRepository.findAllByOrderByNoNoDesc();
-        List<NoticeDTO> noticeDTOList = new ArrayList<>();
+    public Page<Notice> getNoticeList(int page) {
+        List <Sort.Order> sorts = new ArrayList();
+        sorts.add(Sort.Order.desc("noDate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        return noticeRepository.findAll(pageable);
 
-        for (Notice notice : notices) {
+    }
+
+    @Transactional
+    //공지게시판 글등록
+    public void write(NoticeDTO noticeDTO, NoticeFile noticeFile) throws IOException {
+// 1. 업로드된 파일을 저장할 디렉토리 생성
+        String folderPath = fileDir + getFolder(); // 파일을 저장할 디렉토리 경로
+        File uploadPath = new File(folderPath);
+
+        if (!uploadPath.exists()) {
+            uploadPath.mkdirs(); // 디렉토리가 없으면 생성
+        }
+
+        // 2. 첨부 파일 관련 정보 설정
+        MultipartFile multipartFile = noticeDTO.getNoticeFile().getNoFile();
+
+        // 원래 파일 이름 추출
+        String originalFilename = multipartFile.getOriginalFilename();
+        String savedFilename = UUID.randomUUID().toString() + "_" + originalFilename;
+
+        // 첨부 파일을 저장할 경로 설정
+        String savedFilePath = folderPath + File.separator + savedFilename;
+
+        // 3. 공지 게시물 엔터티 생성 및 첨부 파일과의 관계 설정
+        Notice notice = noticeDTO.toEntity();
+        noticeFile.setNoOrgNm(originalFilename);
+        noticeFile.setNoSavedNm(savedFilename);
+        noticeFile.setNoSavedPath(savedFilePath);
+        notice.setNoticeFile(noticeFile);
+
+        // 4. 첨부 파일 저장
+        multipartFile.transferTo(new File(savedFilePath));
+
+        // 5. 공지 게시물과 첨부 파일 저장
+        noticeRepository.save(notice);
+        noticeFileRepository.save(noticeFile);
+    }
+
+//        noticeRepository.save(noticeDTO.toEntity());
+//        noticeFileRepository.save(noticeFile);
+
+    }
+
+
+    //공지게시판 상세내용
+    @Transactional
+    public NoticeDTO getDetail(Long noNo) {
+        Optional<Notice> noticeOptional = noticeRepository.findById(noNo);
+        if (noticeOptional.isPresent()) {
+            Notice notice = noticeOptional.get();
+            notice.increaseViewCount();
+            noticeRepository.save(notice);
+
             NoticeDTO noticeDTO = NoticeDTO.builder()
                     .noNo(notice.getNoNo())
                     .noTitle(notice.getNoTitle())
@@ -51,41 +109,10 @@ public class NoticeService {
                     .noDate(notice.getNoDate())
                     .noViewCnt(notice.getNoViewCnt())
                     .build();
-            noticeDTOList.add(noticeDTO);
+            return noticeDTO;
         }
-        return noticeDTOList;
+        return null;
     }
-
-    @Transactional
-    //공지게시판 글등록
-    public void write(NoticeDTO noticeDTO, NoticeFile noticeFile) throws IOException {
-
-        noticeRepository.save(noticeDTO.toEntity());
-        noticeFileRepository.save(noticeFile);
-
-    }
-
-
-
-
-
-    //공지게시판 상세내용
-    @Transactional
-    public NoticeDTO getDetail(Long noNo){
-        Optional<Notice> noticeOptional = noticeRepository.findById(noNo);
-        Notice notice = noticeOptional.get();
-
-
-        NoticeDTO noticeDTO = NoticeDTO.builder()
-                .noNo(notice.getNoNo())
-                .noTitle(notice.getNoTitle())
-                .noContent(notice.getNoContent())
-                .noDate(notice.getNoDate())
-                .noViewCnt(notice.getNoViewCnt())
-                .build();
-        return noticeDTO;
-    }
-
     //공지게시판 수정
     @Transactional
     public void getUpdate(Long noNo, NoticeDTO noticeDTO) throws IOException {
@@ -95,17 +122,6 @@ public class NoticeService {
             notice.setNoNo(noticeDTO.getNoNo());
             notice.setNoTitle(noticeDTO.getNoTitle());
             notice.setNoContent(noticeDTO.getNoContent());
-
-            /*Long fileno = notice.getNo_no();
-            MultipartFile noticeFile = noticeDTO.getNoticeFile();
-            String originfilename =noticeFile.getOriginalFilename();
-            String sotredFileName = "Notcie" + fileno + "_"+ originfilename; //게시글no으로변경예정.
-            String savePath = "D:\\project\\New_petsitter\\src\\main\\resources\\static\\notice\\img\\uploadfile\\" + sotredFileName;
-            noticeFile.transferTo(new File(savePath));
-
-            notice.setNo_file(originfilename);
-            notice.setNo_filename(sotredFileName);
-            notice.setNo_filepath(savePath);*/
             noticeRepository.save(notice);
         }
     }

@@ -59,9 +59,9 @@ public class Petsitter {
     @JoinColumn(name="id", referencedColumnName = "id")
     private Member member;
 
-    @ManyToOne
-    @JoinColumn(name="petAddressNo", referencedColumnName = "petAddressNo")
-    private AreaSearch areaSearch;
+
+    @Column
+    private String petAddress;
 
     @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
     private List<PetsitterFile> petsitterFileList;

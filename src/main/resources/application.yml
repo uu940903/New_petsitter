@@ -78,5 +78,7 @@ spring:
 resource:
   handler: notice/detail/**
   location: file:///C:/uploadfile/
+  
+  #정적 리소스의 MIME타입을 자동으로 설정
 
 
