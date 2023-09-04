@@ -1,16 +1,13 @@
 package com.pet.sitter.member.controller;
 
-import com.pet.sitter.member.dto.MemberDTO;
 import com.pet.sitter.member.service.MemberService;
 import com.pet.sitter.member.validation.UserCreateForm;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
