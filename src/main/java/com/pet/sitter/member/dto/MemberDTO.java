@@ -6,6 +6,7 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class MemberDTO {
 
     private Long id;
@@ -53,5 +54,21 @@ public class MemberDTO {
                 .nickname(this.nickname)
                 .isshow(this.isshow)
                 .build();
+    }
+
+    public static MemberDTO toMemberDTO(Member member) {
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setId(member.getId());
+        memberDTO.setMemberId(member.getMemberId());
+        memberDTO.setBirth(member.getBirth());
+        memberDTO.setAddress(member.getAddress());
+        memberDTO.setPw(member.getPw());
+        memberDTO.setDetailaddress(member.getDetailaddress());
+        memberDTO.setZipcode(member.getZipcode());
+        memberDTO.setName(member.getName());
+        memberDTO.setEMail(member.getEMail());
+        memberDTO.setNickname(member.getNickname());
+        memberDTO.setPhone(member.getPhone());
+        return memberDTO;
     }
 }
