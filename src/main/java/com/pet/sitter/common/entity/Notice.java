@@ -1,39 +1,53 @@
 package com.pet.sitter.common.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+@Setter
+@DynamicUpdate
+@NoArgsConstructor (access = AccessLevel.PUBLIC)
+@EntityListeners(AuditingEntityListener.class)
 public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noNo;
 
     @Column(length = 45)
-    @NotNull
     private String noTitle;
 
     @Column(columnDefinition = "text")
-    @NotNull
     private String noContent;
 
     @Column
-    @NotNull
-    private LocalDateTime noDate;
+    private LocalDateTime noDate =LocalDateTime.now();
 
     @Column
-    @NotNull
     @ColumnDefault("0")
     private Integer noViewCnt;
 
-    @Column(length = 255)
-    private String noFile;
+
+    @OneToOne(mappedBy = "notice", cascade = CascadeType.REMOVE)
+    private NoticeFile noticeFile;
+
+
+    @Builder
+    public Notice(Long noNo, String noTitle, String noContent, LocalDateTime noDate, Integer noViewCnt ) {
+        this.noNo = noNo;
+        this.noTitle = noTitle;
+        this.noContent = noContent;
+        this.noDate = noDate;
+        this.noViewCnt = noViewCnt;
+
+    }
+
+
+
+
 }

@@ -1,4 +1,4 @@
-package com.pet.sitter.chat.config;
+/*package com.pet.sitter.chat.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,4 +25,4 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
         registry.setApplicationDestinationPrefixes("/app");
     }
-}
+}*/

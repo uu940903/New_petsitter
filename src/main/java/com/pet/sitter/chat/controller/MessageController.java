@@ -1,4 +1,4 @@
-package com.pet.sitter.chat.controller;
+/*package com.pet.sitter.chat.controller;
 
 import com.pet.sitter.chat.dto.ChatMessage;
 import lombok.RequiredArgsConstructor;
@@ -22,3 +22,4 @@ public class MessageController {
         sendingOperations.convertAndSend("/topic/chat/room/" + message.getRoomId(), message);
     }
 }
+*/

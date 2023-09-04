@@ -4,13 +4,17 @@ package com.pet.sitter.common.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
+@DynamicUpdate
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@EntityListeners(AuditingEntityListener.class)
 public class Question {
 
     @Id
@@ -31,7 +35,7 @@ public class Question {
 
     @Column
     @NotNull
-    private Integer qnaPw;
+    private String qnaPw;
 
     @Column
     @NotNull
@@ -48,8 +52,7 @@ public class Question {
     private Member member;
 
     @Builder
-
-    public Question(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, Integer qnaPw, Integer qnaViewCnt, String qnaFile, String qnaComment, Member member) {
+    public Question(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, String qnaComment, Member member) {
         this.qnaNo = qnaNo;
         this.qnaTitle = qnaTitle;
         this.qnaContent = qnaContent;
@@ -60,4 +63,6 @@ public class Question {
         this.qnaComment = qnaComment;
         this.member = member;
     }
+
+
 }

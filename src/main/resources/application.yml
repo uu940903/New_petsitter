@@ -61,3 +61,15 @@ spring:
             token-uri: https://kauth.kakao.com/oauth/token
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
+
+  servlet:
+    multipart:
+      enabled: true
+      location: C:\uploadfile\
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+
+resource:
+  handler: notice/detail/**
+  location: file:///C:/uploadfile/
