@@ -11,5 +11,7 @@ import java.util.Optional;
 public interface PetsitterFileRepository extends JpaRepository<PetsitterFile, Long> {
     List<PetsitterFile> findAllByPetsitter(Petsitter petsitter);
 
+    List<PetsitterFile> findByPetsitter (Petsitter petsitter);
+
     /*List<MultipartFile> findAllBy (PetsitterFile petsitterFile);*/
 }

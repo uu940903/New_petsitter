@@ -2,7 +2,6 @@ package com.pet.sitter.member.controller;
 
 import com.pet.sitter.member.service.MemberService;
 import com.pet.sitter.member.validation.UserCreateForm;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RequiredArgsConstructor
 @RequestMapping("/member")
@@ -38,14 +36,14 @@ public class MemberController {
             return "/member/join";
         }
         //2.비즈니스로직처리
-        //비밀번호와 비밀번호 확인을 서로 비교하여 불일치하면 signup_form.html문서로 이동
+        //비밀번호와 비밀번호 확인을 서로 비교하여 불일치하면 join.html문서로 이동
         if(!userCreateForm.getPw1().equals(userCreateForm.getPw2())) {
             bindingResult.rejectValue("password2","passwordInCorrect","비밀번호 입력이 일치하지 않습니다.");
             return "/member/join";
-
         }
         try {
             memberService.create(userCreateForm);
+
         }catch (DataIntegrityViolationException e) { // 여기에서는 username(회원id은 uk, email은 uk)->제약조건에 걸리면 발생
             e.printStackTrace();
             bindingResult.reject("signupFailed","이미 등록된 회원이 있습니다.");

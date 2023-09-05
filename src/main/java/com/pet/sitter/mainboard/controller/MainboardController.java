@@ -47,7 +47,7 @@ public class MainBoardController {
     public String getList(Model model) {
         List<PetSitterDTO> petSitterList = mainBoardService.getList();
         model.addAttribute("petSitterList", petSitterList);
-        System.out.println("list 크기"+petSitterList.size());
+        System.out.println("list 크기" + petSitterList.size());
         return "mainboard/list";
     }
 
@@ -73,16 +73,12 @@ public class MainBoardController {
     }
 
 
-
-
-
     //********************************혜지시작
     //AreaSearch 테이블에 insert
 
 
     //글등록 폼 요청
-    //!!!!!스프링시큐리티 적용되면 @PreAuthorize("isAuthenticated()") //로그인했니? 추가해야됨
-    //!!!!@Vaild 추가해야됨
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
     public String writeForm(WriteForm writeForm) {
         logger.info("MainBoardController-writeForm()진입");
@@ -102,20 +98,99 @@ public class MainBoardController {
             return "mainboard/writeForm";
         }
 
-        for (int i =0; i< boardFile.length; i++){
-            logger.info("파일: {}", boardFile[i].getOriginalFilename());
-        }
-
         mainBoardService.write(petSitterDTO, id, boardFile);
 
 
         return String.format("redirect:/mainboard/list");
     }
 
+
     //게시글 수정 폼 요청
     @GetMapping("/modify/{sitterNo}")
-    public String updatePetsitterForm (@PathVariable Long sitterNo, Principal principal,
-                                       WriteForm writeForm, PetSitterFileDTO petSitterFileDTO) {
+    public String updateForm(@PathVariable Long sitterNo, Principal principal,
+                             Model model, WriteForm writeForm) {
+        logger.info("MainBoardController-updateForm()진입");
+
+        PetSitterDTO petSitterDTO = mainBoardService.getDetail(sitterNo);
+
+        // 글 작성자와 로그인한 유저가 동일하지 않으면 수정 권한이 없음
+        if (!petSitterDTO.getMember().getMemberId().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+        }
+
+        writeForm.setPetTitle(petSitterDTO.getPetTitle());
+        writeForm.setPetContent(petSitterDTO.getPetContent());
+        writeForm.setCategory(petSitterDTO.getCategory());
+        writeForm.setPetCategory(petSitterDTO.getPetCategory());
+        writeForm.setPrice(petSitterDTO.getPrice());
+        writeForm.setStartTime(petSitterDTO.getStartTime());
+        writeForm.setEndTime(petSitterDTO.getEndTime());
+        writeForm.setPetAddress(petSitterDTO.getPetAddress());
+
+        model.addAttribute("writeForm", writeForm);
+        return "mainboard/updateForm";
+    }
+
+
+    //게시글 수정 처리
+    @PostMapping ("/modify/{sitterNo}")
+    public String update (@PathVariable Long sitterNo, @Valid WriteForm writeForm, BindingResult bindingResult,
+                          Principal principal, MultipartFile[] boardFile, String id) throws IOException {
+        logger.info("MainBoardController-update() 진입");
+
+        id = principal.getName();
+
+        if (bindingResult.hasErrors()) {
+            return "mainboard/editForm";
+        }
+
+        mainBoardService.update(writeForm, sitterNo,boardFile, id);
+
+        return String.format("redirect:/mainboard/detail/%s", + sitterNo);
+
+    }
+
+
+    //게시글 삭제
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{sitterNo}")
+    public String delete(@PathVariable Long sitterNo, Principal principal) {
+        logger.info("MainBoardController-delete() 진입");
+
+        String id = principal.getName();
+
+        mainBoardService.delete(sitterNo, id);
+
+        return "redirect:/mainboard/list";
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*//게시글 수정 폼 요청
+    @GetMapping("/modify/{sitterNo}")
+    public String updatePetsitterForm(@PathVariable Long sitterNo, Principal principal,
+                                      WriteForm writeForm, PetSitterFileDTO petSitterFileDTO) {
 
         //글 번호 들고오기
         PetSitterDTO petSitterDTO = mainBoardService.updateForm(sitterNo);
@@ -128,9 +203,9 @@ public class MainBoardController {
         petSitterDTO.getFileDTOList();
         //petSitterDTO.getFileDTOList().get().setSitterNo();
 
-      /*  for (PetSitterFileDTO sitterNoForFile : petSitterDTO.getFileDTOList()) {
+      *//*  for (PetSitterFileDTO sitterNoForFile : petSitterDTO.getFileDTOList()) {
             logger.info("컨트롤러에서 시터엔오포파일 확인: {}", sitterNoForFile.getSitterNo());
-        }*/
+        }*//*
 
         String id = petSitterDTO.getMember().getMemberId();
         logger.info("id={}", id);
@@ -150,12 +225,11 @@ public class MainBoardController {
         logger.info("보드파일 뽑아봄= {}", writeForm.getBoardFile());
 
 
-
         logger.info("updatePetsitterForm:updatePetsitterDTO확인: {}", writeForm);
 
 
         return "mainboard/writeForm";
-    }
+    }*/
 
 
 
@@ -188,43 +262,5 @@ public class MainBoardController {
 
         return String.format("redirect:/mainboard/detail/%s", + sitterNo);
     }*/
-
-/*    //게시글 삭제
-    @GetMapping ("/delete/{sitterNo}")
-    public String deletePetSitter (@PathVariable Long sitterNo, Principal principal) {
-
-        //글번호 들고오기
-        PetSitterDTO petSitterDTO = mainBoardService.getDetail(sitterNo);
-
-        //글작성자와 로그인한 유저가 동일하지 않으면 Exception
-        if (!petSitterDTO.getMember().getMemberId().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
-        }
-
-        mainBoardService.delete(petSitterDTO);
-
-        return "redirect:/mainboard/list";
-
-    }*/
-
-    //게시글 삭제
-    @GetMapping ("/delete/{sitterNo}")
-    public String deletePetSitter (@PathVariable Long sitterNo, Principal principal) {
-
-        //글번호 들고오기
-        PetSitterDTO petSitterDTO = mainBoardService.getDetail(sitterNo);
-
-        Petsitter petsitter = petSitterDTO.dtoToEntity(petSitterDTO);
-
-        //글작성자와 로그인한 유저가 동일하지 않으면 Exception
-        if (!petSitterDTO.getMember().getMemberId().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
-        }
-
-        mainBoardService.deletePetSitter(petsitter);
-
-        return "redirect:/mainboard/list";
-
-    }
 
 }

@@ -1,8 +1,8 @@
 package com.pet.sitter.mainboard.dto;
 
-import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.common.entity.PetsitterFile;
+import com.pet.sitter.member.dto.MemberDTO;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +25,7 @@ public class PetSitterDTO {
     private List<PetSitterFileDTO> fileDTOList;
     private Integer price;
     private String petAddress;
-    private Member member;
+    private MemberDTO member;
     private String petCategory;
     private LocalDateTime petRegdate;
     private LocalDateTime startTime;

@@ -38,7 +38,6 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
-        default_batch_fetch_size: 100
         naming:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
@@ -67,15 +66,5 @@ spring:
       enabled: true
       location: C:\uploadfile\
       file-size-threshold: 2KB
-      max-file-size: 200MB
-      max-request-size: 215MB
-
-#resource:
-#  handler: notice/detail/**
-#  location: file:///C:/uploadfile/
-
-
-#logging:
-#  level:
-#    org.springframework.web: DEBUG
-#    com.pet.sitter: INFO
+      max-file-size: 300MB
+      max-request-size: 300MB

@@ -1,6 +1,7 @@
 package com.pet.sitter.member.repository;
 
 import com.pet.sitter.common.entity.Member;
+import com.pet.sitter.common.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/question/qnaUpdate}" enctype="multipart/form-data" method="post">
+    <input type="hidden" name="_method" value="Put"/>
+    <input type="hidden" name="qnaNo" th:value="${questionDTO.qnaNo}"/>
+
+
+    <input type="text" name="qnaTitle" th:value="${questionDTO.qnaTitle}"><br/>
+    <input type="password" name="qnaPw" th:value="${questionDTO.qnaPw}" placeholder="비밀번호"/><br/>
+    <textarea name="qnaContent" th:text="${questionDTO.qnaContent}"></textarea><br>
+    <a th:text="${questionDTO.member.nickname}"></a><br>
+    <span th:text="${#temporals.format(questionDTO.qnaDate, 'yyyy-MM-dd HH:mm')}"></span><br>
+    <input type="submit" value="수정">
+</form>
+
+</body>
+</html>
