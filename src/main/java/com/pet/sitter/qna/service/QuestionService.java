@@ -1,10 +1,8 @@
 package com.pet.sitter.qna.service;
 
-import com.pet.sitter.common.entity.Member;
-import com.pet.sitter.common.entity.Question;
-import com.pet.sitter.member.dto.MemberDTO;
-import com.pet.sitter.member.repository.MemberRepository;
+import com.pet.sitter.common.entity.*;
 import com.pet.sitter.qna.dto.QuestionDTO;
+import com.pet.sitter.qna.repository.QuestionFileRepository;
 import com.pet.sitter.qna.repository.QuestionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +11,26 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Principal;
-import java.time.LocalDateTime;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 
 public class QuestionService {
-    private  final QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
+    private final QuestionFileRepository questionFileRepository;
+
     @Autowired
-    public QuestionService(QuestionRepository qnARepository) {
+    public QuestionService(QuestionRepository qnARepository, QuestionFileRepository questionFileRepository) {
         this.questionRepository = qnARepository;
+        this.questionFileRepository = questionFileRepository;
     }
 
 
@@ -34,13 +38,58 @@ public class QuestionService {
     //Question 글 등록
 
     @Transactional
-    public Long savePost(QuestionDTO questionDTO) {
+    public void savePost(QuestionDTO questionDTO, MultipartFile[] file) throws IOException {
         Member member = new Member();
         member.setId(6L);
         questionDTO.setMember(member);
-        return questionRepository.save(questionDTO.toEntity()).getQnaNo();
-    }
 
+        //질문게시판 엔티티생성
+        Question question = Question.builder()
+                .qnaNo(questionDTO.getQnaNo())
+                .qnaTitle(questionDTO.getQnaTitle())
+                .qnaContent(questionDTO.getQnaContent())
+                .qnaDate(questionDTO.getQnaDate())
+                .qnaPw(questionDTO.getQnaPw())
+                .qnaViewCnt(0)
+                .qnaFile(questionDTO.getQnaFile())
+                .member(member)
+                .build();
+        if (file[0].isEmpty()) {
+            questionRepository.save(question);
+        } else {
+            Long boardNo = questionRepository.save(question).getQnaNo();
+            Question Question1 = questionRepository.findById(boardNo).get();
+
+            QuestionFile questionFile = new QuestionFile();
+
+            String path = "C:/uploadfile/question_img/";
+            File directory = new File(path);
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+            for (MultipartFile qFile : file) {
+                String originalFilename = qFile.getOriginalFilename();
+                String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                String newFileName = UUID.randomUUID().toString() + fileExtension;
+                String noSavedPath = path + newFileName;
+                File saveFile = new File(path, newFileName);
+                qFile.transferTo(saveFile);
+                //          noFile.transferTo(new File(noSavedPath));
+
+                questionFile = QuestionFile.builder()
+                        .QOrgNm(originalFilename)
+                        .QSavedNm(newFileName)
+                        .QSavedPath(noSavedPath)
+                        .QcreateDate(LocalDate.now())
+                        .build();
+
+                questionFile.setQuestion(Question1);
+                questionFileRepository.save(questionFile);
+            }
+
+            questionRepository.save(question);
+        }
+    }
 
 
     //Question게시판 목록 전체조회
@@ -53,23 +102,6 @@ public class QuestionService {
 
     }
 
-//        List<Question> questionList = questionRepository.findAllByOrderByQnaNoDesc();
-//        List<QuestionDTO> questionDTOList = new ArrayList<>();
-//
-//        for(Question question : questionList) {
-//            QuestionDTO questionDTO =  QuestionDTO.builder()
-//                    .qnaNo(question.getQnaNo())
-//                    .qnaTitle(question.getQnaTitle())
-//                    .qnaViewCnt(question.getQnaViewCnt())
-//                    .qnaDate(question.getQnaDate())
-//                    .member(question.getMember())
-//                    .build();
-//            questionDTOList.add(questionDTO);
-//
-//        }
-//        return questionDTOList;
-//    }
-
     //Question게시판 상세내용
     @Transactional
     public QuestionDTO detail(Long qnaNo){
@@ -79,6 +111,11 @@ public class QuestionService {
             question.increaseViewCount();
             questionRepository.save(question);
 
+            List<QuestionFile> fileList = new ArrayList<>(); // NoticeFile을 담을 리스트 선언
+            for (QuestionFile questionFile : question.getQuestionList()) {
+                fileList.add(questionFile); // NoticeFile을 리스트에 추가
+            }
+
             QuestionDTO questionDTO = QuestionDTO.builder()
                     .qnaNo(question.getQnaNo())
                     .qnaTitle(question.getQnaTitle())
@@ -87,6 +124,7 @@ public class QuestionService {
                     .qnaViewCnt(question.getQnaViewCnt())
                     .qnaFile(question.getQnaFile())
                     .member(question.getMember())
+                    .QuestionList(fileList)
                     .build();
             return questionDTO;
         }

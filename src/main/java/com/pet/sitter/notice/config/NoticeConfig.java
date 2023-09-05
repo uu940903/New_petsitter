@@ -8,16 +8,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class NoticeConfig implements WebMvcConfigurer {
 
-    @Value("${resource.handler}")
-    private String resourceHandler;
-
-    @Value("${resource.location}")
-    private String resourceLoaction;
 
     @Override
-    public  void addResourceHandlers(ResourceHandlerRegistry registry){
-        registry.addResourceHandler(resourceHandler)
-                .addResourceLocations(resourceLoaction);
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/image/**")
+                .addResourceLocations("file:///C:/uploadfile/notice_img/");
     }
-
 }

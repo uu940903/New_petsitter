@@ -4,8 +4,10 @@ package com.pet.sitter.qna.dto;
 import com.pet.sitter.common.entity.Answer;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Question;
+import com.pet.sitter.common.entity.QuestionFile;
 import com.pet.sitter.member.dto.MemberDTO;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +27,8 @@ public class QuestionDTO {
     private String qnaFile;
 
     private Member member;
-    private List<Answer> answerList;
+    private List<MultipartFile> file;
+    private List<QuestionFile> QuestionList;
 
     public Question toEntity(){
         Question build = Question.builder()
@@ -42,7 +45,7 @@ public class QuestionDTO {
     }
 
     @Builder
-    public QuestionDTO(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, Member member) {
+    public QuestionDTO(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, Member member,List<MultipartFile> file,List<QuestionFile> QuestionList) {
         this.qnaNo = qnaNo;
         this.qnaTitle = qnaTitle;
         this.qnaContent = qnaContent;
@@ -51,5 +54,7 @@ public class QuestionDTO {
         this.qnaViewCnt = qnaViewCnt;
         this.qnaFile = qnaFile;
         this.member = member;
+        this.file = file;
+        this.QuestionList = QuestionList;
     }
 }

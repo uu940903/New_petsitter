@@ -10,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -32,14 +34,21 @@ public class QuestionController {
 
     //quesiton 글 작성
     @PostMapping("/write")
-    public String write(QuestionDTO questionDTO) {
+    public String write(QuestionDTO questionDTO,@RequestParam("file") MultipartFile[] file,Model model) throws IOException {
         Member member = new Member();
         member.setId(6L);
 
-        questionDTO.setMember(member);
-        questionService.savePost(questionDTO);
-        return "redirect:/question/list";
+        try{
+            questionService.savePost(questionDTO, file);
+            return "redirect:/question/list";
+        }catch (IOException e) {
+            // 파일 업로드 중 오류가 발생한 경우에 대한 예외 처리
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "글 작성 중 오류가 발생했습니다: " + e.getMessage());
+            return "error";
+        }
     }
+
 //        Member member = questionDTO.getMember();
 //        if(member != null){
 //            member.getId();

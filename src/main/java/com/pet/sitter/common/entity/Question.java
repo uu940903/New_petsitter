@@ -55,7 +55,7 @@ public class Question {
     @OrderBy("id desc")
     @JsonIgnoreProperties({"question"}) //무한참조방지
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER)
-    private List<Answer> answerList = new ArrayList<>();
+    private List<QuestionFile> QuestionList = new ArrayList<>();
 
     //조회수증가
     public void increaseViewCount() {
@@ -63,7 +63,7 @@ public class Question {
     }
 
     @Builder
-    public Question(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, Member member) {
+    public Question(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, Member member,List<QuestionFile> QuestionList) {
         this.qnaNo = qnaNo;
         this.qnaTitle = qnaTitle;
         this.qnaContent = qnaContent;
@@ -72,6 +72,7 @@ public class Question {
         this.qnaViewCnt = qnaViewCnt;
         this.qnaFile = qnaFile;
         this.member = member;
+        this.QuestionList = QuestionList;
     }
 
 

@@ -19,5 +19,6 @@ public interface NoticeRepository extends JpaRepository<Notice, Long> {
     //페이징 기능이 있는 질문 목록 조회
     Page<Notice> findAll(Pageable pageable);
 
-    Notice findTopByOrderByNoNoDesc();
+
+
 }

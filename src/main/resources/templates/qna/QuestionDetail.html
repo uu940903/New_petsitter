@@ -11,12 +11,13 @@
                 <th class="col-2 text-center warning">작성일</th>
                 <th class="col-4 text-center table-data"
                     th:text="${#temporals.format(questionDTO.qnaDate, 'yyyy-MM-dd HH:mm')}"></th>
+
             </tr>
             <tr>
                 <th class="col-2 text-center warning">조회수</th>
                 <td class="col-4 text-center" th:text="${questionDTO.getQnaViewCnt()}"></td>
                 <th class="col-2 text-center warning">첨부파일</th>
-                <td class="col-4 text-center" th:text="${questionDTO.getQnaFile()}"></td>
+                <td class="col-4 text-center" th:each="questionfile, loop : ${questionDTO.getQuestionList()}" th:text="${questionfile.QOrgNm}"></td>
             </tr>
             <tr>
                 <th class="col-2 text-center warning">제목</th>
@@ -24,11 +25,8 @@
             </tr>
             <tr>
                 <td style="border: 0;">
-                    <form th:action="@{/qnadetail/{qnaNo}}" enctype="multipart/form-data" method="get">
                         <!-- 파일네임을 명시해서 주소에 넘겨줌 -->
-                        <img th:src="| '/question/detail/'${questionDTO.getQnaFile()}(filename=${questionDTO.getQnaFile()})|"
-                             width="150" height="150">
-                    </form>
+                        <img th:each="questionfile, loop : ${questionDTO.getQuestionList()}"  th:src="@{|/image/${questionfile.QSavedNm}|}" width="300" height="300">
                 </td>
             </tr>
             <tr>

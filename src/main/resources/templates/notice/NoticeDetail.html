@@ -3,6 +3,7 @@
 
     <body class="container">
     <h2>공지게시판</h2>
+    <form enctype="multipart/form-data">
     <div class="row row1">
         <table class="table">
             <tr>
@@ -15,7 +16,7 @@
                 <th class="col-2 text-center warning">조회수</th>
                 <td class="col-4 text-center" th:text="${noticeDTO.getNoViewCnt()}"></td>
                 <th class="col-2 text-center warning">첨부파일</th>
-                <td class="col-4 text-center" th:text="${noticeDTO.getNoticeFile()}"></td>
+                <td class="col-4 text-center" th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}" th:text="${noticefile.noOrgNm}"></td>
             </tr>
             <tr>
                 <th class="col-2 text-center warning">제목</th>
@@ -23,11 +24,10 @@
             </tr>
             <tr>
                 <td style="border: 0;">
-                    <form th:action="@{/detail/{noNo}}" enctype="multipart/form-data" method="get">
+                   <!-- <form th:action="@{/detail/{noNo}}" enctype="multipart/form-data" method="get"> -->
                         <!-- 파일네임을 명시해서 주소에 넘겨줌 -->
-                        <img th:src="| '/notice/detail/'${noticeFile.getNoSavedNm()}(filename=${noticeFile.getNoSavedNm()})|"
-                             width="150" height="150">
-                    </form>
+                        <img th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}"  th:src="@{|/image/${noticefile.noSavedNm}|}" width="300" height="300">
+                       <!-- <img th:src="| '/notice/detail/'${noticeFile.getNoSavedNm()}(filename=${noticeFile.getNoSavedNm()})|" width="150" height="150"> -->
                 </td>
             </tr>
             <tr>
@@ -61,6 +61,7 @@
         </div>
 
     </div>
+    </form>
     </body>
     </form>
 </div>
