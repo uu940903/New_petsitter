@@ -8,11 +8,13 @@
 </head>
 <body>
     <!-- navigation -->
-    <nav><a href="../home.html" th:href="@{/}">Home</a></nav>
+    <div th:replace="~{navbar::navbarFragment}"></div>
     <hr/>
     <!-- baseTemplate 시작 -->
     <th:block layout:fragment="content"></th:block>
     <!-- baseTemplate 끝 -->
     <script src="/mainboard/js/bootstrap.min.js" th:src="@{/mainboard/js/bootstrap.min.js}"></script>
+    <!-- footer -->
+    <footer  th:replace="~{footer::footerFragment}"></footer>
 </body>
 </html>

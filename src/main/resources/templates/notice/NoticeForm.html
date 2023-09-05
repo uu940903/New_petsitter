@@ -1,20 +1,41 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout}" class="container my-3">
+<div layout:fragment="content">
 
-<form id="NoticeForm"   th:action="@{/notice/write}"  enctype="multipart/form-data" method="post">
+    <form id="NoticeForm" th:action="@{/notice/write}" enctype="multipart/form-data" method="post">
+        <div class="container">
+            <h1>공지게시판</h1>
+            <div class="row row1">
+                <table class="table">
+                    <tr>
+                        <th class="text-right">제목</th>
+                        <td>
+                            <input type="text" name="noTitle" size=50 class="input-sm">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">내용</th>
+                        <td>
+                            <textarea rows="10" cols="50" name="noContent"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">첨부파일</th>
+                        <td>
+                            <input  type="file" multiple ="multiple" name="file" size=15 class="input-sm">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="text-center" colspan="2">
+                            <input class="btn btn-dark" type="submit" value="등록">
+                            <a th:href="@{'/notice/list'}">
+                                <button class="btn btn-dark">취소</button>
+                            </a>
+                        </td>
+                    </tr>
 
-    <div>
-        <input type="text" name="noTitle" value="제목"> <br>
-        <textarea name="noContent" rows="8"></textarea> <br>
-        <input type="file" name="files">
-    <input type="submit" value="등록">
-
-    </div>
-</form>
-<br>
-
-
-<body>
-
-</body>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
 </html>

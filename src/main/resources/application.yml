@@ -70,6 +70,6 @@ spring:
       max-file-size: 200MB
       max-request-size: 215MB
 
-resource:
-  handler: notice/detail/**
-  location: file:///C:/uploadfile/
+  
+
+
