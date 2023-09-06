@@ -19,5 +19,5 @@ public interface PetsitterRepository extends JpaRepository<Petsitter, Long>, Jpa
     Petsitter findBySitterNo(Long sitterNo);
     //검색
    Page<Petsitter> findAll(Specification<Petsitter> spec, Pageable pageable);
-    
+
 }

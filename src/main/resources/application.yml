@@ -42,16 +42,16 @@ spring:
         naming:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
-
   security:
     oauth2:
       client:
         registration:
           kakao:
             client-id: 32c824e36d69a48d965a21ec5f8f90f4
-            redirect-uri: http://localhost:8500/member/login
+            client-secret: 3MsVoUOB4HnML4TmF5nHkvhSvOE1EPOL
+            client-authentication-method: client_secret_post
+            redirect-uri: http://localhost:8500/login/oauth2/code/kakao
             authorization-grant-type: authorization_code
-            client-authentication-method: POST
             client-name: Kakao
             scope:
               - profile_nickname
@@ -70,17 +70,6 @@ spring:
       file-size-threshold: 2KB
       max-file-size: 200MB
       max-request-size: 215MB
-
-#resource:
-#  handler: notice/detail/**
-#  location: file:///C:/uploadfile/
-
-
-#logging:
-#  level:
-#    org.springframework.web: DEBUG
-#    com.pet.sitter: INFO
-
 
 
 

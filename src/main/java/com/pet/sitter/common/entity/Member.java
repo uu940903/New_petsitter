@@ -1,5 +1,6 @@
 package com.pet.sitter.common.entity;
 
+import com.pet.sitter.member.dto.MemberDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -15,6 +16,7 @@ public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true)
     private String memberId;
     @Column
@@ -87,4 +89,5 @@ public class Member {
         this.isshow = isshow;
         this.petsitterList = petsitterList;
     }
+
 }
