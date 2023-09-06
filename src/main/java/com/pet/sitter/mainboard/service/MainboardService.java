@@ -10,6 +10,7 @@ import com.pet.sitter.mainboard.dto.PetSitterFileDTO;
 import com.pet.sitter.mainboard.dto.WeekDTO;
 import com.pet.sitter.mainboard.repository.PetsitterFileRepository;
 import com.pet.sitter.mainboard.repository.PetsitterRepository;
+import com.pet.sitter.mainboard.repository.PetsitterSpec;
 import com.pet.sitter.mainboard.repository.WeekRepository;
 import com.pet.sitter.mainboard.validation.WriteForm;
 import com.pet.sitter.member.dto.MemberDTO;
@@ -17,6 +18,10 @@ import com.pet.sitter.member.repository.MemberRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -34,8 +39,10 @@ import java.rmi.AccessException;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MainBoardService {
@@ -56,28 +63,27 @@ public class MainBoardService {
 
 
     //게시글 목록 조회
-    public List<PetSitterDTO> getList() {
-        List<Petsitter> petsitterList = petsitterRepository.findAll();
-        List<PetSitterDTO> petSitterDTOList = new ArrayList<>();
-        for (int i = 0; i < petsitterList.size(); i++) {
-            Petsitter petsitter = petsitterList.get(i);
+    public Page<PetSitterDTO> getList(int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("petViewCnt"));
+        sorts.add(Sort.Order.desc("petRegdate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Page<Petsitter> petsitterPage = petsitterRepository.findAll(pageable);
+
+        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
             PetSitterDTO petSitterDTO = PetSitterDTO.builder().petsitter(petsitter).build();
-            petSitterDTO.setMember(MemberDTO.builder().member(petsitter.getMember()).build());
+            List<PetSitterFileDTO> petSitterFileDTOList = petsitter.getPetsitterFileList().stream()
+                    .map(petsitterFile -> PetSitterFileDTO.builder()
+                            .petsitterFile(petsitterFile)
+                            .build())
+                    .collect(Collectors.toList());
 
-            /*
-            PetSitterFileDTO petSitterFileDTO = PetSitterFileDTO.builder().petsitterFile(petsitterList.get(i).getPetsitterFileList().get(i)).build();
-            System.out.println("petSitterFileDTO = "+petSitterFileDTO);
-            petSitterFileDTOList.add(i, PetSitterFileDTO.builder().petsitterFile(petsitterList.get(i).getPetsitterFileList().get(i)).build());
             petSitterDTO.setFileDTOList(petSitterFileDTOList);
-
-            weekList.add(i, WeekDTO.builder().week(petsitterList.get(i).getWeekList().get(i)).build());
-            System.out.println("weekList = "+weekList);
-            petSitterDTO.setWeekDTOList(weekList);
-             */
-            petSitterDTOList.add(i, petSitterDTO);
-        }
-        return petSitterDTOList;
+            return petSitterDTO;
+        });
+        return petSitterDTOPage;
     }
+
 
     /*
     //무한 스크롤
@@ -122,6 +128,62 @@ public class MainBoardService {
         return petSitterDTO;
     }
 
+
+    //게시글 검색
+    public Page<PetSitterDTO> searchList(int page, String category, String petCategory, String petAddress, String day, String timeStr){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("petViewCnt"));
+        sorts.add(Sort.Order.desc("petRegdate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+
+        List<String> dayList = new ArrayList<>();
+        int startTimeHour = 0;
+        int endTimeHour = 0;
+        switch (day) {
+            case "weekday" -> dayList.add(Arrays.toString(new String[]{"월", "화", "수", "목", "금"}));
+            case "weekend" -> dayList.add(Arrays.toString(new String[]{"토", "일"}));
+            case "allDay" -> dayList = null;
+        }
+
+        switch (timeStr) {
+            case "dawn" -> {
+                startTimeHour = 0;
+                endTimeHour = 5;
+            }
+            case "morning" -> {
+                startTimeHour = 6;
+                endTimeHour = 11;
+            }
+            case "afternoon" -> {
+                startTimeHour = 12;
+                endTimeHour = 17;
+            }
+            case "midnight" -> {
+                startTimeHour = 18;
+                endTimeHour = 23;
+            }
+            case "allTime" -> {
+            }
+        }
+
+        System.out.println("값 확인 : "+category+", "+petCategory+", "+petAddress+", "+dayList+", "+startTimeHour+", "+endTimeHour);
+
+        Page<Petsitter> petsitterPage = petsitterRepository.findAll(PetsitterSpec.searchWith(category, petCategory, petAddress, dayList, startTimeHour, endTimeHour), pageable);
+        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
+            PetSitterDTO petSitterDTO = PetSitterDTO.builder().petsitter(petsitter).build();
+            List<PetSitterFileDTO> petSitterFileDTOList = petsitter.getPetsitterFileList().stream()
+                    .map(petsitterFile -> PetSitterFileDTO.builder()
+                            .petsitterFile(petsitterFile)
+                            .build())
+                    .collect(Collectors.toList());
+
+            petSitterDTO.setFileDTOList(petSitterFileDTOList);
+            return petSitterDTO;
+        });
+        System.out.println();
+        return petSitterDTOPage;
+    }
+
     //혜지시작
     //AreaSearch 테이블에 먼저 insert
    /* public WeekDTO insertWeek (WeekDTO weekDTO) {
@@ -160,7 +222,6 @@ public class MainBoardService {
 
         petSitterDTO.setPetAddress(petAddress);
 
-
         // id 정보 담아주고, MySQL에서 기본값 설정이 JPA에선 안먹어서 다시 설정해줌
         logger.info("Member 정보 : {}", member);
         Petsitter petsitter = petSitterDTO.toEntity();
@@ -174,11 +235,32 @@ public class MainBoardService {
         }
 
 
-        Long saveId = petsitterRepository.save(petsitter).getSitterNo(); //현재 입력한 글번호를 받아오는 코드
+        Long saveId = petsitterRepository.save(petsitter).getSitterNo();
         Petsitter board = petsitterRepository.findById(saveId).get();
 
+        // 요일 데이터 저장 로직
+        List<Week> weekList = new ArrayList<>();
+        for (WeekDTO weekDTO : petSitterDTO.getWeekDTOList()) {
+            Week week = new Week();
+            week.setPetsitter(board);
+            week.setDay(weekDTO.getDay());
+            weekList.add(week);
+            weekRepository.save(week);
+        }
 
- /*       // Week 엔티티 생성 및 연결
+       /* Long saveId = petsitterRepository.save(petsitter).getSitterNo(); //현재 입력한 글번호를 받아오는 코드
+        Petsitter board = petsitterRepository.findById(saveId).get();
+
+        List<Week> weekList = new ArrayList<>();
+        for (Week week : petsitter.getWeekList()) {
+            week.getPetsitter().setSitterNo(board.getSitterNo());
+            week.getDay();
+            weekList.add(week);
+            weekRepository.save(week);
+        }*/
+
+
+       /*// Week 엔티티 생성 및 연결
         Week week = new Week();
         week.setPetsitter(petsitter);
         week.setDay("수"); // 예시로 월요일 설정, 필요한 요일로 변경 가능
