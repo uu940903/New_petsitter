@@ -91,13 +91,11 @@ public class NoticeService {
                 String noSavedPath = path + newFileName;
                 File saveFile = new File(path, newFileName);
                 noFile.transferTo(saveFile);
-     //          noFile.transferTo(new File(noSavedPath));
 
                 noticeFile = NoticeFile.builder()
                         .noOrgNm(originalFilename)
                         .noSavedNm(newFileName)
                         .noSavedPath(noSavedPath)
-//                        .createDate(noticeFileDTO.getCreateDate())
                         .createDate(LocalDate.now())
                         .build();
 
@@ -137,9 +135,9 @@ public class NoticeService {
 
     //공지게시판 수정
     @Transactional
-    public void getUpdate(Long noNo, NoticeDTO noticeDTO) throws IOException {
-        MultipartFile[] file = new MultipartFile[0];
+    public void getUpdate(Long noNo, NoticeDTO noticeDTO,MultipartFile[] newImageFiles) throws IOException {
         Optional<Notice> noticeOptional = noticeRepository.findById(noNo);
+
         if (noticeOptional.isPresent()) {
             Notice notice = noticeOptional.get();
             notice.setNoNo(noticeDTO.getNoNo());
@@ -147,65 +145,65 @@ public class NoticeService {
             notice.setNoContent(noticeDTO.getNoContent());
             noticeRepository.save(notice);
 
-            String path = "C:/uploadfile/notice_img/";
 
-            for (MultipartFile nofile : file) {
-                if (file == null) {
-                    // 파일을 업로드하고 이전 파일을 대체하는 로직 추가
-                    String originalFilename = nofile.getOriginalFilename();
+            // 기존 파일 삭제
+            List<NoticeFile> filesToDelete = notice.getNoticeFiles();
+            for (NoticeFile delete : filesToDelete) {
+                String filePath = delete.getNoSavedPath();
+                File fileToDelete = new File(filePath);
+                if (fileToDelete.exists()) {
+                    fileToDelete.delete();
+                }
+            }
+            // 기존 파일 정보 삭제
+            notice.getNoticeFiles().clear();
+
+            // 새로운 파일 업로드 및 정보 저장
+            if (newImageFiles[0].isEmpty()) {
+                noticeRepository.save(notice);
+            } else {
+                Long boardNo = noticeRepository.save(notice).getNoNo();
+                Notice notice1 = noticeRepository.findById(boardNo).get();
+
+                NoticeFile noticeFile = new NoticeFile();
+
+                String path = "C:/uploadfile/notice_img/";
+
+                File directory = new File(path);
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
+
+                for (MultipartFile noFile : newImageFiles) {
+                    String originalFilename = noFile.getOriginalFilename();
                     String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
                     String newFileName = UUID.randomUUID().toString() + fileExtension;
                     String noSavedPath = path + newFileName;
+                    File saveFile = new File(path, newFileName);
+                    noFile.transferTo(saveFile);
 
-                    try {
-                        nofile.transferTo(new File(noSavedPath));
+                    noticeFile = NoticeFile.builder()
+                            .noOrgNm(originalFilename)
+                            .noSavedNm(newFileName)
+                            .noSavedPath(noSavedPath)
+                            .createDate(LocalDate.now())
+                            .build();
 
-                        // 이전 첨부 파일 삭제 (선택사항)
-                        // 여기서 이전 첨부 파일을 DB에서 삭제하고, 파일 시스템에서 삭제할 수 있습니다.
-                        // 이전 파일을 삭제하지 않고 저장하는 것도 가능합니다.
-
-                        // 이전 첨부 파일 엔티티 삭제 (선택사항)
-                        // 이전 첨부 파일 엔티티를 DB에서 삭제합니다.
-                        // noticeFileRepository.deleteById(notice.getNoticeFiles().get(0).getNoFile());
-
-                        // 새로운 첨부 파일 엔티티 생성
-                        NoticeFile newNoticeFile = NoticeFile.builder()
-                                .noOrgNm(originalFilename)
-                                .noSavedNm(newFileName)
-                                .noSavedPath(noSavedPath)
-                                .notice(notice)
-                                .build();
-
-                        // 새로운 첨부 파일 엔티티 저장
-                        noticeFileRepository.save(newNoticeFile);
-
-                        // 이전 첨부 파일 엔티티 대체 (선택사항)
-                        // notice.getNoticeFiles().clear();
-                        // notice.getNoticeFiles().add(newNoticeFile);
-
-                        // 공지사항 엔티티에 첨부 파일 정보 설정
-                        List<NoticeFile> noticeFiles = new ArrayList<>();
-                        noticeFiles.add(newNoticeFile);
-                        notice.setNoticeFiles(noticeFiles);
-
-                    } catch (IOException e) {
-                        throw new MultipartException("파일 업로드 중 오류가 발생했습니다.");
-                    }
+                    noticeFile.setNotice(notice1);
+                    noticeFileRepository.save(noticeFile);
                 }
 
                 noticeRepository.save(notice);
             }
         }
     }
+
         //공지게시판 삭제
         @Transactional
-        public void getDelete (NoticeDTO noticeDTO){
-            Optional<Notice> noticeOptional = noticeRepository.findById(noticeDTO.getNoNo());
+        public void getDelete (Long noNo){
+            Optional<Notice> noticeOptional = noticeRepository.findById(noNo);
             if (noticeOptional.isPresent()) {
                 Notice notice = noticeOptional.get();
-                notice.setNoNo(noticeDTO.getNoNo());
-                notice.setNoTitle(noticeDTO.getNoTitle());
-                notice.setNoContent(noticeDTO.getNoContent());
                 noticeRepository.delete(notice);
             }
         }

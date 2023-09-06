@@ -1,22 +1,64 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form th:action="@{/question/qnaUpdate}" enctype="multipart/form-data" method="post">
-    <input type="hidden" name="_method" value="Put"/>
-    <input type="hidden" name="qnaNo" th:value="${questionDTO.qnaNo}"/>
+<html layout:decorate="~{layout}" class="container my-3">
+<div layout:fragment="content">
 
+    <form  enctype="multipart/form-data" method="post">
+        <input type="hidden" name="qnaNo" th:value="${questionDTO.qnaNo}"/>
+        <input type="hidden" name="qnaPw" th:value="${questionDTO.qnaPw}"/>
 
-    <input type="text" name="qnaTitle" th:value="${questionDTO.qnaTitle}"><br/>
-    <input type="password" name="qnaPw" th:value="${questionDTO.qnaPw}" placeholder="비밀번호"/><br/>
-    <textarea name="qnaContent" th:text="${questionDTO.qnaContent}"></textarea><br>
-    <a th:text="${questionDTO.member.nickname}"></a><br>
-    <span th:text="${#temporals.format(questionDTO.qnaDate, 'yyyy-MM-dd HH:mm')}"></span><br>
-    <input type="submit" value="수정">
-</form>
+        <div class="container">
+            <h1>공지게시판</h1>
+            <div class="row row1">
+                <table class="table">
+                    <tr>
+                        <th class="text-right">제목</th>
+                        <td>
+                            <input type="text" name="noTitle" size=50 class="input-sm"
+                                   th:value="${questionDTO.qnaTitle}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">비밀번호</th>
+                        <td>
+                            <input type="password" name="noTitle" size=50 class="input-sm"
+                                   placeholder="작성시 입력하신 숫자4자리를 입력하세요." th:value="${questionDTO.qnaPw}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">내용</th>
+                        <td>
+                            <textarea rows="10" cols="50" name="noContent"
+                                      th:text="${questionDTO.qnaContent}"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">첨부파일</th>
+                        <td>
+                            <img th:each="questionfile, loop : ${questionDTO.questionList}"
+                                 th:src="@{|/image/question/${questionfile.QSavedNm}|}" width="300" height="300">
+                            <input type="file" multiple="multiple" name="file" size=15 class="input-sm">
+                        </td>
+                    </tr>
+                    <tr>
+                </table>
 
-</body>
+                <div class="text-center">
+                    <div class="btn-group">
+                        <div class="col">
+                            <form th:action="@{'/question/update/' + ${questionDTO.qnaNo}}" method="post" sec:authorize="isAuthenticated()"
+                                  th:if="${questionDTO.member.nickname!=null and #authentication.getPrincipal().getNickname()==questionDTO.member.nickname}">
+                                <button type="submit" class="btn btn-dark">수정</button>
+                            </form>
+                        </div>
+                        <div class="col">
+                            <a th:href="@{'/notice/list'}">
+                                <button class="btn btn-dark">취소</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
 </html>
