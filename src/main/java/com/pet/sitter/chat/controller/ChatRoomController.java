@@ -1,4 +1,5 @@
-/*package com.pet.sitter.chat.controller;
+/*
+package com.pet.sitter.chat.controller;
 
 import com.pet.sitter.chat.dto.ChatRoom;
 import com.pet.sitter.chat.service.ChatService;

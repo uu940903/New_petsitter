@@ -6,6 +6,7 @@ import com.pet.sitter.member.dto.MemberDTO;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class PetSitterDTO {
         this.petViewCnt = petsitter.getPetViewCnt();
         this.likeCnt = petsitter.getLikeCnt();
         this.price = petsitter.getPrice();
+        this.petAddress = petsitter.getPetAddress();
         this.petCategory = petsitter.getPetCategory();
         this.petAddress = petsitter.getPetAddress();
         this.petRegdate = petsitter.getPetRegdate();
@@ -74,7 +76,6 @@ public class PetSitterDTO {
             this.filePath = filePathList;
             this.fileSize = fileSizeList;
         }
-
     }
 
     public Petsitter toEntity(){
@@ -91,6 +92,7 @@ public class PetSitterDTO {
                 .petAddress(this.petAddress)
                 .startTime(this.startTime)
                 .endTime(this.endTime)
+                .petAddress(this.petAddress)
                 .build();
     }
 

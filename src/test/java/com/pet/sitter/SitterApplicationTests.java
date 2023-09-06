@@ -1,9 +1,8 @@
 package com.pet.sitter;
-
-import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Petsitter;
+import com.pet.sitter.common.entity.PetsitterFile;
+import com.pet.sitter.mainboard.repository.PetsitterFileRepository;
 import com.pet.sitter.mainboard.repository.PetsitterRepository;
-import com.pet.sitter.mainboard.repository.PetsitterSpec;
 import com.pet.sitter.member.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +24,18 @@ class SitterApplicationTests {
 	@Autowired
 	private PetsitterRepository petsitterRepository;
 
+	@Autowired
+	private PetsitterRepository petsitterRepository;
+	Petsitter petsitter = new Petsitter();
+
+	@Autowired
+	private PetsitterFileRepository petsitterFileRepository;
+
 	@Test
 	void contextLoads() {
 	}
 
-	@Test
+/*	@Test
 	void testDB(){
 		/*
 		Member member = new Member();
@@ -43,22 +49,10 @@ class SitterApplicationTests {
 		member.setAddress("서울시 강서구 방화동로 12가길 22-1");
 		member.setIsshow("Y");
 		memberRepository.save(member);
-		 */
-	}
 
-	@Test
-	void selectDB(){
+	}*/
 
-		/*
-		Optional<Member> memberOptional = memberRepository.findById("xiuxiu");
-		Member member = new Member();
-		if(memberOptional.isPresent()) {
-			member = memberOptional.get();
-		}
-		System.out.println(member);
-		 */
-	}
-
+/*
 	@Test
 	void selectPetsitter(){
 		String category = "search";
@@ -81,5 +75,7 @@ class SitterApplicationTests {
 			System.out.println(petsitter.getPetCategory());
 		}
 	}
+	*/
+
 }
 

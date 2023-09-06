@@ -7,14 +7,15 @@
 <body>
 <div class="container">
     <h5 class="my-3 border-bottom pb-2">질문등록</h5>
-    <form id="writeForm" th:action="@{/mainboard/write}" th:object="${writeForm}" method="post"
+    <form id="writeForm" th:action="@{|/mainboard/modify/${sitterNo}|}" th:object="${writeForm}" method="post"
           enctype="multipart/form-data">
         <!-- 유효성 검사시 에러 메세지 출력 영역 -->
         <div th:if="${#fields.hasAnyErrors()}">
             <div th:each="err: ${#fields.allErrors()}" th:text="${err}"></div>
         </div>
         <div class="mb-3">
-            <input type="file" multiple="multiple" th:field="*{boardFile}" id="boardFile" name="boardFile">
+            <input type="file" multiple="multiple" th:field="*{boardFile}" id="boardFile" name="boardFile"
+                   onchange="readURL(this); checkExtension(this);" class="form-control">
             <img src="#" id="preview" style="width:150px;"/>
         </div>
         <div class="mb-3">
@@ -33,7 +34,7 @@
             <input type="text" th:field="*{price}" id="price" name="price">가격
         </div>
         <div class="mb-3">
-            <div>날짜<input type="text" th:field="*{day}" id="day" name="day"></div>
+            <div>날짜<input type="text" th:field="*{day}" id="day" th:name name="day"></div>
             <div>시작시간<input type="datetime-local" th:field="*{startTime}" id="startTime" name="startTime"></div>
             <div>끝시간<input type="datetime-local" th:field="*{endTime}" id="endTime" name="endTime"></div>
         </div>

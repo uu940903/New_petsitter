@@ -1,5 +1,8 @@
 package com.pet.sitter.common.entity;
 
+import com.pet.sitter.mainboard.dto.PetSitterDTO;
+import com.pet.sitter.mainboard.dto.PetSitterFileDTO;
+import com.pet.sitter.mainboard.dto.WeekDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -34,11 +37,9 @@ public class Petsitter {
     private LocalDateTime petRegdate;
 
     @Column
-    @NotNull
     private Integer petViewCnt;
 
     @Column
-    @NotNull
     private Integer likeCnt;
 
     @Column
@@ -64,8 +65,11 @@ public class Petsitter {
     private String petAddress;
 
     @ManyToOne
-    @JoinColumn(name="id", referencedColumnName = "id")
+    @JoinColumn(name = "id", referencedColumnName = "id")
     private Member member;
+
+    @Column
+    private String petAddress;
 
     @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
     private List<PetsitterFile> petsitterFileList;
@@ -81,6 +85,7 @@ public class Petsitter {
 
     @Builder
     public Petsitter(Long sitterNo, String petTitle, String petContent, String category, LocalDateTime petRegdate, Integer petViewCnt, Integer likeCnt, Integer price, String petCategory, LocalDateTime startTime, LocalDateTime endTime, String petAddress, Member member) {
+    public Petsitter(Long sitterNo, String petTitle, String petContent, String category, LocalDateTime petRegdate, Integer petViewCnt, Integer likeCnt, Integer price, String petCategory, LocalDateTime startTime, LocalDateTime endTime, Member member, String petAddress) {
         this.sitterNo = sitterNo;
         this.petTitle = petTitle;
         this.petContent = petContent;
@@ -94,6 +99,7 @@ public class Petsitter {
         this.endTime = endTime;
         this.petAddress = petAddress;
         this.member = member;
+        this.petAddress = petAddress;
     }
 
     public boolean isPetsitterFileListEmpty () {
@@ -107,5 +113,4 @@ public class Petsitter {
         this.endTimeHour = this.endTime.getHour();
     }
      */
-
 }

@@ -12,5 +12,4 @@ import java.io.Serializable;
 public class WeekId implements Serializable {
     private Long petsitter;
     private String day;
-
 }

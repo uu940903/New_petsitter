@@ -46,4 +46,5 @@ public class PetsitterFile {
         this.petsitter = petsitter;
         this.fileSize = fileSize;
     }
+
 }

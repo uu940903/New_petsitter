@@ -54,8 +54,13 @@
                 <div class="icon" id="address"><img src="/mainboard/image/address.png"/><span id="petAddress" class="petAddress" th:text="${petSitter.petAddress}" th:value="${petSitter.petAddress}"></span></div>
                 <div class="icon" id="calendar"><img src="/mainboard/image/calendar.png" /><span class="week" th:if="${petSitter.weekDTOList==null}" th:text="협의"></span> <span class="week" th:if="${petSitter.weekDTOList!=null}"  th:each="week, loop : ${petSitter.weekDTOList}"><span class="week" th:text="${week.day}"></span></span></div>
                 <div class="icon" id="time"><img src="/mainboard/image/time.png" />
+<<<<<<< HEAD
                     <span class="startTime" th:if="${petSitter.startTime==null}" th:text="협의" ></span> <span class="startTime" th:if="${petSitter.startTime!=null}" th:text="${#temporals.format(petSitter.startTime, 'HH:00')+' ~ '}"></span>
                     <span class="endTime" th:if="${petSitter.endTime==null}" ></span> <span class="endTime" th:if="${petSitter.endTime!=null}" th:text="${#temporals.format(petSitter.endTime, 'HH:00')}"></span>
+=======
+                    <span class="startTime" th:if="${petSitter.startTime==null}" th:text="협의" ></span> <span class="startTime" th:if="${petSitter.startTime!=null}" th:text="${#temporals.format(petSitter.startTime, 'HH:00')+'~'}"></span>
+                    <span class="endTime"></span> <span class="endTime" th:if="${petSitter.endTime!=null}" th:text="${#temporals.format(petSitter.endTime, 'HH:00')}"></span>
+>>>>>>> bfa8227215023d184d8feadfca7a8715d0354f7b
                 </div>
             </div>
             <h3 class="content_title">상세내용</h3>
@@ -107,6 +112,14 @@
             /*]]>*/
             </script>
             <div class="chatBtn"><a class="btn btn-outline-dark btn-lg my-2" href="#">연락하기</a></div>
+<<<<<<< HEAD
+=======
+
+            <!-- 이 버튼들도 임시로 여기 좀 두고가요 ....... -->
+            <div class=""><a th:href="@{|/mainboard/modify/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2">수정하기</a></div>
+            <div class=""><a th:href="@{|/mainboard/delete/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2" href="#">삭제하기</a></div>
+
+>>>>>>> bfa8227215023d184d8feadfca7a8715d0354f7b
         </div>
     </div>
     <script src="/mainboard/js/slider.js"></script>
