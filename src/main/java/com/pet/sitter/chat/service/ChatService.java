@@ -1,7 +1,7 @@
+/*
 package com.pet.sitter.chat.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pet.sitter.chat.dto.ChatRoom;
 import groovy.util.logging.Slf4j;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/*@Service
+@Service
 @Slf4j
 @RequiredArgsConstructor
 public class ChatService {

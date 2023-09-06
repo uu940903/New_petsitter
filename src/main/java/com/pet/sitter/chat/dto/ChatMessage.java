@@ -1,3 +1,4 @@
+/*
 package com.pet.sitter.chat.dto;
 
 import lombok.AllArgsConstructor;
@@ -21,3 +22,4 @@ public class ChatMessage {
     private String message;
     private String time;
 }
+*/

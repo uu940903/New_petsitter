@@ -2,7 +2,6 @@ package com.pet.sitter.member.service;
 
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.exception.DataNotFoundException;
-import com.pet.sitter.member.dto.MemberDTO;
 import com.pet.sitter.member.repository.MemberRepository;
 import com.pet.sitter.member.validation.UserCreateForm;
 import lombok.RequiredArgsConstructor;
@@ -40,13 +39,12 @@ public class MemberService {
         return member;
     }
     //user정보조회
-    public MemberDTO getUser(MemberDTO memberDTO) {
-        Optional<Member> member2 = memberRepository.findBymemberId(memberDTO.getMemberId());
+    public Member getUser(String memberId) {
+        Optional<Member> member2 = memberRepository.findBymemberId(memberId);
         if(member2.isPresent()) {
-            Member member = member2.get();
-            return MemberDTO.toMemberDTO(member);
+            return member2.get();
         }else {
-            throw new DataNotFoundException("member NOT FOUND");
+            throw new DataNotFoundException("siteUser NOT FOUND");
         }
     }
 

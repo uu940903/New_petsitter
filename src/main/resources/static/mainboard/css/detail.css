@@ -1,0 +1,175 @@
+/*detail.css*/
+* {
+  margin: auto;
+  padding: 0;
+}
+
+button {
+  border: 0;
+  outline: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.slide {
+  position: relative;
+  overflow: hidden;
+}
+
+.slide_list {
+  display: flex;
+  transform: translate(0, 0);
+}
+
+.slide_item {
+  flex: 0 0 100%;
+  list-style: none;
+}
+
+.slide_image {
+  display: block;
+  width: 50%;
+  height: 50%;
+  object-fit: cover;
+}
+
+.buttons {
+/*position: absolute;*/
+  position: auto;
+  top: 0;
+  width: 100%;
+  height: calc(100% - 1rem);
+}
+
+.buttons__prev,
+.buttons__next {
+  position: ;
+  top: 50%;
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.buttons__prev {
+  left: 1rem;
+}
+
+.buttons__next {
+  right: 1rem;
+}
+
+.paginations {
+  display:inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1rem;
+}
+
+.pagination {
+  display:inline-block;
+  text-align:center;
+  width: 12px;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  white-space: nowrap;
+}
+
+.pagination:not(:last-child) {
+  display:inline-block;
+  margin-right: 0.3rem;
+  text-align:center;
+    white-space: nowrap;
+}
+
+.pagination.on {
+  display:inline-block;
+  background: #333;
+  text-align:center;
+  white-space: nowrap;
+}
+
+.container {
+    display : flex;
+}
+
+.content {
+    margin : 0 auto;
+    width : 80%;
+}
+
+.nickname {
+    margin-bottom : 20px;
+    padding-bottom : 20px;
+    border-bottom : solid 3px #dcdee3;
+}
+
+.title {
+   font-size : 24px;
+   margin : 10px;
+}
+
+.nickname {
+    font-size : 24px;
+    margin-top : 50px;
+}
+
+.category_regDate {
+    margin : 5px 0px 100px 20px;
+    font-size : 14px;
+    color : #b4b9c2;
+}
+
+.icon{
+    margin : 10px;
+}
+
+.petPrice, .petAddress, .week, .startTime, .endTime {
+    margin-left : 10px;
+    padding-bottom : 10px;
+}
+
+.petContent {
+    margin-left : 10px;
+    margin-top : 10px;
+}
+
+.content_title{
+    margin-top: 100px;
+    margin-bottom: 10px;
+    font-size : 20px;
+}
+
+.chatBtn {
+  display:inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1rem;
+}
+
+.temporary {
+  position: relative;
+  overflow: hidden;
+}
+
+.temporary_image {
+  display: block;
+  width: 70%;
+  height: 70%;
+  object-fit: cover;
+}
+
+.temporary_list {
+  display: flex;
+  transform: translate(0, 0);
+}
+
+.temporary_item {
+  flex: 0 0 100%;
+  list-style: none;
+}

@@ -29,18 +29,21 @@ public class PetsitterFile {
     @NotNull
     private String type;
 
+    private Integer fileSize;
+
     @ManyToOne
     @JoinColumn(name="sitterNo", referencedColumnName = "sitterNo")
     private Petsitter petsitter;
 
     @Builder
-
-    public PetsitterFile(Long fileNo, String originFileName, String newFileName, String filePath, String type, Petsitter petsitter) {
+    public PetsitterFile(Long fileNo, String originFileName, String newFileName, String filePath, String type, Petsitter petsitter,Integer fileSize) {
         this.fileNo = fileNo;
         this.originFileName = originFileName;
         this.newFileName = newFileName;
         this.filePath = filePath;
         this.type = type;
         this.petsitter = petsitter;
+        this.fileSize = fileSize;
     }
+
 }
