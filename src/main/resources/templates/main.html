@@ -33,6 +33,12 @@
            th:text="${#authentication.name + '님 로그아웃'}"></a>
 
     </li>
+    <li>
+        <a sec:authorize="isAuthenticated()" th:href="@{/mainboard/write}">메인게시판 글작성</a>
+    </li>
+    <li>
+        <a th:href="@{/mainboard/list}">메인게시판 글목록</a>
+    </li>
 </ul>
 </body>
 </html>

@@ -14,7 +14,7 @@ spring:
       path: /h2-console
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://gettersettersitter.cocxfarlqxip.ap-northeast-2.rds.amazonaws.com:3306/GetterSetterSitter?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    url: jdbc:mysql://gettersettersitter.cocxfarlqxip.ap-northeast-2.rds.amazonaws.com:3306/GetterSetterSitter?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
     username: admin
     password: gst12345
   devtools:
@@ -47,10 +47,9 @@ spring:
         registration:
           kakao:
             client-id: 32c824e36d69a48d965a21ec5f8f90f4
-            client-secret: 3MsVoUOB4HnML4TmF5nHkvhSvOE1EPOL
-            client-authentication-method: client_secret_post
-            redirect-uri: http://localhost:8500/login/oauth2/code/kakao
+            redirect-uri: http://localhost:8500/member/login
             authorization-grant-type: authorization_code
+            client-authentication-method: POST
             client-name: Kakao
             scope:
               - profile_nickname
@@ -67,9 +66,5 @@ spring:
       enabled: true
       location: C:\uploadfile\
       file-size-threshold: 2KB
-      max-file-size: 200MB
-      max-request-size: 215MB
-
-resource:
-  handler: notice/detail/**
-  location: file:///C:/uploadfile/
+      max-file-size: 300MB
+      max-request-size: 300MB
