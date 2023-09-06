@@ -31,14 +31,14 @@
             <td th:text="${petsitterPage.getTotalElements - (petsitterPage.number * petsitterPage.size) - loop.index}"></td>
             <!--요청주소 http://localhost:포트/question/detail?id=1001
                <td th:text="${question.subject}"><a href="/question/detail?id=${question.id}"></a></td>-->
-            <td th:text="${question.petTitle}">
+            <td>
                 <!--요청주소 http://localhost:포트/question/detail/1001
                  th:href속성에서  주소를 나타낼때에는 반드시  @{}을 이용해야한다
                   @{URL}
                   주의:URL이  조합되어질때에는  @{| |} 작성해야한다-->
-                <!--<a href="/question/detail/${question.id}"
-                   th:href="@{|/question/detail/${question.id}|}"&ndash;&gt;
-                   </a>-->
+                <a href="/mainboard/detail/${question.sitterNo}"
+                   th:href="@{|/mainboard/detail/${question.sitterNo}|}"
+                   th:text="${question.petTitle}"></a>
                 <!-- 답변갯수출력 : 답변갯수가 0개 초과시 출력 -->
                <!-- <span class="text-danger small ms-1"
                       th:if="${#lists.size(question.answerList)>0}"
