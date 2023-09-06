@@ -1,8 +1,5 @@
 package com.pet.sitter.common.entity;
 
-import com.pet.sitter.mainboard.dto.PetSitterDTO;
-import com.pet.sitter.mainboard.dto.PetSitterFileDTO;
-import com.pet.sitter.mainboard.dto.WeekDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
