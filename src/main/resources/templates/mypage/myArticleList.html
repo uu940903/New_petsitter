@@ -7,6 +7,7 @@
             <th>제목</th>
             <th>글쓴이</th>
             <th>질문등록일</th>
+            <th>매칭하기</th>
         </tr>
         </thead>
         <tbody>
@@ -47,6 +48,23 @@
             <td  th:if="${question.member!=null}" th:text="${question.member.memberId}"></td>
             <!-- temporals.format(날짜대상,"date포맷") -->
             <td th:text="${#temporals.format(question.petRegdate,'yyyy-MM-dd HH:mm')}"></td>
+            <td>
+                <!--요청주소 http://localhost:포트/question/detail/1001
+                 th:href속성에서  주소를 나타낼때에는 반드시  @{}을 이용해야한다
+                  @{URL}
+                  주의:URL이  조합되어질때에는  @{| |} 작성해야한다-->
+                <a href="/mainboard/detail/${question.sitterNo}"
+                   th:href="@{|/mainboard/detail/${question.sitterNo}|}">
+                    <button type="button">
+                        매칭하기ㅋㅋ
+                    </button>
+                </a>
+                <!-- 답변갯수출력 : 답변갯수가 0개 초과시 출력 -->
+                <!-- <span class="text-danger small ms-1"
+                       th:if="${#lists.size(question.answerList)>0}"
+                       th:text="${#lists.size(question.answerList)}"></span>-->
+            </td>
+
         </tr><!--1페이지당 출력할 게시물수만큼 반복끝-->
         </tbody>
     </table>

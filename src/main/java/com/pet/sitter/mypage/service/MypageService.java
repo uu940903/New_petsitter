@@ -1,11 +1,13 @@
 package com.pet.sitter.mypage.service;
 
+import com.pet.sitter.common.entity.Matching;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.common.entity.Question;
 import com.pet.sitter.exception.DataNotFoundException;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.member.dto.MemberDTO;
+import com.pet.sitter.mypage.dto.MatchingDTO;
 import com.pet.sitter.mypage.repository.MypageRepository;
 
 import com.pet.sitter.mypage.repository.MypageRepository2;
@@ -32,7 +34,43 @@ public class MypageService {
     private final MypageRepository3 mypageRepository3;
     private final PasswordEncoder passwordEncoder;
 
-    //jointest
+
+
+
+
+
+    /*//매칭가져오기
+    public Page<MatchingDTO> jointest(long id , int page){
+        List<Sort.Order> sorts = new ArrayList();
+        sorts.add(Sort.Order.desc("sitterNo")); //내림차순기준
+        Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
+        Page<Matching> matchingPage = mypageRepository2.findBytest(id,pageable);//page<Petsitter>를 page<PetSitterDTO>로 변환
+        System.out.printf("여기는 레파지토리 에서 가져온 펫시터 엔티티갯수%d",petsitterPage.getTotalElements());
+
+        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
+            PetSitterDTO dto = new PetSitterDTO(petsitter);
+            dto.setMember(new MemberDTO(petsitter.getMember())); // Member 설정
+            return dto;
+        });
+
+        *//*return petSitterDTOPage;
+
+        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> new PetSitterDTO(petsitter));*//*
+
+        return petSitterDTOPage;
+
+
+    }*/
+
+
+
+
+
+
+
+
+
+    /*//jointest
     public Page<PetSitterDTO> jointest(long id , int page){
         List<Sort.Order> sorts = new ArrayList();
         sorts.add(Sort.Order.desc("petRegdate")); //내림차순기준
@@ -46,14 +84,14 @@ public class MypageService {
             return dto;
         });
 
-        /*return petSitterDTOPage;
+        *//*return petSitterDTOPage;
 
-        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> new PetSitterDTO(petsitter));*/
+        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> new PetSitterDTO(petsitter));*//*
 
         return petSitterDTOPage;
 
 
-    }
+    }*/
 
 
 

@@ -10,7 +10,6 @@ public class CustomUserInfo extends org.springframework.security.core.userdetail
 
     private String name;
     private String memberId;
-
     private String nickname;
 
     public CustomUserInfo(String username, String password,

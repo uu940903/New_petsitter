@@ -46,11 +46,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
 
         // 기존에 동일한 ID로 가입된 사용자가 있는지 확인하고 처리하는 로직 예시입니다.
-        Optional<User> member = userRepository.findByuserid(id);
+        Optional<User> member = userRepository.findByMemberId(id);
 
         if (member.isPresent()) {
             // 이미 가입된 사용자인 경우에 대한 처리 (예: 로그인 처리)
-            UserDetails userDetails = memberDetailsService.loadUserByUsername(member.get().getUserid());
+            UserDetails userDetails = memberDetailsService.loadUserByUsername(member.get().getMemberId());
 
             UsernamePasswordAuthenticationToken authenticationToken =
                     new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -71,9 +71,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             Map<String, Object> propertiesMap = (Map<String,Object>) oAuth2User.getAttribute("properties");
             String nickname = (String) propertiesMap.get("nickname");
 
-            user1.setUserid(email);
+            user1.setMemberId(email);
             user1.setPassword(passwordEncoder.encode("defaultPassword"));  // 비밀번호 설정 및 암호화
-            user1.setNickname(nickname);
+            user1.setName(nickname);
+            user1.setNickname("default");
 
             userRepository.save(user1);  // 사용자 정보 저장
 
