@@ -4,6 +4,7 @@ import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.member.dto.MemberDTO;
+import com.pet.sitter.mypage.dto.MatchingDTO;
 import com.pet.sitter.mypage.service.MypageService;
 import com.pet.sitter.mypage.validation.ModifyForm;
 import com.pet.sitter.mypage.validation.PassModifyForm;
@@ -38,21 +39,44 @@ public class MypageController {
         return "myInfo";
     }*/
 
-
-    //jointest
-    @GetMapping("/jointest")
-    public String jointest(@RequestParam(value="page",defaultValue="0") int page, Model model){
+    //매칭가져오기
+    @GetMapping("/machingResult")
+    public String machingResult(@RequestParam(value="page",defaultValue="0") int page, Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String memberId = authentication.getName(); // 현재 로그인한 사용자의 ID 가져오기
         System.out.println(memberId);
         MemberDTO memberDTO = mypageService.getMember(memberId);//내정보 dto로가져오기
         long id = memberDTO.getId();//내정보의 pk값 id에저장
 
-        Page<PetSitterDTO> petsitterPage= this.mypageService.jointest(id,page);
+
+        Page<PetSitterDTO> petSitterDTOPage= this.mypageService.getMatchingArticleList(id,page);//매칭된 글가져오기
+        Page<MatchingDTO> matchingDTO= this.mypageService.getMatchingList(id,page);//매칭내역가져오기
+
+        model.addAttribute("petsitterPage",petSitterDTOPage);
+        model.addAttribute("matchingPage",matchingDTO);
+        return "mypage/myMatchingList";
+    }
+
+
+
+
+
+
+    /*//jointest
+    @GetMapping("/machingResult")
+    public String machingResult(@RequestParam(value="page",defaultValue="0") int page, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String memberId = authentication.getName(); // 현재 로그인한 사용자의 ID 가져오기
+        System.out.println(memberId);
+        MemberDTO memberDTO = mypageService.getMember(memberId);//내정보 dto로가져오기
+        long id = memberDTO.getId();//내정보의 pk값 id에저장
+
+
+        Page<PetSitterDTO> petsitterPage= this.mypageService.getMatchingArticleList(id,page);
 
         model.addAttribute("petsitterPage",petsitterPage);
-        return "mypage/myArticleList";
-    }
+        return "mypage/myMatchingList";
+    }*/
 
 
 

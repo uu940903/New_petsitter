@@ -3,11 +3,10 @@
     <table class="table">
         <thead class="table-dark">
         <tr>
-            <th>번호</th>
+
             <th>제목</th>
-            <th>글쓴이</th>
-            <th>질문등록일</th>
-            <th>매칭하기</th>
+            <th>매칭인원</th>
+            <th>매칭일자</th>
         </tr>
         </thead>
         <tbody>
@@ -29,7 +28,6 @@
 
             <!--2? =12-(1*10)-0 -->
             <!--1? =12-(1*10)-1 -->
-            <td th:text="${petsitterPage.getTotalElements - (petsitterPage.number * petsitterPage.size) - loop.index}"></td>
             <!--요청주소 http://localhost:포트/question/detail?id=1001
                <td th:text="${question.subject}"><a href="/question/detail?id=${question.id}"></a></td>-->
             <td>
@@ -41,34 +39,23 @@
                    th:href="@{|/mainboard/detail/${question.sitterNo}|}"
                    th:text="${question.petTitle}"></a>
                 <!-- 답변갯수출력 : 답변갯수가 0개 초과시 출력 -->
-               <!-- <span class="text-danger small ms-1"
-                      th:if="${#lists.size(question.answerList)>0}"
-                      th:text="${#lists.size(question.answerList)}"></span>-->
-            </td>
-            <td  th:if="${question.member!=null}" th:text="${question.member.memberId}"></td>
-            <!-- temporals.format(날짜대상,"date포맷") -->
-            <td th:text="${#temporals.format(question.petRegdate,'yyyy-MM-dd HH:mm')}"></td>
-            <td>
-                <!--요청주소 http://localhost:포트/question/detail/1001
-                 th:href속성에서  주소를 나타낼때에는 반드시  @{}을 이용해야한다
-                  @{URL}
-                  주의:URL이  조합되어질때에는  @{| |} 작성해야한다-->
-                <a href="/mainboard/detail/${question.sitterNo}"
-                   th:href="@{|/mainboard/detail/${question.sitterNo}|}">
-                    <button type="button">
-                        매칭하기ㅋㅋ
-                    </button>
-                </a>
-                <!-- 답변갯수출력 : 답변갯수가 0개 초과시 출력 -->
                 <!-- <span class="text-danger small ms-1"
                        th:if="${#lists.size(question.answerList)>0}"
                        th:text="${#lists.size(question.answerList)}"></span>-->
             </td>
 
+            //매칭인원
+            <td th:text="${matchingPage.content[loop.index].member.memberId+'와'+matchingPage.content[loop.index].member2.memberId}">매칭 인원</td>
+                        <!-- ${matchingPage.content[loop.index].member.memberId + ', ' + matchingPage.content[loop.index].member2.memberId}-->
+
+            <!-- temporals.format(날짜대상,"date포맷") -->
+            <td th:text="${#dates.format(matchingPage.content[loop.index].creatdateMatching, 'yyyy-MM-dd HH:mm:ss')}"></td>
+
+
         </tr><!--1페이지당 출력할 게시물수만큼 반복끝-->
         </tbody>
     </table>
-    <a th:href="@{/question/add}" class="btn btn-primary">질문등록하기</a>
+
 
     <!-- Pagenation 부분 영역 시작-->
     <div th:if="${ !petsitterPage.isEmpty() }">

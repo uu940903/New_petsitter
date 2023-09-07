@@ -1,0 +1,67 @@
+<html layout:decorate="~{layout}" class="container my-3">
+<div layout:fragment="content">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 정보</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+        .member-info {
+            width: 400px; /* 원하는 너비로 조정하세요 */
+            height: 500px; /* 원하는 높이로 조정하세요 */
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
+        }
+        .info {
+            margin-bottom: 50px; /* 간격을 더 늘리려면 값을 더 크게 조정하세요 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .label {
+            font-weight: bold;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="member-info">
+    <h1>비번수정</h1>
+    <form   th:action="@{/mypage/passmodify}"
+            th:object="${passModifyForm}" method="post">
+        <div class="info">
+            <div>
+                <label for="password1" class="label">비밀번호</label>
+                <input type="password"  th:field="*{password1}" class="input" placeholder="비밀번호를 입력하세요"/>
+
+            </div>
+
+        </div>
+        <div class="info">
+            <div>
+                <label for="password2"class="label">비번확인:</label>
+                <input type="password"  th:field="*{password2}" class="input" placeholder="한번더"/>
+            </div>
+
+        </div>
+
+
+        <input type="submit" value="비밀번호 수정" class="button" />
+    </form>
+</div>
+</body>
+</html>
