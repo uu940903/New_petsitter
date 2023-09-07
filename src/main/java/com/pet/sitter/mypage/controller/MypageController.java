@@ -72,10 +72,10 @@ public class MypageController {
         long id = memberDTO.getId();//내정보의 pk값 id에저장
 
 
-        Page<PetSitterDTO> petsitterPage= this.mypageService.jointest(id,page);
+        Page<PetSitterDTO> petsitterPage= this.mypageService.getMatchingArticleList(id,page);
 
         model.addAttribute("petsitterPage",petsitterPage);
-        return "mypage/myArticleList";
+        return "mypage/myMatchingList";
     }*/
 
 

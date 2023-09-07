@@ -18,11 +18,10 @@ public interface MypageRepository2 extends JpaRepository<Petsitter,Long> {
 
     //나의 매칭내역 가져오기
 
-    /*@Query("SELECT p FROM Petsitter p INNER JOIN Matching m ON p.sitterNo = m.sitterNo WHERE m.matchingNo1= :id")
-    Page<Petsitter> findBytest(long id,Pageable pageable);*/
-
     @Query("SELECT p FROM Petsitter p JOIN Matching m ON p.sitterNo = m.petsitter.sitterNo WHERE m.member.id = :id")
     Page<Petsitter> findByMatchingArticle(@Param("id") Long id,Pageable pageable);
+
+
 
 
 

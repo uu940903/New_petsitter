@@ -34,7 +34,6 @@ public class MypageService {
     private final MypageRepository2 mypageRepository2;
     private final MypageRepository3 mypageRepository3;
     private final MypageRepository4 mypageRepository4;
-
     private final PasswordEncoder passwordEncoder;
 
 
