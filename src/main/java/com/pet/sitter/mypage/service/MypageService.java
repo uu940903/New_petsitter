@@ -247,7 +247,7 @@ public class MypageService {
         member.setAddress(address);
         member.setName(name);
         member.setPhone(phone);
-        member.setNickName(nickname);
+        member.setNickname(nickname);
         mypageRepository.save(member);
     }
 
