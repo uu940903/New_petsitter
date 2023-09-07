@@ -2,6 +2,7 @@ package com.pet.sitter.common.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.pet.sitter.qna.service.AnswerService;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -56,13 +57,24 @@ public class Question {
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER,orphanRemoval = true)
     private List<QuestionFile> questionList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    private List<Answer> answerList;
+
+    public List<QuestionFile> getQuestionList() {
+        return questionList;
+    }
+
+    public void setQuestionFile(List<QuestionFile> questionList) {
+        this.questionList = questionList;
+    }
+
     //조회수증가
     public void increaseViewCount() {
         this.qnaViewCnt++;
     }
 
     @Builder
-    public Question(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, Member member,List<QuestionFile> questionList) {
+    public Question(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, Member member,List<QuestionFile> questionList,List<Answer> answerList) {
         this.qnaNo = qnaNo;
         this.qnaTitle = qnaTitle;
         this.qnaContent = qnaContent;
@@ -72,7 +84,6 @@ public class Question {
         this.qnaFile = qnaFile;
         this.member = member;
         this.questionList = questionList;
+        this.answerList = answerList;
     }
-
-
 }

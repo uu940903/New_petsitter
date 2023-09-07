@@ -1,9 +1,8 @@
 <html layout:decorate="~{layout}" class="container my-3">
 <div layout:fragment="content">
 
-    <form  enctype="multipart/form-data" method="post">
+    <form th:action="@{/question/update}"  enctype="multipart/form-data" method="post">
         <input type="hidden" name="qnaNo" th:value="${questionDTO.qnaNo}"/>
-        <input type="hidden" name="qnaPw" th:value="${questionDTO.qnaPw}"/>
 
         <div class="container">
             <h1>공지게시판</h1>
@@ -17,16 +16,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="text-right">비밀번호</th>
-                        <td>
-                            <input type="password" name="noTitle" size=50 class="input-sm"
-                                   placeholder="작성시 입력하신 숫자4자리를 입력하세요." th:value="${questionDTO.qnaPw}">
-                        </td>
-                    </tr>
-                    <tr>
                         <th class="text-right">내용</th>
                         <td>
-                            <textarea rows="10" cols="50" name="noContent"
+                            <textarea rows="10" cols="50" name="qnaContent"
                                       th:text="${questionDTO.qnaContent}"></textarea>
                         </td>
                     </tr>
@@ -34,7 +26,7 @@
                         <th class="text-right">첨부파일</th>
                         <td>
                             <img th:each="questionfile, loop : ${questionDTO.questionList}"
-                                 th:src="@{|/image/question/${questionfile.QSavedNm}|}" width="300" height="300">
+                                 th:src="@{|/image/question/${questionfile.QSavedNm}|}" width="100" height="100">
                             <input type="file" multiple="multiple" name="file" size=15 class="input-sm">
                         </td>
                     </tr>
@@ -47,10 +39,9 @@
                             <form th:action="@{'/question/update/' + ${questionDTO.qnaNo}}" method="post" sec:authorize="isAuthenticated()"
                                   th:if="${questionDTO.member.getNickname!=null and #authentication.getPrincipal().getNickname()==questionDTO.member.getNickname}">
                                 <button type="submit" class="btn btn-dark">수정</button>
-                            </form>
                         </div>
                         <div class="col">
-                            <a th:href="@{'/notice/list'}">
+                            <a th:href="@{'/question/list'}">
                                 <button class="btn btn-dark">취소</button>
                             </a>
                         </div>
