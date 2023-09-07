@@ -13,22 +13,22 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //기본키
     @Column
-    private String userid;
+    private String memberId;
     @Column
     private String nickname; //유저 이름
     @Column
     private String password; //유저 비밀번호
     @Column
-    private String email; //유저 구글 이메일
+    private String name;
     @Column
     private String role; //유저 권한 (일반 유저, 관리자)
 
     @Builder
-    public User(String userid, String nickname, String password, String email, String role) {
-        this.userid=userid;
+    public User(String memberId, String nickname, String password, String name, String role) {
+        this.memberId=memberId;
         this.nickname = nickname;
         this.password = password;
-        this.email = email;
+        this.name = name;
         this.role = role;
     }
 
