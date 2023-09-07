@@ -26,8 +26,7 @@
                 <td style="border: 0;">
                    <!-- <form th:action="@{/detail/{noNo}}" enctype="multipart/form-data" method="get"> -->
                         <!-- 파일네임을 명시해서 주소에 넘겨줌 -->
-                        <img th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}"  th:src="@{|/image/${noticefile.noSavedNm}|}" width="300" height="300">
-                       <!-- <img th:src="| '/notice/detail/'${noticeFile.getNoSavedNm()}(filename=${noticeFile.getNoSavedNm()})|" width="150" height="150"> -->
+                        <img th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}"  th:src="@{|/image/notice/${noticefile.noSavedNm}|}" width="300" height="300">
                 </td>
             </tr>
             <tr>
@@ -43,18 +42,18 @@
             <div class="btn-group">
                 <div class="col">
                     <a th:href="@{'/notice/edit/'+${noticeDTO.noNo}}">
-                        <button class="btn btn-dark">수정</button>
+                        <button type="button" class="btn btn-dark">수정</button>
                     </a>
                 </div>
                 <div class="col">
-                    <form th:action="@{'/notice/delete/' + ${noticeDTO.noNo}}" method="post">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <button type="submit" id="deleteBtn" class="btn btn-dark">삭제</button>
-                    </form>
+                    <a th:href="@{'/notice/delete/' + ${noticeDTO.noNo}}">
+                        <button type="button" id="deleteBtn"  class="btn btn-dark">삭제</button>
+                    </a>
+
                 </div>
                 <div>
                     <a th:href="@{'/notice/list'}" >
-                        <button class="btn btn-dark">목록</button>
+                        <button type="button" class="btn btn-dark">목록</button>
                     </a>
                 </div>
             </div>

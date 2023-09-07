@@ -38,13 +38,25 @@ public class MemberService {
         memberRepository.save(member);
         return member;
     }
-    //user정보조회
-    public Member getUser(String memberId) {
-        Optional<Member> member2 = memberRepository.findBymemberId(memberId);
-        if(member2.isPresent()) {
-            return member2.get();
-        }else {
-            throw new DataNotFoundException("siteUser NOT FOUND");
+//    //user정보조회
+//    public MemberDTO getUser(MemberDTO memberDTO) {
+//        Optional<Member> member2 = memberRepository.findBymemberId(memberDTO.getMemberId());
+//        if(member2.isPresent()) {
+//            Member member = member2.get();
+//            return MemberDTO.toMemberDTO(member);
+//        }else {
+//            throw new DataNotFoundException("member NOT FOUND");
+//        }
+//    }
+
+    //
+    public Member getUser(String username){
+        Optional<Member> optionalSiteUser = memberRepository.findBymemberId(username);
+        if(optionalSiteUser.isPresent()){
+            Member user = optionalSiteUser.get();
+            return user;
+        } else {
+            throw new DataNotFoundException("회원이 존재하지 않습니다.");
         }
     }
 

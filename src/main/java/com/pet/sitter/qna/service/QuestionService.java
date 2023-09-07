@@ -4,6 +4,7 @@ import com.pet.sitter.common.entity.*;
 import com.pet.sitter.qna.dto.QuestionDTO;
 import com.pet.sitter.qna.repository.QuestionFileRepository;
 import com.pet.sitter.qna.repository.QuestionRepository;
+import com.pet.sitter.qna.validation.QuestionForm;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,22 +39,20 @@ public class QuestionService {
     //Question 글 등록
 
     @Transactional
-    public void savePost(QuestionDTO questionDTO, MultipartFile[] file) throws IOException {
-        Member member = new Member();
-        member.setId(6L);
-        questionDTO.setMember(member);
+    public void savePost(QuestionDTO questionDTO, QuestionForm questionForm, MultipartFile[] file, Member member) throws IOException {
 
         //질문게시판 엔티티생성
         Question question = Question.builder()
-                .qnaNo(questionDTO.getQnaNo())
-                .qnaTitle(questionDTO.getQnaTitle())
-                .qnaContent(questionDTO.getQnaContent())
-                .qnaDate(questionDTO.getQnaDate())
-                .qnaPw(questionDTO.getQnaPw())
+                .qnaNo(questionForm.getQnaNo())
+                .qnaTitle(questionForm.getTitle())
+                .qnaContent(questionForm.getContent())
+                .qnaDate(questionForm.getQnaDate())
+                .qnaPw(questionForm.getPassword())
+                .questionList(questionForm.getQuestionList())
                 .qnaViewCnt(0)
-                .qnaFile(questionDTO.getQnaFile())
                 .member(member)
                 .build();
+
         if (file[0].isEmpty()) {
             questionRepository.save(question);
         } else {
@@ -74,7 +73,6 @@ public class QuestionService {
                 String noSavedPath = path + newFileName;
                 File saveFile = new File(path, newFileName);
                 qFile.transferTo(saveFile);
-                //          noFile.transferTo(new File(noSavedPath));
 
                 questionFile = QuestionFile.builder()
                         .QOrgNm(originalFilename)
@@ -122,9 +120,8 @@ public class QuestionService {
                     .qnaDate(question.getQnaDate())
                     .qnaContent(question.getQnaContent())
                     .qnaViewCnt(question.getQnaViewCnt())
-                    .qnaFile(question.getQnaFile())
                     .member(question.getMember())
-                    .QuestionList(fileList)
+                    .questionList(fileList)
                     .build();
             return questionDTO;
         }
@@ -133,7 +130,7 @@ public class QuestionService {
 
     //Question게시판 수정
     @Transactional
-    public void update(Long qnaNo, QuestionDTO questionDTO){
+    public void update(Long qnaNo, QuestionDTO questionDTO,MultipartFile[] newImageFiles) throws IOException {
         Optional<Question> questionOptional = questionRepository.findById(qnaNo);
 
         if(questionOptional.isPresent()){
@@ -144,6 +141,56 @@ public class QuestionService {
             question.setQnaContent(questionDTO.getQnaContent());
             question.setQnaPw(questionDTO.getQnaPw());
             questionRepository.save(question);
+
+            // 기존 파일 삭제
+            List<QuestionFile> filesToDelete = question.getQuestionList();
+            for (QuestionFile delete : filesToDelete) {
+                String filePath = delete.getQSavedPath();
+                File fileToDelete = new File(filePath);
+                if (fileToDelete.exists()) {
+                    fileToDelete.delete();
+                }
+            }
+            // 기존 파일 정보 삭제
+            question.getQuestionList().clear();
+
+            // 새로운 파일 업로드 및 정보 저장
+            if (newImageFiles[0].isEmpty()) {
+                questionRepository.save(question);
+            } else {
+                Long boardNo = questionRepository.save(question).getQnaNo();
+                Question question1 = questionRepository.findById(boardNo).get();
+
+                QuestionFile questionFile = new QuestionFile();
+
+                String path = "C:/uploadfile/notice_img/";
+
+                File directory = new File(path);
+                if (!directory.exists()) {
+                    directory.mkdirs();
+                }
+
+                for (MultipartFile qnaFile : newImageFiles) {
+                    String originalFilename = qnaFile.getOriginalFilename();
+                    String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
+                    String newFileName = UUID.randomUUID().toString() + fileExtension;
+                    String noSavedPath = path + newFileName;
+                    File saveFile = new File(path, newFileName);
+                    qnaFile.transferTo(saveFile);
+
+                    questionFile = QuestionFile.builder()
+                            .QOrgNm(originalFilename)
+                            .QSavedNm(newFileName)
+                            .QSavedPath(noSavedPath)
+                            .QcreateDate(LocalDate.now())
+                            .build();
+
+                    questionFile.setQuestion(question1);
+                    questionFileRepository.save(questionFile);
+                }
+
+                questionRepository.save(question);
+            }
         }
     }
 
