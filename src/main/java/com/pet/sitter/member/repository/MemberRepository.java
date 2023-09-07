@@ -9,10 +9,11 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findBymemberId(String memberId);
-//중복가입
+
+    //중복가입
     boolean existsByMemberId(String memberId);
+
     Optional<Member> findByPhone(String phone);
 
-
-
+    Member findByNickName(String sender);
 }

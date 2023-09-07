@@ -19,7 +19,7 @@ public class MemberDTO {
     private String address;
     private String detailaddress;
     private String zipcode;
-    private String nickname;
+    private String nickName;
     private String isshow;
 
     @Builder
@@ -34,26 +34,9 @@ public class MemberDTO {
         this.address = member.getAddress();
         this.detailaddress = member.getDetailaddress();
         this.zipcode = member.getZipcode();
-        this.nickname = member.getNickname();
-        this.isshow = member.getIsshow();
+        this.nickName = member.getNickName();
+        this.isshow = member.getIsShow();
     }
     //예시
     //MemberDTO memberDTO = new MemeberDTO(member);
-
-
-    public Member toEntity(){
-        return Member.builder()
-                .id(this.id)
-                .memberId(this.memberId)
-                .pw(this.pw)
-                .name(this.name)
-                .phone(this.phone)
-                .eMail(this.eMail)
-                .birth(this.birth)
-                .address(this.address)
-                .nickname(this.nickname)
-                .isshow(this.isshow)
-                .build();
-
-    }
 }

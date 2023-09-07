@@ -76,7 +76,7 @@ public class UnifiedMemberDetailsService implements UserDetailsService {
                     authorities,
                     member.getName(),
                     member.getMemberId(),  // memberId 값을 설정하세요.
-                    member.getNickname()
+                    member.getNickName()
             );
         } else {
             throw new UsernameNotFoundException("Invalid username or password");
