@@ -39,7 +39,7 @@ public class MypageController {
         return "myInfo";
     }*/
 
-    /*//매칭가져오기
+    //매칭가져오기
     @GetMapping("/machingResult")
     public String machingResult(@RequestParam(value="page",defaultValue="0") int page, Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -49,13 +49,13 @@ public class MypageController {
         long id = memberDTO.getId();//내정보의 pk값 id에저장
 
 
-        Page<MatchingDTO> matchingDTO= this.mypageService.jointest(id,page);
-        Page<MatchingDTO> matchingDTO= this.mypageService.jointest(id,page);
+        Page<PetSitterDTO> petSitterDTOPage= this.mypageService.getMatchingArticleList(id,page);//매칭된 글가져오기
+        Page<MatchingDTO> matchingDTO= this.mypageService.getMatchingList(id,page);//매칭내역가져오기
 
-        model.addAttribute("petsitterPage",petsitterPage);
-        model.addAttribute("matchingPage",matchingPage)
-        return "mypage/myArticleList";
-    }*/
+        model.addAttribute("petsitterPage",petSitterDTOPage);
+        model.addAttribute("matchingPage",matchingDTO);
+        return "mypage/myMatchingList";
+    }
 
 
 

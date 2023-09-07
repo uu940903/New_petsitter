@@ -5,6 +5,7 @@ import com.pet.sitter.common.entity.User;
 import com.pet.sitter.member.repository.MemberRepository;
 import com.pet.sitter.member.repository.UserRepository;
 import com.pet.sitter.member.validation.UserRole;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -83,7 +84,7 @@ public class UnifiedMemberDetailsService implements UserDetailsService {
         }
     }
 
-    @Transactional(readOnly = true)
+ /*   @Transactional(readOnly = true)
     public String getEmailByPhoneNumber(String phone) {
         Optional<Member> member = memberRepository.findByPhone(phone);
 
@@ -103,6 +104,6 @@ public class UnifiedMemberDetailsService implements UserDetailsService {
             return member.get().getPw();
         }
 
-        throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");
-    }
+        throw new UsernameNotFoundException("사용자를 찾을 수 없습니다.");*/
+//    }
 }
