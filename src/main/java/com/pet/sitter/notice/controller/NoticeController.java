@@ -81,7 +81,7 @@ public class NoticeController {
     }
 
     //공지게시판 수정하기
-    @PostMapping("/update/")
+    @PostMapping("/update")
     public String getUpdate(Long noNo, @ModelAttribute NoticeDTO noticeDTO, @RequestParam("file") MultipartFile[] newImageFiles) throws IOException {
         noticeService.getUpdate(noNo, noticeDTO, newImageFiles);
 

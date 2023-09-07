@@ -34,8 +34,8 @@ public class MemberDTO {
         this.address = member.getAddress();
         this.detailaddress = member.getDetailaddress();
         this.zipcode = member.getZipcode();
-        this.nickName = member.getNickName();
-        this.isshow = member.getIsShow();
+        this.nickName = member.getNickname();
+        this.isshow = member.getIsshow();
     }
     //예시
     //MemberDTO memberDTO = new MemeberDTO(member);
