@@ -69,7 +69,7 @@ public class Petsitter {
     @OneToOne(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
     private Matching matching;
 
-    @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "petSitter", cascade = CascadeType.REMOVE)
     private List<ChatRoom> chatRoomList;
 
     @Builder

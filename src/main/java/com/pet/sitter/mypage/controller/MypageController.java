@@ -1,10 +1,8 @@
 package com.pet.sitter.mypage.controller;
 
 import com.pet.sitter.common.entity.Member;
-import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.member.dto.MemberDTO;
-import com.pet.sitter.mypage.dto.MatchingDTO;
 import com.pet.sitter.mypage.service.MypageService;
 import com.pet.sitter.mypage.validation.ModifyForm;
 import com.pet.sitter.mypage.validation.PassModifyForm;
@@ -12,17 +10,12 @@ import com.pet.sitter.qna.dto.QuestionDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.security.Principal;
-import java.util.List;
 
 @RequestMapping("/mypage")
 @Controller
@@ -195,7 +188,7 @@ public class MypageController {
         modifyForm.setAddress(memberDTO.getAddress());//modifyForm에 DTO의 필드값 넣어주기
         modifyForm.setName(memberDTO.getName());
         modifyForm.setPhone(memberDTO.getPhone());
-        modifyForm.setNickname(memberDTO.getNickname());
+        modifyForm.setNickname(memberDTO.getNickName());
 
         return "mypage/modify_Form"; //mypage하위의 modify_Form불러오기
     }

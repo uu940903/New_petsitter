@@ -5,32 +5,32 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class ChatRoom {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ChatMessage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(columnDefinition = "text")
     @NotNull
-    private String roomUUID;
+    private String content;
 
     @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     @NotNull
-    private LocalDateTime createDate;
+    private LocalDateTime sendTime;
 
     @ManyToOne
-    @JoinColumn(name = "sitterNo", referencedColumnName = "sitterNo")
-    private Petsitter petSitter;
+    @JoinColumn(name = "chat_room_id", referencedColumnName = "id")
+    private ChatRoom chatRoom;
 
-    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.REMOVE)
-    private List<ChatMessage> chatMessageList;
+    @ManyToOne
+    @JoinColumn(name = "member_id", referencedColumnName = "id")
+    private Member sender;
 }

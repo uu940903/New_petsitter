@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 
@@ -30,12 +29,12 @@ public class MemberService {
         member.setAddress(userCreateForm.getAddress());
         member.setDetailaddress(userCreateForm.getDetailaddress());
         member.setZipcode(userCreateForm.getZipcode());
-        member.setNickname(userCreateForm.getNickname());
+        member.setNickName(userCreateForm.getNickname());
         member.setName(userCreateForm.getName());
         member.setPhone(userCreateForm.getPhone());
         member.setBirth(userCreateForm.getBirth());
         member.setEMail(userCreateForm.getEMail());
-        member.setIsshow("Y");
+        member.setIsShow("Y");
         //암호는 스프링시큐리티를 이용해서 암호화하여 비번을 저장할 예정
         memberRepository.save(member);
         return member;

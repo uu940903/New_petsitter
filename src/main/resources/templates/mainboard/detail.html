@@ -43,7 +43,7 @@
     </div>
     <div class="container">
         <div class="content" th:each="petSitter, loop : ${petSitter}" >
-            <div class="nickname" th:text="${petSitter.member.nickname}"></div>
+            <div class="nickname" th:text="${petSitter.member.getNickName}"></div>
             <div class="title" th:text="${petSitter.petTitle}"></div>
             <div class="category_regDate">
             <span class="category" th:text="${petSitter.petCategory}"></span>&nbsp/&nbsp<span class="regDate" th:text="${#temporals.format(petSitter.petRegdate, 'yyyy-MM-dd HH:mm')}"></span>
@@ -65,7 +65,7 @@
             <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eef7a49c730887c01531cc1df9621aae&libraries=services"></script>
             <script th:inline="javascript">
             /*<![CDATA[*/
-                let sitterAddress =  /*[[${petSitter.petAddress}]]*/;
+                let sitterAddress = /*[[${petSitter.petAddress}]]*/ '';
                 console.log(sitterAddress);
 
                 var mapContainer = document.getElementById('map'), // 지도를 표시할 div

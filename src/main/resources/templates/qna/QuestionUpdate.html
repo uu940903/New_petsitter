@@ -45,7 +45,7 @@
                     <div class="btn-group">
                         <div class="col">
                             <form th:action="@{'/question/update/' + ${questionDTO.qnaNo}}" method="post" sec:authorize="isAuthenticated()"
-                                  th:if="${questionDTO.member.nickname!=null and #authentication.getPrincipal().getNickname()==questionDTO.member.nickname}">
+                                  th:if="${questionDTO.member.getNickName!=null and #authentication.getPrincipal().getNickname()==questionDTO.member.getNickName}">
                                 <button type="submit" class="btn btn-dark">수정</button>
                             </form>
                         </div>
