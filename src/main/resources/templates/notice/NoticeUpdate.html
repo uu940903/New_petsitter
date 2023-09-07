@@ -1,17 +1,16 @@
 <html layout:decorate="~{layout}" class="container my-3">
 <div layout:fragment="content">
 
-    <form id="NoticeForm" th:action="@{/notice/update}" enctype="multipart/form-data" method="post">
-        <input type="hidden" name="_method" value="put"/>
+    <form id="NoticeForm" th:action="@{/notice/update/}" enctype="multipart/form-data" method="post">
         <input type="hidden" name="noNo" th:value="${noticeDTO.noNo}"/>
         <div class="container">
             <h1>공지게시판</h1>
             <div class="row row1">
                 <table class="table">
                     <tr>
-                        <th class="text-right" th:value="${noticeDTO.noTitle}"></th>
+                        <th class="text-right">제목</th>
                         <td>
-                            <input type="text" name="noTitle" size=50 class="input-sm">
+                            <input type="text" name="noTitle" size=50 class="input-sm"  th:value="${noticeDTO.noTitle}">
                         </td>
                     </tr>
                     <tr>
@@ -23,13 +22,13 @@
                     <tr>
                         <th class="text-right">첨부파일</th>
                         <td>
+                            <img th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}"  th:src="@{|/image/notice/${noticefile.getNoSavedNm()}|}" width="300" height="300">
                             <input type="file" multiple="multiple" name="file" size=15 class="input-sm" >
-                            <img th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}"  th:src="@{|/image/${noticefile.getNoSavedNm()}|}" width="300" height="300">
                         </td>
                     </tr>
                     <tr>
                         <td class="text-center" colspan="2">
-                            <input class="btn btn-dark" type="submit" value="수정">
+                                <button type="submit" class="btn btn-dark">수정</button>
                             <a th:href="@{'/notice/list'}">
                                 <button class="btn btn-dark">취소</button>
                             </a>

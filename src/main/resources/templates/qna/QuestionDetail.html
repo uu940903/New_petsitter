@@ -1,6 +1,5 @@
 <html layout:decorate="~{layout}" class="container my-3">
 <div layout:fragment="content">
-
     <body class="container">
     <h2>Q&A게시판</h2>
     <div class="row row1">
@@ -26,7 +25,7 @@
             <tr>
                 <td style="border: 0;">
                         <!-- 파일네임을 명시해서 주소에 넘겨줌 -->
-                        <img th:each="questionfile, loop : ${questionDTO.getQuestionList()}"  th:src="@{|/image/${questionfile.QSavedNm}|}" width="300" height="300">
+                        <img th:each="questionfile, loop : ${questionDTO.questionList}" th:src="@{|/image/question/${questionfile.QSavedNm}|}" width="300" height="300">
                 </td>
             </tr>
             <tr>
@@ -40,19 +39,17 @@
         <div class="text-center">
             <div class="btn-group">
                 <div class="col">
-                    <a th:href="@{'/question/edit/'+${questionDTO.qnaNo}}">
-                        <button class="btn btn-dark">수정</button>
+                    <a th:href="@{'/question/edit/'+${questionDTO.qnaNo}}"
+                       sec:authorize="isAuthenticated()" th:if="${questionDTO.member.nickname!=null and #authentication.getPrincipal().getNickname()==questionDTO.member.nickname}">
+                        <button type="button" class="btn btn-dark">수정</button>
                     </a>
                 </div>
-                <div class="col">
-                    <form th:action="@{'/question/delete/' + ${questionDTO.qnaNo}}" method="post">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <button type="submit" id="deleteBtn" class="btn btn-dark">삭제</button>
-                    </form>
+                <div class="col" >
+                    <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${questionDTO.qnaNo}|}" class="btn btn-dark delete" sec:authorize="isAuthenticated()" th:if="${questionDTO.member.nickname!=null and #authentication.getPrincipal().getNickname()==questionDTO.member.nickname}" th:text="삭제"></a>
                 </div>
                 <div>
                     <a th:href="@{'/question/list'}">
-                        <button class="btn btn-dark">목록</button>
+                        <button type="button" class="btn btn-dark">목록</button>
                     </a>
                 </div>
             </div>
@@ -60,9 +57,7 @@
 
     </div>
     </body>
-    </form>
 </div>
-
 <!-- 답변 수 출력 -->
 <!--    <h5 th:text="|${#lists.size(questionDTO.answerList)}개의 답변이 있습니다.|">답변 수 출력</h5>-->
 <!-- 반복 : 답변 목록 시작 -->
@@ -108,3 +103,15 @@
 <!--    </form>-->
 </div>
 </html>
+
+<script layout:fragment="script">
+    //(질문/답변)삭제 버튼 클릭시 호출되는 함수
+    const delElements = document.getElementsByClassName("delete");
+    Array.from(delElements).forEach(function(element){
+        element.addEventListener("click", function(){
+            if(confirm("삭제하시겠습니까?")){          //확인 버튼을 클릭하면
+                location.href=this.dataset.uri;                                       //click 이벤트가 발생한 a 요소의 uri 속성의 값("/question/delete/${question.id}")을 가져와 location 객체의 href 속성의 값으로 적용 => 현재 브라우저의 주소를 변경
+            }
+        });
+    });
+</script>

@@ -28,7 +28,10 @@ public class QuestionDTO {
 
     private Member member;
     private List<MultipartFile> file;
-    private List<QuestionFile> QuestionList;
+    private List<QuestionFile> questionList;
+
+    //새로운 업로드 파일을 저장
+    private List<MultipartFile> newImageFiles;
 
     public Question toEntity(){
         Question build = Question.builder()
@@ -45,7 +48,7 @@ public class QuestionDTO {
     }
 
     @Builder
-    public QuestionDTO(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, Member member,List<MultipartFile> file,List<QuestionFile> QuestionList) {
+    public QuestionDTO(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, Member member,List<MultipartFile> file,List<QuestionFile> questionList) {
         this.qnaNo = qnaNo;
         this.qnaTitle = qnaTitle;
         this.qnaContent = qnaContent;
@@ -55,6 +58,6 @@ public class QuestionDTO {
         this.qnaFile = qnaFile;
         this.member = member;
         this.file = file;
-        this.QuestionList = QuestionList;
+        this.questionList = questionList;
     }
 }
