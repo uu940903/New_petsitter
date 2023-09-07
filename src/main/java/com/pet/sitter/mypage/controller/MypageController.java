@@ -189,7 +189,7 @@ public class MypageController {
         modifyForm.setAddress(memberDTO.getAddress());//modifyForm에 DTO의 필드값 넣어주기
         modifyForm.setName(memberDTO.getName());
         modifyForm.setPhone(memberDTO.getPhone());
-        modifyForm.setNickname(memberDTO.getNickName());
+        modifyForm.setNickname(memberDTO.getNickname());
 
         return "mypage/modify_Form"; //mypage하위의 modify_Form불러오기
     }

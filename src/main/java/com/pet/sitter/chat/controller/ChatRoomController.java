@@ -43,17 +43,19 @@ public class ChatRoomController {
     // 채팅방 생성
     @PostMapping("/room")
     @ResponseBody
-    public ChatRoomDTO createRoom(@RequestParam("petSitterNo") Long id) {
+    public ChatRoomDTO createRoom(@RequestParam("petsitterNo") Long id) {
+        System.out.println("PetSitterId(Controller): " + id);
         return chatRoomService.createChatRoom(id);
     }
 
     // 채팅방 입장 화면
-    @GetMapping("/room/enter/{roomId}")
-    public String roomDetail(Model model, @PathVariable Long roomId) {
-        ChatRoom chatRoom = chatRoomService.getChatRoomById(roomId);
+    @GetMapping("/room/enter/{roomUUID}")
+    public String roomDetail(Model model, @PathVariable String roomUUID) {
+        ChatRoom chatRoom = chatRoomService.getChatRoomByRoomUUID(roomUUID);
 
         if (chatRoom != null) {
-            model.addAttribute("roomId", roomId);
+            model.addAttribute("roomId", chatRoom.getId());
+            model.addAttribute("roomUUID", roomUUID);
             model.addAttribute("roomName", chatRoom.getPetsitter().getPetTitle());
 
             return "/chat/roomdetail";

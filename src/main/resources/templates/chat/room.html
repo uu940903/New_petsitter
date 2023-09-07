@@ -34,26 +34,23 @@
 
 <script>
     $(document).ready(function () {
-        // If more dynamic fetching is needed on the client side, you can add it here
 
-        window.createRoom = function (petsitterId) {
+        window.createAndEnterRoom = function (petsitterId) {
             console.log(petsitterId);
             $.post('/chat/room', {petSitterNo: petsitterId}, function (response) {
                 console.log('1차');
-                alert(response.petSitterNo + "방 개설에 성공하였습니다.");
-                location.reload();  // Reload to fetch and display the new list
+                alert(response.roomUUID + "방 개설에 성공하였습니다.");
+
+                const sender = prompt('대화명을 입력해 주세요.');
+                if (sender !== "") {
+                    localStorage.setItem('sitter.sender', sender);
+                    localStorage.setItem('sitter.roomId', response.roomId);
+                    location.href = "/chat/room/enter/" + response.roomUUID;
+                }
+
             }).fail(function () {
                 alert("채팅방 개설에 실패하였습니다.");
             });
-        }
-
-        window.enterRoom = function (roomId, roomUUID) {
-            const sender = prompt('대화명을 입력해 주세요.');
-            if (sender !== "") {
-                localStorage.setItem('wschat.sender', sender);
-                localStorage.setItem('wschat.roomId', roomId);
-                location.href = "/chat/room/enter/" + roomUUID;
-            }
         }
     });
 </script>

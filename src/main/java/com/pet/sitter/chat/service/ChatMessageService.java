@@ -29,7 +29,7 @@ public class ChatMessageService {
         }
 
         ChatRoom chatRoom = chatRoomRepository.findChatRoomById(message.getChatRoom().getId());
-        Member sender = memberRepository.findByNickname(message.getSender().getNickName());
+        Member sender = memberRepository.findByNickname(message.getSender().getNickname());
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setContent(message.getContent());
         chatMessage.setSendTime(LocalDateTime.now());
