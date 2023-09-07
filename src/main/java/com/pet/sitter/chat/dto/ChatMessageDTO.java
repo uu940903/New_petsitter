@@ -1,5 +1,6 @@
 package com.pet.sitter.chat.dto;
 
+import com.pet.sitter.member.dto.MemberDTO;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,8 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ChatMessageDTO {
 
+    private Long id;
     private MessageType type; // 메시지 타입
-    private String roomId; // 방번호
-    private String sender; // 메시지 보낸사람
-    private String message; // 메시지
+    private ChatRoomDTO chatRoom; // 방번호
+    private MemberDTO sender; // 메시지 보낸사람
+    private String content; // 메시지
 }
