@@ -37,6 +37,8 @@ public class MemberDTO {
         this.nickname = member.getNickname();
         this.isshow = member.getIsshow();
     }
+    //예시
+    //MemberDTO memberDTO = new MemeberDTO(member);
 
 
     public Member toEntity(){
