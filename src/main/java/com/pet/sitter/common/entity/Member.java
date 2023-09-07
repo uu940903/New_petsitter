@@ -48,13 +48,13 @@ public class Member {
     @NotNull
     private String zipcode;
 
-    @Column(unique = true, name = "nickname")
+    @Column(unique = true)
     @NotNull
-    private String nickName;
+    private String nickname;
 
-    @Column(name = "isshow")
+    @Column
     @NotNull
-    private String isShow;
+    private String isshow;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Petsitter> petsitterList;
@@ -63,14 +63,14 @@ public class Member {
     private List<Question> questionList;
 
     @OneToMany(mappedBy = "sender", cascade = CascadeType.REMOVE)
-    private List<ChatMessage> chatMessageList;
+    private List<ChatMessage> chatMessagesList;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Matching> matchingList;
 
 
     @Builder
-    public Member(Long id, String memberId, String pw, String name, String phone, String eMail, String birth, String address, String detailaddress, String zipcode, String nickName, String isShow, List<Petsitter> petsitterList) {
+    public Member(Long id, String memberId, String pw, String name, String phone, String eMail, String birth, String address, String detailaddress, String zipcode, String nickname, String isshow, List<Petsitter> petsitterList) {
         this.id = id;
         this.memberId = memberId;
         this.pw = pw;
@@ -81,8 +81,8 @@ public class Member {
         this.address = address;
         this.detailaddress = detailaddress;
         this.zipcode = zipcode;
-        this.nickName = nickName;
-        this.isShow = isShow;
+        this.nickname = nickname;
+        this.isshow = isshow;
         this.petsitterList = petsitterList;
     }
 
