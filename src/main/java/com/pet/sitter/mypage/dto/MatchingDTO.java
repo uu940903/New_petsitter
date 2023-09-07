@@ -3,6 +3,7 @@ package com.pet.sitter.mypage.dto;
 import com.pet.sitter.common.entity.Matching;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Petsitter;
+import com.pet.sitter.member.dto.MemberDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -23,16 +24,15 @@ public class MatchingDTO {
     private Date creatdateMatching;
 
 
-    private Member member;
+    private MemberDTO member;
 
 
-    private Member member2;
+    private MemberDTO member2;
 
     @Builder
     public MatchingDTO(Matching matching){
         this.petsitter=matching.getPetsitter();
         this.creatdateMatching=matching.getCreatdateMatching();
-        this.member=matching.getMember();
-        this.member2=matching.getMember2();
+
     }
 }

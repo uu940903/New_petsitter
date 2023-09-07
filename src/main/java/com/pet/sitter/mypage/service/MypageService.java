@@ -12,6 +12,7 @@ import com.pet.sitter.mypage.repository.MypageRepository;
 
 import com.pet.sitter.mypage.repository.MypageRepository2;
 import com.pet.sitter.mypage.repository.MypageRepository3;
+import com.pet.sitter.mypage.repository.MypageRepository4;
 import com.pet.sitter.qna.dto.QuestionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,19 +33,36 @@ public class MypageService {
     private final MypageRepository mypageRepository;
     private final MypageRepository2 mypageRepository2;
     private final MypageRepository3 mypageRepository3;
+    private final MypageRepository4 mypageRepository4;
     private final PasswordEncoder passwordEncoder;
 
 
 
+    //매칭내역가져오기
+    public Page<MatchingDTO> getMatchingList(long id, int page) {
+        List<Sort.Order> sorts = new ArrayList();
+        sorts.add(Sort.Order.desc("petsitter.sitterNo")); //내림차순기준
+        Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
+        Page<Matching> matchingPage = mypageRepository4.findByMatching(id,pageable);//페이지처리하기위한 Page<Matching>가져오기
+        System.out.printf("여기는 레파지토리 에서 가져온  매칭갯수%d",matchingPage.getTotalElements());
 
 
+        Page<MatchingDTO> matchingDTOPage = matchingPage.map(matching -> {   //member1의 matchingDTO가져오기
+            MatchingDTO dto = new MatchingDTO(matching);
+            dto.setMember(new MemberDTO(matching.getMember()));
+            dto.setMember2(new MemberDTO(matching.getMember2()));
+            return dto;
+        });
+        return matchingDTOPage;
+    }
 
-    /*//매칭가져오기
-    public Page<MatchingDTO> jointest(long id , int page){
+
+    //매칭글 가져오기
+    public Page<PetSitterDTO> getMatchingArticleList(long id , int page){
         List<Sort.Order> sorts = new ArrayList();
         sorts.add(Sort.Order.desc("sitterNo")); //내림차순기준
         Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
-        Page<Matching> matchingPage = mypageRepository2.findBytest(id,pageable);//page<Petsitter>를 page<PetSitterDTO>로 변환
+        Page<Petsitter> petsitterPage = mypageRepository2.findBytest(id,pageable);//page<Petsitter>를 page<PetSitterDTO>로 변환
         System.out.printf("여기는 레파지토리 에서 가져온 펫시터 엔티티갯수%d",petsitterPage.getTotalElements());
 
         Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
@@ -53,15 +71,14 @@ public class MypageService {
             return dto;
         });
 
-        *//*return petSitterDTOPage;
+       /* return petSitterDTOPage;
 
-        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> new PetSitterDTO(petsitter));*//*
+        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> new PetSitterDTO(petsitter));*/
 
         return petSitterDTOPage;
 
 
-    }*/
-
+    }
 
 
 
@@ -233,6 +250,8 @@ public class MypageService {
         member.setNickname(nickname);
         mypageRepository.save(member);
     }
+
+
 }
 
  /*Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {

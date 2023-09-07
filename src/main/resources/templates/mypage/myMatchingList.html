@@ -5,7 +5,7 @@
         <tr>
 
             <th>제목</th>
-            <th>매칭대상</th>
+            <th>매칭인원</th>
             <th>매칭일자</th>
         </tr>
         </thead>
@@ -19,7 +19,7 @@
            여기에서는 한페이지당 게시글수를 10-> 0~9 =>0첫번째페이지 글번호12 11 10~3
            여기에서는 한페이지당 게시글수를 2-> 0~1=>1 두번째페이지 글번호 2 1
         -->
-        <tr th:each="matching, loop : ${matchingPage}">
+        <tr th:each="question, loop : ${petsitterPage}">
             <!-- 글번호=총게시물수-(현재페이지번호*페이지당게시물개수)-나열 인덱스 -->
             <!--12? =12-(0*10)-0 -->
             <!-- =12-(0*10)-1 -->
@@ -28,7 +28,6 @@
 
             <!--2? =12-(1*10)-0 -->
             <!--1? =12-(1*10)-1 -->
-            <!--<td th:text="${matchingPage.getTotalElements - (matchingPage.number * matchingPage.size) - loop.index}"></td>-->
             <!--요청주소 http://localhost:포트/question/detail?id=1001
                <td th:text="${question.subject}"><a href="/question/detail?id=${question.id}"></a></td>-->
             <td>
@@ -40,41 +39,47 @@
                    th:href="@{|/mainboard/detail/${question.sitterNo}|}"
                    th:text="${question.petTitle}"></a>
                 <!-- 답변갯수출력 : 답변갯수가 0개 초과시 출력 -->
-               <!-- <span class="text-danger small ms-1"
-                      th:if="${#lists.size(question.answerList)>0}"
-                      th:text="${#lists.size(question.answerList)}"></span>-->
+                <!-- <span class="text-danger small ms-1"
+                       th:if="${#lists.size(question.answerList)>0}"
+                       th:text="${#lists.size(question.answerList)}"></span>-->
             </td>
-            <td  th:if="${matching.member!=null}" th:text="${question.member.memberId}"></td>
+
+            //매칭인원
+            <td th:text="${matchingPage.content[loop.index].member.memberId+'와'+matchingPage.content[loop.index].member2.memberId}">매칭 인원</td>
+                        <!-- ${matchingPage.content[loop.index].member.memberId + ', ' + matchingPage.content[loop.index].member2.memberId}-->
+
             <!-- temporals.format(날짜대상,"date포맷") -->
-            <td th:text="${#temporals.format(matching.petRegdate,'yyyy-MM-dd HH:mm')}"></td>
+            <td th:text="${#dates.format(matchingPage.content[loop.index].creatdateMatching, 'yyyy-MM-dd HH:mm:ss')}"></td>
+
+
         </tr><!--1페이지당 출력할 게시물수만큼 반복끝-->
         </tbody>
     </table>
-    <!--<a th:href="@{/question/add}" class="btn btn-primary">질문등록하기</a>-->
+
 
     <!-- Pagenation 부분 영역 시작-->
     <div th:if="${ !petsitterPage.isEmpty() }">
         <ul class="pagination justify-content-center">
             <!-- 이전버튼:조건  -->
             <li class="page-item"
-                th:classappend="${!matchingPage.hasPrevious} ? 'disabled'">
+                th:classappend="${!petsitterPage.hasPrevious} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{|?page=${matchingPage.number-1}|}"><span>이전</span></a>
+                   th:href="@{|?page=${petsitterPage.number-1}|}"><span>이전</span></a>
             </li>
             <!-- 페이지번호:반복+연결+bootstrap [0] [1] [2] [3~]  [4] [5] [6] [7]~~[9] [10] [11]  -->
             <li class="page-item"
                 th:each="page : ${#numbers.sequence(0,petsitterPage.totalPages-1)}"
-                th:if="${  page>=matchingPage.number-3 and  page<=matchingPage.number+3 }"
-                th:classappend="${page==matchingPage.number} ? 'active'">
+                th:if="${  page>=petsitterPage.number-3 and  page<=petsitterPage.number+3 }"
+                th:classappend="${page==petsitterPage.number} ? 'active'">
                 <a class="page-link"
                    th:href="@{|?page=${page}|}"
                    th:text="${page+1}"></a>
             </li>
             <!-- 다음버튼:조건  -->
             <li class="page-item"
-                th:classappend="${!matchingPage.hasNext} ? 'disabled'">
+                th:classappend="${!petsitterPage.hasNext} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{|?page=${matchingPage.number+1}|}"><span>다음</span></a>
+                   th:href="@{|?page=${petsitterPage.number+1}|}"><span>다음</span></a>
             </li>
         </ul>
     </div><!-- Pagenation 부분 영역 끝-->
