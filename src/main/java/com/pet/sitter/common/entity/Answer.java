@@ -1,20 +1,17 @@
 package com.pet.sitter.common.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Entity
+@Setter
 public class Answer  {
 
     @Id
@@ -39,4 +36,14 @@ public class Answer  {
     @ManyToOne
     @JoinColumn(name = "memberId")
     private Member member;
+
+    @Builder
+    public Answer(Long id,String content,LocalDateTime createdDate, LocalDateTime modifiedDate,Question question,Member member){
+        this.id= id;
+        this.content = content;
+        this.question =question ;
+        this.createdDate =createdDate ;
+        this.modifiedDate =modifiedDate ;
+        this.member =member ;
+    }
 }

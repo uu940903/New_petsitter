@@ -1,0 +1,79 @@
+<html layout:decorate="~{admin/layout}" xmlns:th="http://www.thymeleaf.org">
+<div layout:fragment="adminContent" class="container">
+    <h5 class="my-3 border-bottom pb-2">회원수정</h5>
+    <!--CSRF자동생성을 하기 위해 th:action속성은 제거,
+        CSRF값을 설정하기 위한 hidden을 추가한다
+        폼의 action속성의 값은 question_form의 브라우저의 현재 URL을 기준으로 설정된다.
+        즉 수정버튼을 클릭해서 폼이 보여지는 경우는 action="/question/modify/질문번호" method="post"
+        즉 등록버튼을 클릭해서 폼이 보여지는 경우는 action="/question/add" method="post"-->
+    <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+    <form id="adminMemberForm" th:object="${adminMemberForm}" method="post" >
+    <!--<form id="adminMemberForm" th:object="${adminMemberForm}" method="post" th:action="@{/admin/memberModify/{id}(id=${memberDTO.id})}">-->
+
+
+
+    <!--유효성검사시 에러메세지 출력영역-->
+        <!--<div  th:replace="~{form_errors::formErrorsFragment}"></div>-->
+<!--        th:field="*{subject}"-->
+        <table class="memberDetailTable">
+            <tr>
+                <td>회원번호</td>
+                <td th:text="${id}"></td>
+                <!-- id는 수정이 불가능하도록 readonly속성 추가 -->
+                <td><input  th:value="${id}" readonly="readonly"></td>
+            </tr>
+
+            <tr>
+                <td>아이디</td>
+                <td th:text="${memberDTO.memberId}"></td>
+                <td><input  type="text" th:field="*{memberId}" readonly="readonly"></td>
+            </tr>
+
+            <tr>
+                <td>이름</td>
+                <td th:text="${memberDTO.name}"></td>
+                <td><input th:field="*{name}"></td>
+            </tr>
+
+            <tr>
+                <td>닉네임</td>
+                <td th:text="${memberDTO.nickname}"></td>
+                <td><input th:field="*{nickname}"></td>
+            </tr>
+
+            <tr>
+                <td>생년월일</td>
+                <td th:text="${memberDTO.birth}"></td>
+                <td><input th:field="*{birth}" readonly="readonly"></td>
+            </tr>
+
+            <tr>
+                <td>핸드폰번호</td>
+                <td th:text="${memberDTO.phone}"></td>
+                <td><input th:field="*{phone}"></td>
+            </tr>
+
+            <tr>
+                <td>주소</td>
+                <td th:text="${memberDTO.address}"></td>
+                <td><input th:field="*{address}"></td>
+            </tr>
+
+            <tr>
+                <td>이메일주소</td>
+                <td th:text="${memberDTO.eMail}"></td>
+                <td><input th:field="*{eMail}"></td>
+            </tr>
+
+            <input type="submit" value="저장" class="btn btn-primary my-2"/>
+            <!--<span colspan="2" align="center">
+                    <a th:href="@{|/admin/modify/${petSitterDTO.sitterNo}|}"
+                       class="btn btn-modify-custom btn-outline-secondary" th:text="수정"></a>
+
+                <a th:data-uri="'/admin/delete/' + ${petSitterDTO.sitterNo}"
+                   class="delete btn  btn-delete-custom btn-outline-secondary">삭제</a>
+                </span>-->
+
+        </table>
+    </form>
+</div>

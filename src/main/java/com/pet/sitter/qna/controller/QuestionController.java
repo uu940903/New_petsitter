@@ -3,6 +3,7 @@ package com.pet.sitter.qna.controller;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Question;
 import com.pet.sitter.member.service.MemberService;
+import com.pet.sitter.qna.dto.AnswerDTO;
 import com.pet.sitter.qna.dto.QuestionDTO;
 import com.pet.sitter.qna.service.QuestionService;
 import com.pet.sitter.qna.validation.QuestionForm;
@@ -44,9 +45,9 @@ public class QuestionController {
             return "qna/QuestionForm";
         }
         Member member = memberService.getUser(principal.getName());
-            questionService.savePost(questionDTO,questionForm, file,  member);
-            return "redirect:/question/list";
-        }
+        questionService.savePost(questionDTO,questionForm, file,  member);
+        return "redirect:/question/list";
+    }
 
 //        Member member = questionDTO.getMember();
 //        if(member != null){
@@ -68,7 +69,7 @@ public class QuestionController {
 
     //question 상세 조회
     @GetMapping("/detail/{qnaNo}")
-    public String detail(@PathVariable Long qnaNo, Model model){
+    public String detail(@PathVariable Long qnaNo, Model model, AnswerDTO answerDTO){
         QuestionDTO questionDTO = questionService.detail(qnaNo);
         model.addAttribute("questionDTO",questionDTO);
         return "qna/QuestionDetail";
@@ -84,7 +85,7 @@ public class QuestionController {
     }
 
     //question 게시글 수정
-    @PostMapping ("/update/{qnaNo}")
+    @PostMapping ("/update")
     public String update(Long qnaNo, @ModelAttribute QuestionDTO questionDTO,@RequestParam("file") MultipartFile[] newImageFiles) throws IOException {
 
         questionService.update(qnaNo,questionDTO,newImageFiles);

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>GSSitter - Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css"
+           th:href="@{/admin/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css"
+           th:href="@{/admin/css/adminboard.css}"/>
+    <link rel="stylesheet" type="text/css"
+           th:href="@{/admin/css/adminmember.css}"/>
+</head>
+<body>
+<!--navigation부분-->
+<nav th:replace="~{admin/navbar::adminNavbarFragment}"></nav>
+
+<!--baseTemplate안에 포함될 내용 시작 -->
+<th:block layout:fragment="adminContent"></th:block>
+
+<!--baseTemplate안에 포함될 내용 끝 -->
+<script src="/admin/js/bootstrap.min.js" th:src="@{/admin/js/bootstrap.min.js}"></script>
+<th:block layout:fragment="script"></th:block>
+</body>
+<!-- javascript부분 -- ----------------------------->
+<script layout:fragment="script">
+    //(질문,답변)삭제버튼클릭시 호출
+    const delElements = document.getElementsByClassName("delete");
+    Array.from(delElements).forEach(function (element) {
+
+        //$(".delete").on("click",function(){ alert("정말삭제할거여?"); });
+        element.addEventListener("click", function () {
+            if (confirm("정말 삭제할거?")) {//확인버튼을 클릭하면
+                //click이벤트가 발생한 a요소의  data-uri속성의 값을 가져와
+                //location객체의 href속성의 값으로 적용해라
+                //=>현재 browser의 URL주소를 변경해라
+                location.href = this.dataset.uri;
+                //location.href="/question/delete/${question.id}";//질문삭제요청
+                //location.href="/answer/delete/${answer.id}";//답변삭제요청
+            };
+        });
+    });
+</script>
+</html>

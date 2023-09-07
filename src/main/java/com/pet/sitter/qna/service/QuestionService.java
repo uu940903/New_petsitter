@@ -109,6 +109,11 @@ public class QuestionService {
             question.increaseViewCount();
             questionRepository.save(question);
 
+            List<Answer> answerList = new ArrayList<>();
+            for(Answer answer : question.getAnswerList()){
+                answerList.add(answer);
+            }
+
             List<QuestionFile> fileList = new ArrayList<>(); // NoticeFile을 담을 리스트 선언
             for (QuestionFile questionFile : question.getQuestionList()) {
                 fileList.add(questionFile); // NoticeFile을 리스트에 추가
@@ -122,6 +127,7 @@ public class QuestionService {
                     .qnaViewCnt(question.getQnaViewCnt())
                     .member(question.getMember())
                     .questionList(fileList)
+                    .answerList(answerList)
                     .build();
             return questionDTO;
         }
@@ -139,7 +145,6 @@ public class QuestionService {
             question.setQnaDate(questionDTO.getQnaDate());
             question.setQnaTitle(questionDTO.getQnaTitle());
             question.setQnaContent(questionDTO.getQnaContent());
-            question.setQnaPw(questionDTO.getQnaPw());
             questionRepository.save(question);
 
             // 기존 파일 삭제
@@ -147,10 +152,12 @@ public class QuestionService {
             for (QuestionFile delete : filesToDelete) {
                 String filePath = delete.getQSavedPath();
                 File fileToDelete = new File(filePath);
+                System.out.println("ㅍㅍㅍㅍㅍㅍㅍㅍㅍㅍㅍ file: " + filePath);
                 if (fileToDelete.exists()) {
                     fileToDelete.delete();
                 }
             }
+
             // 기존 파일 정보 삭제
             question.getQuestionList().clear();
 
@@ -163,7 +170,7 @@ public class QuestionService {
 
                 QuestionFile questionFile = new QuestionFile();
 
-                String path = "C:/uploadfile/notice_img/";
+                String path = "C:/uploadfile/question_img/";
 
                 File directory = new File(path);
                 if (!directory.exists()) {
@@ -182,7 +189,6 @@ public class QuestionService {
                             .QOrgNm(originalFilename)
                             .QSavedNm(newFileName)
                             .QSavedPath(noSavedPath)
-                            .QcreateDate(LocalDate.now())
                             .build();
 
                     questionFile.setQuestion(question1);
