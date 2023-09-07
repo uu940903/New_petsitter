@@ -54,7 +54,7 @@ public class ChatRoomController {
 
         if (chatRoom != null) {
             model.addAttribute("roomId", roomId);
-            model.addAttribute("roomName", chatRoom.getPetSitter().getPetTitle());
+            model.addAttribute("roomName", chatRoom.getPetsitter().getPetTitle());
 
             return "/chat/roomdetail";
         } else {

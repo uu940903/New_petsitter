@@ -28,7 +28,7 @@ public class ChatRoomService {
 
     public ChatRoomDTO createChatRoom(Long id) {
         ChatRoom chatRoom = new ChatRoom();
-        chatRoom.setPetSitter(petsitterRepository.findBySitterNo(id));
+        chatRoom.setPetsitter(petsitterRepository.findBySitterNo(id));
         chatRoom.setRoomUUID(UUID.randomUUID().toString());
         chatRoom.setCreateDate(LocalDateTime.now());
         ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);

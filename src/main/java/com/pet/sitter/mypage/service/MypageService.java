@@ -1,11 +1,13 @@
 package com.pet.sitter.mypage.service;
 
+import com.pet.sitter.common.entity.Matching;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.common.entity.Question;
 import com.pet.sitter.exception.DataNotFoundException;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.member.dto.MemberDTO;
+import com.pet.sitter.mypage.dto.MatchingDTO;
 import com.pet.sitter.mypage.repository.MypageRepository;
 
 import com.pet.sitter.mypage.repository.MypageRepository2;

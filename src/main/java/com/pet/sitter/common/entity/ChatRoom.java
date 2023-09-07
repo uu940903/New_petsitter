@@ -29,7 +29,7 @@ public class ChatRoom {
 
     @ManyToOne
     @JoinColumn(name = "sitterNo", referencedColumnName = "sitterNo")
-    private Petsitter petSitter;
+    private Petsitter petsitter;
 
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.REMOVE)
     private List<ChatMessage> chatMessageList;
