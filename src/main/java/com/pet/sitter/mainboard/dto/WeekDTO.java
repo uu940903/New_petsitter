@@ -4,6 +4,8 @@ import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.common.entity.Week;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
