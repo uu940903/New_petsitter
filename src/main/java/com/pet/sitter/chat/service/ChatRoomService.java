@@ -1,9 +1,11 @@
 package com.pet.sitter.chat.service;
 
+import com.pet.sitter.chat.controller.ChatMessageController;
 import com.pet.sitter.chat.dto.ChatRoomDTO;
 import com.pet.sitter.chat.repository.ChatRoomRepository;
 import com.pet.sitter.common.entity.ChatRoom;
 import com.pet.sitter.mainboard.repository.PetsitterRepository;
+import com.pet.sitter.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,12 @@ public class ChatRoomService {
     private PetsitterRepository petsitterRepository;
 
     @Autowired
+    ChatMessageController chatMessageController;
+
+    @Autowired
+    MemberRepository memberRepository;
+
+    @Autowired
     public ChatRoomService(ChatRoomRepository chatRoomRepository) {
         this.chatRoomRepository = chatRoomRepository;
     }
@@ -29,9 +37,10 @@ public class ChatRoomService {
         return chatRoomRepository.findAll();
     }
 
-    public ChatRoomDTO createChatRoom(Long id) {
+    public ChatRoomDTO createChatRoom(Long id, String hostId, String guestId) {
         System.out.println("PetSitterId(Service): " + id);
         ChatRoom chatRoom = new ChatRoom();
+
         chatRoom.setPetsitter(petsitterRepository.findBySitterNo(id));
         System.out.println(chatRoom.getPetsitter().getPetTitle());
         chatRoom.setRoomUUID(UUID.randomUUID().toString());
@@ -39,6 +48,13 @@ public class ChatRoomService {
         chatRoom.setCreateDate(LocalDateTime.now());
         System.out.println(chatRoom.getCreateDate());
         ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
+        System.out.println(chatRoom.getId() + "번 채팅방 저장 성공");
+
+        System.out.println("HostId(RoomService): " + memberRepository.findMemberByMemberId(hostId).getId());
+        System.out.println("GuestId(RoomService): " + memberRepository.findMemberByMemberId(guestId).getId());
+
+        chatMessageController.enterMessage(chatRoom.getId(), hostId);
+        chatMessageController.enterMessage(chatRoom.getId(), guestId);
 
         return convertToChatRoomDTO(savedChatRoom);
     }

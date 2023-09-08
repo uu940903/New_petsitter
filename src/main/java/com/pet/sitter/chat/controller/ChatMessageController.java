@@ -16,4 +16,9 @@ public class ChatMessageController {
     public void message(ChatMessageDTO message) {
         chatMessageService.sendMessage(message);
     }
+
+    @MessageMapping("/chat/message/enter")
+    public void enterMessage(Long chatRoomId, String memberId) {
+        chatMessageService.enterMessage(chatRoomId, memberId);
+    }
 }

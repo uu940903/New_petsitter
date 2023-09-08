@@ -133,7 +133,9 @@
             });
             /*]]>*/
         </script>
-        <button class="btn btn-outline-dark btn-lg my-2" type="button" th:onclick="'createAndEnterRoom(\'' + ${petSitter.sitterNo} + '\');'">연락하기</button>
+        <button class="btn btn-outline-dark btn-lg my-2" type="button"
+                th:onclick="'createAndEnterRoom(\'' + ${petSitter.sitterNo} + '\');'">연락하기
+        </button>
         <!-- 이 버튼들도 임시로 여기 좀 두고가요 ....... -->
         <div class=""><a th:href="@{|/mainboard/modify/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2">수정하기</a>
         </div>
@@ -143,19 +145,23 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery 라이브러리 추가 -->
 
-<script>
+<script th:inline="javascript">
     $(document).ready(function () {
         window.createAndEnterRoom = function (petsitterId) {
+            var host = /*[[${petSitter.member.memberId}]]*/ 'hostId';
+            var guest = /*[[${#authentication.name}]]*/ 'guestId';
             console.log(petsitterId);
-            $.post('/chat/room', {petsitterNo: petsitterId}, function (response) {
+            $.post('/chat/room', {petsitterNo: petsitterId, host: host, guest: guest}, function (response) {
                 console.log('1차');
-                alert(response.roomUUID + "방 개설에 성공하였습니다.");
 
-                const sender = prompt('대화명을 입력해 주세요.');
+                alert(response.roomUUID + "방 개설에 성공하였습니다.");
+                console.log("Guest: " + guest);
                 if (sender !== "") {
-                    localStorage.setItem('sitter.sender', sender);
+                    localStorage.setItem('sitter.host', host);
+                    localStorage.setItem('sitter.guest', guest);
                     localStorage.setItem('sitter.roomId', response.roomId);
-                    location.href = "/chat/room/enter/" + response.roomUUID;
+                    localStorage.setItem('sitter.roomUUID', response.roomUUID);
+                    console.log(response.chatRoom + ": chatRoom");
                 }
 
             }).fail(function () {
