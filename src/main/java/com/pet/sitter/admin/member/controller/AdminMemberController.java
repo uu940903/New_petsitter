@@ -53,7 +53,7 @@ public class AdminMemberController {
         MemberDTO memberDTO = adminMemberService.getMemberDetail(id);
         adminMemberForm.setMemberId(memberDTO.getMemberId());
         adminMemberForm.setName(memberDTO.getName());
-        adminMemberForm.setNickname(memberDTO.getNickName());
+        adminMemberForm.setNickname(memberDTO.getNickname());
         adminMemberForm.setAddress(memberDTO.getAddress());
         adminMemberForm.setBirth(memberDTO.getBirth());
         adminMemberForm.setPhone(memberDTO.getPhone());
