@@ -3,7 +3,6 @@ package com.pet.sitter.admin.member.service;
 import com.pet.sitter.admin.exception.DataNotFoundException;
 import com.pet.sitter.admin.member.repository.AdminMemberRepository;
 import com.pet.sitter.common.entity.Member;
-import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.member.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
