@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title>MainBoardList</title>
+    <link rel="stylesheet" type="text/css" href="/mainboard/css/list.css" th:href="@{/mainboard/css/list.css}"/>
+    <link rel="stylesheet" type="text/css" href="/mainboard/css/bootstrap.min.css" th:href="@{/mainboard/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="wrap">
+    <h2>PetSitter</h2>
+    <div>${keyword}</div>
+
+    <!-- 글작성 버튼 임시로 여기 좀 둘게요 헤헤.......... -->
+    <!--<button><a sec:authorize="isAuthenticated()" th:href="@{/mainboard/write}">메인게시판 글작성</a></button>-->
+    <button><a th:href="@{/mainboard/write}">메인게시판 글작성</a></button>
+    <button><a th:href="@{/main}">임시메인페이지</a></button>
+    <form id="titleSearchForm" th:action="@{/mainboard/}" th:method="post">
+        <input type="search" placeholder="제목을 검색하세요." th:name="keyword">
+        <input type="submit" value="검색">
+    </form>
+    <div id="noting"></div>
+    <!-- 반복문 시작 -->
+    <div class="petSitterContainer" id="petSitterContainer">
+        <th:block th:each="petSitter, loop :${petSitterPage}" id="thBlock">
+            <a th:href="@{|/mainboard/detail/${petSitter.sitterNo}|}">
+                <div class="petSitterItem">
+                    <div class="thumbnail-crop" >
+                        <div th:if="${petSitter == null or (petSitter.fileDTOList == null or petSitter.fileDTOList.isEmpty())}">
+                            <img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/tem_img.png" />
+                        </div>
+                        <div th:if="${petSitter != null and (petSitter.fileDTOList != null and !petSitter.fileDTOList.isEmpty())}">
+                            <img class="thumbnail" alt="petSitter" id="user_thumbnail" th:src="@{|/image/mainboard/${petSitter.fileDTOList[0].newFileName}|}" />
+                        </div>
+                    </div>
+                </div>
+                <div th:text="${petSitter.petTitle}"></div>
+                <div th:data-sitterno="${petSitter.sitterNo}"></div>
+                <div th:text="${petSitter.petAddress}"></div>
+                <div th:if="${petSitter.price!=0}" th:text="${petSitter.price}"></div>
+                <div th:if="${petSitter.price==0}" th:text="협의가능"></div>
+            </a>
+        </th:block>
+    </div>
+</div>
+<!-- 반복문 끝 -->
+<div class="pagenations" id="pagenations" name="pagenations">
+    <div th:if="${!petSitterPage.isEmpty()}">
+        <ul class="pagination justify-content-center">
+            <!-- 이전 버튼 : 조건 충족시 노출 -->
+            <!-- 삼항 연산자 => 조건 ? true false -->
+            <li class="page-item" th:classappend="${!petSitterPage.hasPrevious} ? 'disabled'">
+                <!-- Page class의 hasPrevious() : 이전 페이지의 여부 / getNumber : 현재 페이지 번호-->
+                <a class="page-link" th:href="@{|?page=${petSitterPage.number-1}|}"><span>이전</span></a>
+            </li>
+            <!-- 페이지번호 : 반복& <a>태그 연결 & 부트스트랩 [1] [2] [3] ~ [10] -->
+            <!-- page : 반복변수명  / '?page=' : localhost:8090/question/list?page=페이지전호-->
+            <li class="page-item" th:each="page : ${#numbers.sequence(0,petSitterPage.totalPages-1)}" th:if="${page>=petSitterPage.number-3 and page<=petSitterPage.number+3}" th:classappend="${page==petSitterPage.number} ? 'active'">
+                <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page+1}"></a>
+            </li>
+            <!-- 다음 버튼 : 조건 충족시 노출 -->
+            <li class="page-item" th:classappend="${!petSitterPage.hasNext} ? 'disabled'">
+                <!-- Page class의 hasPrevious() : 이전 페이지의 여부 / getNumber : 현재 페이지 번호-->
+                <a class="page-link" th:href="@{|?page=${petSitterPage.number+1}|}"><span>다음</span></a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
