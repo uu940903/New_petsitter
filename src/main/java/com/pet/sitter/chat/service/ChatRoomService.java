@@ -66,7 +66,6 @@ public class ChatRoomService {
         ChatRoomDTO chatRoomDTO = new ChatRoomDTO();
         chatRoomDTO.setId(chatRoom.getId());
         chatRoomDTO.setRoomUUID(chatRoom.getRoomUUID());
-        chatRoomDTO.setName(chatRoom.getName());
         chatRoomDTO.setCreateDate(chatRoom.getCreateDate());
         System.out.println("chatRoomDTO_ID: " + chatRoomDTO.getId());
         return chatRoomDTO;

@@ -16,13 +16,16 @@ public class ChatMessageController {
 
     @MessageMapping("/chat/message")
     public void message(@Header("roomId") Long roomId, @Header("memberId") String memberId, @Payload ChatMessageDTO message) {
-        System.out.println("messageContent(Controller): " + message.getContent());
         chatMessageService.sendMessage(roomId, memberId, message);
     }
 
     @MessageMapping("/chat/message/enter")
     public void enterMessage(Long chatRoomId, String memberId) {
-        System.out.println("********1." + memberId + "********");
         chatMessageService.enterMessage(chatRoomId, memberId);
+    }
+
+    @MessageMapping("/chat/messages")
+    public void getMessageList(Long roomId) {
+        chatMessageService.getMessageListByRoomId(roomId);
     }
 }

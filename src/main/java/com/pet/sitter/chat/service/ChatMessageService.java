@@ -2,7 +2,6 @@ package com.pet.sitter.chat.service;
 
 import com.pet.sitter.chat.dto.ChatMessageDTO;
 import com.pet.sitter.chat.dto.ChatRoomDTO;
-import com.pet.sitter.chat.dto.MessageType;
 import com.pet.sitter.chat.repository.ChatMessageRepository;
 import com.pet.sitter.chat.repository.ChatRoomRepository;
 import com.pet.sitter.common.entity.ChatMessage;
@@ -17,6 +16,8 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -32,17 +33,12 @@ public class ChatMessageService {
 
         ChatRoom chatRoom = chatRoomRepository.findChatRoomById(chatRoomId);
         Member member = memberRepository.findMemberByMemberId(memberId);
-        System.out.println("testMemberId: " + member.getId());
-        System.out.println("********2." + member.getNickname() + "********");
         PetSitterDTO petSitterDTO = new PetSitterDTO(petsitterRepository.findBySitterNo(chatRoom.getPetsitter().getSitterNo()));
 
         ChatRoomDTO chatRoomDTO = new ChatRoomDTO(chatRoom, petSitterDTO);
         MemberDTO memberDTO = new MemberDTO(member);
-        System.out.println("testMemberId: " + memberDTO.getId());
-        System.out.println("********2." + memberDTO.getNickname() + "********");
         ChatMessageDTO message = new ChatMessageDTO();
 
-        message.setType(MessageType.ENTER);
         message.setChatRoom(chatRoomDTO);
         message.setSender(memberDTO);
         message.setContent(memberDTO.getNickname() + "님이 입장하셨습니다.");
@@ -53,11 +49,6 @@ public class ChatMessageService {
         chatMessage.setChatRoom(chatRoom);
         chatMessage.setSender(member);
         chatMessageRepository.save(chatMessage);
-
-        System.out.println(message.getContent());
-        System.out.println("MemberId: " + message.getSender().getId());
-        System.out.println(member);
-        System.out.println(memberDTO);
 
         messagingTemplate.convertAndSend("/sub/chat/room/enter" + chatRoom.getId(), message);
     }
@@ -85,4 +76,24 @@ public class ChatMessageService {
 
         messagingTemplate.convertAndSend("/sub/chat/room/" + chatRoom.getId(), message);
     }
+
+    public List<ChatMessageDTO> getMessageListByRoomId(Long roomId) {
+        List<ChatMessage> messageList = chatMessageRepository.findChatMessagesByChatRoom_Id(roomId);
+        return convertToDTOList(messageList);
+    }
+
+    public List<ChatMessageDTO> convertToDTOList(List<ChatMessage> messageList) {
+        List<ChatMessageDTO> messageListDTO = new ArrayList<>();
+        for (ChatMessage message : messageList) {
+            ChatMessageDTO messageDTO = new ChatMessageDTO();
+            messageDTO.setId(message.getId());
+            messageDTO.setContent(message.getContent());
+            messageDTO.setSender(new MemberDTO(message.getSender()));
+            messageDTO.setSendTime(message.getSendTime());
+
+            messageListDTO.add(messageDTO);
+        }
+        return messageListDTO;
+    }
+
 }
