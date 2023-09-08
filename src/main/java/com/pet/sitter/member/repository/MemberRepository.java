@@ -1,12 +1,16 @@
 package com.pet.sitter.member.repository;
 
 import com.pet.sitter.common.entity.Member;
+import com.pet.sitter.member.dto.MemberDTO;
+import jakarta.persistence.Id;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findBymemberId(String memberId);
+
+    Member findMemberByMemberId(String memberId);
 
     //중복가입
     boolean existsByMemberId(String memberId);

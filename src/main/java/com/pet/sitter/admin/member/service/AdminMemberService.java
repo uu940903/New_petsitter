@@ -33,7 +33,7 @@ public class AdminMemberService {
             memberDTO.setEMail(member.getEMail());
             memberDTO.setBirth(member.getBirth());
             memberDTO.setAddress(member.getAddress());
-            memberDTO.setNickName(member.getNickname());
+            memberDTO.setNickname(member.getNickname());
             memberDTO.setIsshow(member.getIsshow());
             return memberDTO;
         }).getContent();
@@ -53,7 +53,7 @@ public class AdminMemberService {
         memberDTO.setId(member.getId());
         memberDTO.setMemberId(member.getMemberId());
         memberDTO.setName(member.getName());
-        memberDTO.setNickName(member.getNickname());
+        memberDTO.setNickname(member.getNickname());
         memberDTO.setBirth(member.getBirth());
         memberDTO.setPhone(member.getPhone());
         memberDTO.setAddress(member.getAddress());

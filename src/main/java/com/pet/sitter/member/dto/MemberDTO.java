@@ -19,7 +19,7 @@ public class MemberDTO {
     private String address;
     private String detailaddress;
     private String zipcode;
-    private String nickName;
+    private String nickname;
     private String isshow;
 
     @Builder
@@ -34,7 +34,7 @@ public class MemberDTO {
         this.address = member.getAddress();
         this.detailaddress = member.getDetailaddress();
         this.zipcode = member.getZipcode();
-        this.nickName = member.getNickname();
+        this.nickname = member.getNickname();
         this.isshow = member.getIsshow();
     }
     //예시

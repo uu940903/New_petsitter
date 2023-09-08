@@ -12,7 +12,7 @@ public class ChatMessageDTO {
 
     private Long id;
     private MessageType type; // 메시지 타입
-    private ChatRoomDTO chatRoom; // 방번호
+    private ChatRoomDTO chatRoom; // 채팅방
     private MemberDTO sender; // 메시지 보낸사람
     private String content; // 메시지
 }

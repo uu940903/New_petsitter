@@ -23,6 +23,10 @@ public class ChatRoom {
     @NotNull
     private String roomUUID;
 
+    @Column
+    @NotNull
+    private String name;
+
     @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     @NotNull
     private LocalDateTime createDate;

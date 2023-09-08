@@ -43,18 +43,31 @@ public class ChatRoomController {
     // 채팅방 생성
     @PostMapping("/room")
     @ResponseBody
-    public ChatRoomDTO createRoom(@RequestParam("petSitterNo") Long id) {
-        return chatRoomService.createChatRoom(id);
+    public ChatRoomDTO createRoom(@RequestParam("petsitterNo") Long id, @RequestParam("host") String hostId, @RequestParam("guest") String guestId) {
+        System.out.println("PetSitterId(Controller): " + id);
+        System.out.println("HostId(Controller): " + hostId);
+        System.out.println("GuestId(Controller): " + guestId);
+
+        return chatRoomService.createChatRoom(id, hostId, guestId);
     }
 
     // 채팅방 입장 화면
-    @GetMapping("/room/enter/{roomId}")
-    public String roomDetail(Model model, @PathVariable Long roomId) {
-        ChatRoom chatRoom = chatRoomService.getChatRoomById(roomId);
+    @GetMapping("/room/enter/{roomUUID}")
+    public String roomDetail(Model model, @PathVariable String roomUUID) {
+        System.out.println("testUUID: " + roomUUID);
+        ChatRoom chatRoom = chatRoomService.getChatRoomByRoomUUID(roomUUID);
+        System.out.println("chatRoomInfo: " + chatRoom);
 
         if (chatRoom != null) {
-            model.addAttribute("roomId", roomId);
+            model.addAttribute("roomId", chatRoom.getId());
+            System.out.println(model.getAttribute("roomId"));
+            model.addAttribute("chatRoom", chatRoom);
+            System.out.println(model.getAttribute("chatRoom"));
+            model.addAttribute("roomUUID", roomUUID);
+            System.out.println(model.getAttribute("roomUUID"));
             model.addAttribute("roomName", chatRoom.getPetsitter().getPetTitle());
+            System.out.println(model.getAttribute("roomName"));
+            System.out.println("----------------model.attribute 설정 완료----------------");
 
             return "/chat/roomdetail";
         } else {
