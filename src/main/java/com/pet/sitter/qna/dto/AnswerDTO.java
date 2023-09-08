@@ -16,8 +16,8 @@ public class AnswerDTO {
 
     private Long id;
     private String content;
-    private LocalDateTime createdDate = LocalDateTime.now();
-    private LocalDateTime modifiedDate = LocalDateTime.now();
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
     private Question question;
     private Member member;
 

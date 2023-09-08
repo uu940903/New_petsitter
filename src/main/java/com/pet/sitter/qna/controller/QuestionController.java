@@ -6,6 +6,7 @@ import com.pet.sitter.member.service.MemberService;
 import com.pet.sitter.qna.dto.AnswerDTO;
 import com.pet.sitter.qna.dto.QuestionDTO;
 import com.pet.sitter.qna.service.QuestionService;
+import com.pet.sitter.qna.validation.AnswerForm;
 import com.pet.sitter.qna.validation.QuestionForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,14 +50,6 @@ public class QuestionController {
         return "redirect:/question/list";
     }
 
-//        Member member = questionDTO.getMember();
-//        if(member != null){
-//            member.getId();
-//        }
-//
-//        questionService.savePost(questionDTO);
-//        return "redirect:/question/list";
-//    }
 
     //question list 조회
     @GetMapping("/list")
@@ -69,7 +62,7 @@ public class QuestionController {
 
     //question 상세 조회
     @GetMapping("/detail/{qnaNo}")
-    public String detail(@PathVariable Long qnaNo, Model model, AnswerDTO answerDTO){
+    public String detail(@PathVariable Long qnaNo, Model model, AnswerForm answerForm){
         QuestionDTO questionDTO = questionService.detail(qnaNo);
         model.addAttribute("questionDTO",questionDTO);
         return "qna/QuestionDetail";
@@ -77,7 +70,7 @@ public class QuestionController {
 
     //question 게시글 수정폼
     @GetMapping("/edit/{qnaNo}")
-    public String edit(Model model,@PathVariable Long qnaNo){
+    public String edit(Model model,@PathVariable Long qnaNo,AnswerForm answerForm){
         QuestionDTO questionDTO = questionService.detail(qnaNo);
 
         model.addAttribute("questionDTO",questionDTO);
@@ -86,7 +79,7 @@ public class QuestionController {
 
     //question 게시글 수정
     @PostMapping ("/update")
-    public String update(Long qnaNo, @ModelAttribute QuestionDTO questionDTO,@RequestParam("file") MultipartFile[] newImageFiles) throws IOException {
+    public String update(Long qnaNo, @ModelAttribute QuestionDTO questionDTO,@RequestParam("file") MultipartFile[] newImageFiles,AnswerForm answerForm) throws IOException {
 
         questionService.update(qnaNo,questionDTO,newImageFiles);
         return "redirect:/question/list";
