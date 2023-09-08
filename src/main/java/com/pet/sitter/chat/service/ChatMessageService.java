@@ -29,19 +29,23 @@ public class ChatMessageService {
     private final SimpMessageSendingOperations messagingTemplate;
 
     public void enterMessage(Long chatRoomId, String memberId) {
+
         ChatRoom chatRoom = chatRoomRepository.findChatRoomById(chatRoomId);
         Member member = memberRepository.findMemberByMemberId(memberId);
+        System.out.println("testMemberId: " + member.getId());
+        System.out.println("********2." + member.getNickname() + "********");
         PetSitterDTO petSitterDTO = new PetSitterDTO(petsitterRepository.findBySitterNo(chatRoom.getPetsitter().getSitterNo()));
 
         ChatRoomDTO chatRoomDTO = new ChatRoomDTO(chatRoom, petSitterDTO);
-        System.out.println("MemberId: " + member.getId());
-        MemberDTO sender = new MemberDTO(member);
+        MemberDTO memberDTO = new MemberDTO(member);
+        System.out.println("testMemberId: " + memberDTO.getId());
+        System.out.println("********2." + memberDTO.getNickname() + "********");
         ChatMessageDTO message = new ChatMessageDTO();
 
         message.setType(MessageType.ENTER);
         message.setChatRoom(chatRoomDTO);
-        message.setSender(sender);
-        message.setContent(sender.getNickname() + "님이 입장하셨습니다.");
+        message.setSender(memberDTO);
+        message.setContent(memberDTO.getNickname() + "님이 입장하셨습니다.");
 
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setContent(message.getContent());
@@ -52,27 +56,31 @@ public class ChatMessageService {
 
         System.out.println(message.getContent());
         System.out.println("MemberId: " + message.getSender().getId());
+        System.out.println(member);
+        System.out.println(memberDTO);
 
-        messagingTemplate.convertAndSend("/sub/chat/room/" + chatRoom.getId(), message);
+        messagingTemplate.convertAndSend("/sub/chat/room/enter" + chatRoom.getId(), message);
     }
 
-    public void sendMessage(ChatMessageDTO message) {
-        ChatRoom chatRoom = chatRoomRepository.findChatRoomById(message.getChatRoom().getId());
-        Member sender = memberRepository.findByNickname(message.getSender().getNickname());
-        MemberDTO member = new MemberDTO(sender);
-        System.out.println(member.getMemberId() + "|" + member.getNickname());
+    public void sendMessage(Long roomId, String memberId, ChatMessageDTO message) {
+        System.out.println("----------------MessageService Access----------------");
+        System.out.println("chatRoomId: " + roomId);
+        System.out.println("chatContent: " + message.getContent());
+        ChatRoom chatRoom = chatRoomRepository.findChatRoomById(roomId);
+        System.out.println("Date: " + chatRoom.getCreateDate());
+        Member sender11 = memberRepository.findMemberByMemberId(memberId);
+        System.out.println("NickName: " + sender11.getNickname());
+        System.out.println("Member11: " + sender11);
+        MemberDTO member = new MemberDTO(sender11);
+
         message.setSender(member);
-
-
-        if (MessageType.ENTER.equals(message.getType())) {
-            message.setContent(sender.getNickname() + "님이 입장하셨습니다.");
-        }
 
         ChatMessage chatMessage = new ChatMessage();
         chatMessage.setContent(message.getContent());
         chatMessage.setSendTime(LocalDateTime.now());
         chatMessage.setChatRoom(chatRoom);
-        chatMessage.setSender(sender);
+        chatMessage.setSender(sender11);
+        System.out.println("Message Content: " + chatMessage.getContent());
         chatMessageRepository.save(chatMessage);
 
         messagingTemplate.convertAndSend("/sub/chat/room/" + chatRoom.getId(), message);

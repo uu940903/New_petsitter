@@ -31,37 +31,51 @@
 <!-- JavaScript -->
 <script src="/webjars/sockjs-client/1.5.1/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/2.3.4/stomp.min.js"></script>
-<script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:inline="javascript">
     var sock = new SockJS("/ws-stomp");
     var ws = Stomp.over(sock);
     var reconnect = 0;
 
     var roomId = localStorage.getItem('sitter.roomId');
-    var sender = localStorage.getItem('sitter.sender');
     var roomUUID = localStorage.getItem('sitter.roomUUID');
+    var sender = /*[[${#authentication.name}]]*/ 'senderId';
+    console.log(roomId);
+    console.log(roomUUID);
+    console.log(sender);
 
     function findRoom() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', '/chat/room/' + roomUUID);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                var room = JSON.parse(xhr.responseText);
-                document.querySelector("h2").innerText = room.name;
+        // AJAX를 사용하여 서버에서 채팅방 정보를 가져오기
+        $.ajax({
+            url: '/chat/room/enter/' + roomUUID,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                // 가져온 데이터를 사용하여 채팅방 이름 설정
+                $("h2").text(data.roomName);
             }
-        };
-        xhr.send();
+        });
     }
 
     function sendMessage() {
         var message = document.getElementById('messageInput').value;
-        ws.send("/pub/chat/message", {}, JSON.stringify({
-            type: 'TALK',
-            id: roomId,
-            sender: sender,
-            roomUUID: roomUUID,
-            message: message
-        }));
-        document.getElementById('messageInput').value = '';
+
+        // JSON 형식의 데이터를 생성
+        var headers = {
+            'roomId': this.roomId,
+            'memberId': this.sender
+        };
+        ws.send("/pub/chat/message", headers, JSON.stringify({type: 'TALK', content: message}));
+        console.log('메세지 송신 전' + sender);
+        // JSON.stringify를 사용하여 데이터를 문자열로 변환
+        var chatMessageJSON = JSON.stringify(chatMessage);
+
+        // WebSocket을 통해 메시지를 서버로 전송
+        ws.send("/pub/chat/message", {}, JSON.stringify(chatMessage));
+        console.log('메세지 송신 후' + sender);
+
+        // 입력 필드 초기화
+        this.message = '';
     }
 
     function recvMessage(recv) {
@@ -72,13 +86,13 @@
         messageList.insertBefore(listItem, messageList.firstChild);
     }
 
+
     function connect() {
         ws.connect({}, function (frame) {
-            ws.subscribe("/sub/chat/room/" + roomId, function (message) {
+            ws.subscribe("/sub/chat/room/enter", function (message) {
                 var recv = JSON.parse(message.body);
                 recvMessage(recv);
             });
-            ws.send("/pub/chat/message", {}, JSON.stringify({type: 'ENTER', id: roomId, roomUUID: roomUUID, sender: sender}));
         }, function (error) {
             if (reconnect++ <= 5) {
                 setTimeout(function () {
@@ -90,6 +104,7 @@
             }
         });
     }
+
 
     findRoom();
     connect();

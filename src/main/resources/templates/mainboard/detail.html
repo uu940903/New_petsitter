@@ -152,16 +152,14 @@
             var guest = /*[[${#authentication.name}]]*/ 'guestId';
             console.log(petsitterId);
             $.post('/chat/room', {petsitterNo: petsitterId, host: host, guest: guest}, function (response) {
-                console.log('1차');
 
                 alert(response.roomUUID + "방 개설에 성공하였습니다.");
-                console.log("Guest: " + guest);
-                if (sender !== "") {
-                    localStorage.setItem('sitter.host', host);
-                    localStorage.setItem('sitter.guest', guest);
-                    localStorage.setItem('sitter.roomId', response.roomId);
+                if (guest !== "" && host !== guest) {
+                    localStorage.setItem('sitter.hostId', host);
+                    localStorage.setItem('sitter.guestId', guest);
+                    localStorage.setItem('sitter.roomId', response.id);
                     localStorage.setItem('sitter.roomUUID', response.roomUUID);
-                    console.log(response.chatRoom + ": chatRoom");
+                    location.href = "/chat/room/enter/" + response.roomUUID;
                 }
 
             }).fail(function () {

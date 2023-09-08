@@ -1,6 +1,7 @@
 package com.pet.sitter.member.repository;
 
 import com.pet.sitter.common.entity.Member;
+import com.pet.sitter.member.dto.MemberDTO;
 import jakarta.persistence.Id;
 import org.springframework.data.jpa.repository.JpaRepository;
 

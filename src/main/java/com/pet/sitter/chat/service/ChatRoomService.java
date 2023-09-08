@@ -42,16 +42,11 @@ public class ChatRoomService {
         ChatRoom chatRoom = new ChatRoom();
 
         chatRoom.setPetsitter(petsitterRepository.findBySitterNo(id));
-        System.out.println(chatRoom.getPetsitter().getPetTitle());
         chatRoom.setRoomUUID(UUID.randomUUID().toString());
-        System.out.println(chatRoom.getRoomUUID());
+        chatRoom.setName(chatRoom.getPetsitter().getPetTitle() + " [" + memberRepository.findMemberByMemberId(guestId) + "]");
         chatRoom.setCreateDate(LocalDateTime.now());
-        System.out.println(chatRoom.getCreateDate());
         ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
         System.out.println(chatRoom.getId() + "번 채팅방 저장 성공");
-
-        System.out.println("HostId(RoomService): " + memberRepository.findMemberByMemberId(hostId).getId());
-        System.out.println("GuestId(RoomService): " + memberRepository.findMemberByMemberId(guestId).getId());
 
         chatMessageController.enterMessage(chatRoom.getId(), hostId);
         chatMessageController.enterMessage(chatRoom.getId(), guestId);
@@ -71,7 +66,9 @@ public class ChatRoomService {
         ChatRoomDTO chatRoomDTO = new ChatRoomDTO();
         chatRoomDTO.setId(chatRoom.getId());
         chatRoomDTO.setRoomUUID(chatRoom.getRoomUUID());
+        chatRoomDTO.setName(chatRoom.getName());
         chatRoomDTO.setCreateDate(chatRoom.getCreateDate());
+        System.out.println("chatRoomDTO_ID: " + chatRoomDTO.getId());
         return chatRoomDTO;
     }
 }
