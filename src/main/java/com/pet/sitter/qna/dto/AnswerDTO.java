@@ -8,8 +8,6 @@ import lombok.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @Getter
 @Setter
@@ -18,8 +16,8 @@ public class AnswerDTO {
 
     private Long id;
     private String content;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
+    private LocalDateTime createdDate = LocalDateTime.now();
+    private LocalDateTime modifiedDate = LocalDateTime.now();
     private Question question;
     private Member member;
 
@@ -34,5 +32,15 @@ public class AnswerDTO {
                 .member(member)
                 .build();
         return answer;
+    }
+
+    @Builder
+    public AnswerDTO(Long id,String content,LocalDateTime createdDate, LocalDateTime modifiedDate,Question question,Member member){
+        this.id=id;
+        this.content=content;
+        this.question=question;
+        this.createdDate=createdDate;
+        this.modifiedDate=modifiedDate;
+        this.member=member;
     }
 }

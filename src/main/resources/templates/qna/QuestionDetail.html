@@ -1,13 +1,13 @@
+
 <html layout:decorate="~{layout}" class="container my-3">
 <div layout:fragment="content">
-
-    <body class="container">
+    <div class="container">
     <h2>Q&A게시판</h2>
     <div class="row row1">
         <table class="table">
             <tr>
                 <th class="col-2 text-center warning">작성자</th>
-                <td class="col-4 text-center table-data" th:text="${questionDTO.member.nickname}"></td>
+                <td class="col-4 text-center table-data" th:text="${questionDTO.member.getNickname}"></td>
                 <th class="col-2 text-center warning">작성일</th>
                 <th class="col-4 text-center table-data"
                     th:text="${#temporals.format(questionDTO.qnaDate, 'yyyy-MM-dd HH:mm')}"></th>
@@ -24,14 +24,14 @@
                 <td class="col-10 text-left" colspan="3" th:text="${questionDTO.qnaTitle}"></td>
             </tr>
             <tr>
-                <td style="border: 0;">
-                        <!-- 파일네임을 명시해서 주소에 넘겨줌 -->
-                        <img th:each="questionfile, loop : ${questionDTO.getQuestionList()}"  th:src="@{|/image/${questionfile.QSavedNm}|}" width="300" height="300">
+                <td style="border: 0;  display:flex; justify-content:center;">
+                    <!-- 파일네임을 명시해서 주소에 넘겨줌 -->
+                    <img style="display: block; margin-left: auto; margin-right: auto;" th:each="questionfile, loop : ${questionDTO.questionList}" th:src="@{|/image/question/${questionfile.QSavedNm}|}" width="300" height="300">
                 </td>
             </tr>
             <tr>
                 <td colspan="4" class="text-left" valign="top" height="200">
-                    <pre style="white-space: pre-wrap; border:none;background-color: white;"
+                    <pre style="white-space: pre-wrap; border:none;background-color: white; text-align: center"
                          th:text="${questionDTO.qnaContent}"></pre>
                 </td>
             </tr>
@@ -40,61 +40,74 @@
         <div class="text-center">
             <div class="btn-group">
                 <div class="col">
-                    <a th:href="@{'/question/edit/'+${questionDTO.qnaNo}}">
-                        <button class="btn btn-dark">수정</button>
+                    <a th:href="@{'/question/edit/'+${questionDTO.qnaNo}}"
+                       sec:authorize="isAuthenticated()" th:if="${questionDTO.member.getNickname!=null and #authentication.getPrincipal().getNickname()==questionDTO.member.getNickname}">
+                        <button type="button" class="btn btn-dark" th:text="수정"></button>
                     </a>
-                </div>
-                <div class="col">
-                    <form th:action="@{'/question/delete/' + ${questionDTO.qnaNo}}" method="post">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <button type="submit" id="deleteBtn" class="btn btn-dark">삭제</button>
-                    </form>
-                </div>
-                <div>
+
+                    <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${questionDTO.qnaNo}|}" class="btn btn-dark delete" sec:authorize="isAuthenticated()" th:if="${questionDTO.member.getNickname!=null and #authentication.getPrincipal().getNickname()==questionDTO.member.getNickname}" th:text="삭제"></a>
+
                     <a th:href="@{'/question/list'}">
-                        <button class="btn btn-dark">목록</button>
+                        <button type="button" class="btn btn-dark my-4" th:text="목록"></button>
                     </a>
                 </div>
             </div>
         </div>
 
+
+            <div class="card" id="comments">
+                <div class="card-body">
+                    <!-- 댓글 작성 창 -->
+                    <form th:action="@{'/answer/add/' + ${questionDTO.qnaNo}}" method="post">
+                        <h6>댓글</h6><br/>
+                        <textarea sec:authorize="isAnonymous()" class="form-control" name="content" rows="1" readonly="readonly"></textarea>
+                        <textarea sec:authorize="isAuthenticated()" class="form-control" name="content" rows="1"></textarea>
+                        <button type="submit" class="btn btn-dark mb-2">확인</button>
+                    </form>
+
+
+                    <!--댓글리스트-->
+
+        </div>
+
     </div>
-    </body>
-    </form>
-</div>
+
+
+    <!-- 댓글목록 -->
+    <div class="card">
+        <div class="card-header">댓글 리스트</div>
+        <ul id="content--box" class="list-group">
+            <div th:each="answer:${questionDTO.getAnswerList()}">
+                <li id="content--1" class="list-group-item d-flex justify-content-between">
+                    <div th:text="${answer.content}">댓글</div>
+                    <div class="d-flex">
+                        <div class="font-monospace"> 관리자 &nbsp;</div>
+                        <div class="font-italic" th:text="${#temporals.format(answer.createdDate, 'yyyy-MM-dd HH:mm')}">작성시간 &nbsp;</div>
+                        <div class="my-3 d-flex justify-content-end">
+                            <!-- 답변 수정 - 로그인 해야지 수정 가능, 로그인한 유저가 글쓴이와 동일해야 함 -->
+                            <a th:href="@{|/answer/modify/${answer.id}|}" th:text="수정" ></a>
+                            <!-- 답변 삭제 -->
+<!--                            <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}" class="delete btn btn-dark btn-outline-secondary" sec:authorize="isAuthenticated()" th:if="${answer.member.nickname!=null and #authentication.getPrincipal().getNickname()==answer.member.nickname}" th:text="삭제" ></a>-->
+<!--                            &lt;!&ndash; 답변 수정 - 로그인 해야지 수정 가능, 로그인한 유저가 글쓴이와 동일해야 함 &ndash;&gt;-->
+<!--                            <a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-dark btn-outline-secondary" sec:authorize="isAuthenticated()" th:if="${answer.member.nickname!=null and #authentication.getPrincipal().getNickname()==answer.member.nickname}" th:text="수정" ></a>-->
+<!--                            &lt;!&ndash; 답변 삭제 &ndash;&gt;-->
+<!--                            <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}" class="delete btn btn-dark btn-outline-secondary" sec:authorize="isAuthenticated()" th:if="${answer.member.nickname!=null and #authentication.getPrincipal().getNickname()==answer.member.nickname}" th:text="삭제" ></a>-->
+                        </div>
+                    </div>
+                </li>
+            </div>
+        </ul>
+    </div>
+    </div>
 
 <!-- 답변 수 출력 -->
 <!--    <h5 th:text="|${#lists.size(questionDTO.answerList)}개의 답변이 있습니다.|">답변 수 출력</h5>-->
 <!-- 반복 : 답변 목록 시작 -->
 <!-- 댓글 입력 폼 -->
-<div>
-    <form th:action="@{'/answer/add/' + ${questionDTO.qnaNo}}" method="post">
-        <textarea name="content" rows="3" required></textarea>
-        <button type="submit">댓글 추가</button>
-    </form>
-</div>
 
-<br/>
-<!-- 댓글목록 -->
-<div class="card">
-    <div class="card-header">댓글 리스트</div>
-    <ul id="content--box" class="list-group">
-        <div th:each="answer:${questionDTO.answerList}">
-            <li id="content--1" class="list-group-item d-flex justify-content-between">
-                <div th:text="answer.content">댓글</div>
-                <div class="d-flex">
-                    <div class="font-monospace" th:text="${answer.member.nickname}">작성자 &nbsp;</div>
-                    <div class="font-italic">작성시간 &nbsp;</div>
-                    <button class="">수정</button>
-                    <button class="">삭제</button>
-                </div>
-            </li>
-        </div>
 
-    </ul>
 </div>
-</div>
-
+</html>
 <!-- 반복 : 답변 목록 끝 -->
 
 <!-- 댓글 내용 -->
@@ -106,5 +119,16 @@
 <!--        <textarea  th:field="*{content}" rows="8" class="form-control" ></textarea>-->
 <!--        <input type="submit" value="답변 등록" class="btn btn-primary my-2" id="subBtn" />-->
 <!--    </form>-->
-</div>
-</html>
+
+
+<script layout:fragment="script">
+    //(질문/답변)삭제 버튼 클릭시 호출되는 함수
+    const delElements = document.getElementsByClassName("delete");
+    Array.from(delElements).forEach(function(element){
+        element.addEventListener("click", function(){
+            if(confirm("삭제하시겠습니까?")){          //확인 버튼을 클릭하면
+                location.href=this.dataset.uri;                                       //click 이벤트가 발생한 a 요소의 uri 속성의 값("/question/delete/${question.id}")을 가져와 location 객체의 href 속성의 값으로 적용 => 현재 브라우저의 주소를 변경
+            }
+        });
+    });
+</script>

@@ -1,66 +1,104 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" th:href="@{/member/css/login.css}">
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
 </head>
 <body>
-<h1>회원가입</h1>
+<div class="container">
+<h1>SIGN UP</h1>
+<ul class="links">
+
+    <li>
+        <a href="/member/login" id="signin">SIGN IN</a>
+    </li>
+    <li>
+        <a th:href="@{/member/join}" id="signup">SIGN UP</a>
+    </li>
+</ul>
 <form th:action="@{/member/join}" th:object="${userCreateForm}" method="post">
-    <div th:if="${param.error}">
-        사용자 ID 어쩌구 저쩌구
+    <div class="first-input input__block signup-input__block">
+        <input class="fm" type="text" th:field="*{memberId}" id="memberId" name="memberId" placeholder="Id"></div>
+         <button class="btnidCheck" type="button" id="usernameOverlay" onclick="usernameCheck()" >중복체크</button>
+        <div class="err01" th:if="${#fields.hasErrors('memberId')}" th:errors="*{memberId}"></div>
+    <div class="input__block up">
+        <input type="text" th:field="*{name}" placeholder="Name"/>
+        <div class="err02" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
     </div>
-    <div th:if="${#fields.hasAnyErrors()}">
-        <div th:each="err: ${#fields.allErrors()}" th:text="${err}"></div>
+    <div class="input__block up">
+        <input type="text" th:field="*{nickname}" placeholder="NickName"/>
+        <div class="err03" th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}"></div>
     </div>
-    <div class="mb-3">
-        <label for="memberId" class="form-label">ID</label>
-        <input type="text" th:field="*{memberId}" class="form-control"/>
+    <div class="input__block up">
+        <input type="password" th:field="*{pw1}" placeholder="Password"/>
+        <div class="err04" th:if="${#fields.hasErrors('pw1')}" th:errors="*{pw1}"></div>
     </div>
-    <div class="mb-3">
-        <label for="name" class="form-label">이름</label>
-        <input type="text" th:field="*{name}" class="form-control"/>
+    <div class="input__block up">
+        <input type="password" th:field="*{pw2}" placeholder="Confirm Password"/>
+        <div class="err05" th:if="${#fields.hasErrors('pw2')}" th:errors="*{pw2}"></div>
     </div>
-    <div class="mb-3">
-        <label for="nickname" class="form-label">닉네임</label>
-        <input type="text" th:field="*{nickname}" class="form-control"/>
+    <div class="input__block up">
+        <input type="email" th:field="*{eMail}" placeholder="Email"/>
+        <div class="err06" th:if="${#fields.hasErrors('eMail')}" th:errors="*{eMail}"></div>
     </div>
-    <div class="mb-3">
-        <label for="pw1" class="form-label">비밀번호</label>
-        <input type="password" th:field="*{pw1}" class="form-control"/>
+    <div class="input__block up">
+        <input  type="text" th:field="*{zipcode}" placeholder="우편번호 찾기 클릭"/> </div>
+        <input class ="zipbtn" type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+        <div class="err07" th:if="${#fields.hasErrors('zipcode')}" th:errors="*{zipcode}"></div>
+
+    <div class="input__block last">
+        <input class="ztb" type="text" th:field="*{address}" placeholder="도로명주소를 입력하세요"/>
+        <div class="err08" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
     </div>
-    <div class="mb-3">
-        <label for="pw2" class="form-label">비번확인</label>
-        <input type="password" th:field="*{pw2}" class="form-control"/>
+    <div class="input__block last">
+        <input type="text" th:field="*{detailaddress}" placeholder="상세주소를 입력하세요"/>
+        <div class="err09" th:if="${#fields.hasErrors('detailaddress')}" th:errors="*{detailaddress}"></div>
     </div>
-    <div class="mb-3">
-        <label for="eMail" class="form-label">이메일</label>
-        <input type="email" th:field="*{eMail}" class="form-control"/>
+    <div class="input__block last">
+        <input type="text" id="birth" name="birth" placeholder="Date Of Birth"/>
+
+    <div class="dateSelect" id="dateSelect">
+        <div class="birth dropdown">
+            <select class="form-control" id="year" name="year">
+                <option value="">년(YY)</option>
+                <th:block th:each="a: ${#numbers.sequence(2001, 1900)}">
+                    <option th:value="${a}" th:text="${a}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="birth mx-1 dropdown">
+            <select class="form-control" id="month" name="month">
+                <option value="">월(mm)</option>
+                <th:block th:each="month: ${#numbers.listFormatInteger(#numbers.sequence(1, 12), 2)}">
+                    <option class="dropdown-item" th:value="${month}" th:text="${month}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="birth dropdown">
+            <select class="form-control" id="day" name="day">
+                <option value="">일(dd)</option>
+                <th:block th:each="day: ${#numbers.listFormatInteger(#numbers.sequence(1, 31), 2)}">
+                    <option class="dropdown-item" th:value="${day}" th:text="${day}"></option>
+                </th:block>
+            </select>
+        </div>
+        <span id="birth_check_msg"></span>
     </div>
-    <div class="mb-3">
-        <label for="zipcode" class="form-label">우편번호</label>
-        <input type="text" th:field="*{zipcode}" placeholder="우편번호를 입력하세요" class="form-control"/>
-        <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+        <div class="err09" th:if="${#fields.hasErrors('birth')}" th:errors="*{birth}"></div>
     </div>
-    <div class="mb-3">
-        <label for="address" class="form-label">도로명주소</label>
-        <input type="text" th:field="*{address}" placeholder="도로명주소를 입력하세요" class="form-control"/>
-    </div>
-    <div class="mb-3">
-        <label for="detailaddress" class="form-label">상세주소</label>
-        <input type="text" th:field="*{detailaddress}" placeholder="상세주소를 입력하세요" class="form-control"/>
-    </div>
-    <div class="mb-3">
-        <label for="birth" class="form-label">생년월일</label>
-        <input type="date" th:field="*{birth}" class="form-control"/>
-    </div>
-    <div class="mb-3">
-        <label for="phone" class="form-label">휴대번호</label>
-        <input type="text" th:field="*{phone}" class="form-control"/>
+    <div class="input__block last">
+        <input type="text" th:field="*{phone}" placeholder="Phone" />
+        <div class="err10" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
     </div>
 
-    <input type="submit" value="회원가입" class="btn"/>
+    <input class="signup__btn" type="submit" value="회원가입"/>
+</div>
 </form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </body>
 </html>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -112,4 +150,70 @@
             }
         }).open();
     }
+
+</script>
+<script>
+    function usernameCheck() {
+        const memberId = $("#memberId").val();
+        if (memberId == "") {
+            alert("아이디를 입력해주세요.");
+            $("#memberId").focus();
+            return false;
+        }
+        $.ajax({
+            type: "GET",
+            url: "/member/check",
+            data: {"memberId": memberId},
+            dataType: "JSON",
+            success: function (response) {
+                    alert(response.message);
+            },
+        });
+
+    }
+</script>
+
+<script type="text/javascript">
+    // 날짜 선택이 변경될 때마다 birth 필드 값을 업데이트
+    document.getElementById("year").addEventListener("change", updateBirthField);
+    document.getElementById("month").addEventListener("change", updateBirthField);
+    document.getElementById("day").addEventListener("change", updateBirthField);
+
+    function updateBirthField() {
+        var year = document.getElementById("year").value;
+        var month = document.getElementById("month").value;
+        var day = document.getElementById("day").value;
+        var birth = year + "-" + month + "-" + day;
+        document.getElementById("birth").value = birth;
+    }
+
+    $(document).ready(function(){
+        let signup = $(".links").find("li").find("#signup") ;
+        let first_input = $("form").find(".first-input");
+        let hidden_input = $("form").find(".input__block").find("#repeat__password");
+        let signin_btn  = $("form").find(".signin__btn");
+
+        //----------- sign up ---------------------
+        signup.on("click",function(e){
+            e.preventDefault();
+            $(this).parent().parent().siblings("h1").text("SIGN UP");
+            $(this).parent().css("opacity","1");
+            $(this).parent().siblings().css("opacity",".6");
+            first_input.removeClass("first-input__block").addClass("signup-input__block");
+            hidden_input.css({
+                "opacity" : "1",
+                "display" : "block"
+            });
+            signin_btn.text("Sign up");
+        });
+
+
+
+        //----------- reset ---------------------
+        reset.on("click",function(e){
+            e.preventDefault();
+            $(this).parent().parent().siblings("form")
+                .find(".input__block").find(".input").val("");
+        })
+    });
 </script>

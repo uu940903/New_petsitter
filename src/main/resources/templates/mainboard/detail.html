@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>PeSitterRead</title>
     <link rel="stylesheet" href="/mainboard/css/detail.css" th:href="@{/mainboard/css/detail.css}" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
@@ -48,6 +50,11 @@
         <div class="category_regDate">
             <span class="category" th:text="${petSitter.petCategory}"></span>&nbsp/&nbsp<span class="regDate" th:text="${#temporals.format(petSitter.petRegdate, 'yyyy-MM-dd HH:mm')}"></span>
         </div>
+        <div class="d-flex justify-content-end">
+            <a href="javascript:void(0);" th:data-uri="@{|/mainboard/incrementLikes/${petSitter.sitterNo}|}" class="recommend btn btn-sm btn-outline-secondary" th:text="|추천${petSitter.likeCnt}|">추천
+                <span class="badge rounded-pill bg-primary"></span>
+            </a>
+        </div>
         <div class="icon_content">
             <h3 class="content_title">정보</h3>
             <div class="icon" id="price"><img src="/mainboard/image/pay.png" /><span class="petPrice" th:if="${petSitter.price!=0}" th:text="${petSitter.price}"></span> <span class="petPrice" th:if="${petSitter.price==0}" th:text="협의"></span> </div>
@@ -56,8 +63,6 @@
             <div class="icon" id="time"><img src="/mainboard/image/time.png" />
                 <span class="startTime" th:if="${petSitter.startTime==null}" th:text="협의" ></span> <span class="startTime" th:if="${petSitter.startTime!=null}" th:text="${#temporals.format(petSitter.startTime, 'HH:00')+' ~ '}"></span>
                 <span class="endTime" th:if="${petSitter.endTime==null}" ></span> <span class="endTime" th:if="${petSitter.endTime!=null}" th:text="${#temporals.format(petSitter.endTime, 'HH:00')}"></span>
-                <span class="startTime" th:if="${petSitter.startTime==null}" th:text="협의" ></span> <span class="startTime" th:if="${petSitter.startTime!=null}" th:text="${#temporals.format(petSitter.startTime, 'HH:00')+'~'}"></span>
-                <span class="endTime"></span> <span class="endTime" th:if="${petSitter.endTime!=null}" th:text="${#temporals.format(petSitter.endTime, 'HH:00')}"></span>
             </div>
         </div>
         <h3 class="content_title">상세내용</h3>
@@ -108,13 +113,139 @@
             });
             /*]]>*/
         </script>
+        <div class="recommendContainer">
+            <div class="recommend">
+
+            </div>
+        </div>
         <div class="chatBtn"><a class="btn btn-outline-dark btn-lg my-2" href="#">연락하기</a></div>
         <!-- 이 버튼들도 임시로 여기 좀 두고가요 ....... -->
         <div class=""><a th:href="@{|/mainboard/modify/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2">수정하기</a></div>
-        <div class=""><a th:href="@{|/mainboard/delete/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2" href="#">삭제하기</a></div>s
+        <div class=""><a th:href="@{|/mainboard/delete/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2" href="#">삭제하기</a></div>
     </div>
 </div>
 <script src="/mainboard/js/slider.js"></script>
 <link rel="stylesheet" type="text/css" href="/mainboard/css/bootstrap.min.css" th:href="@{/mainboard/css/bootstrap.min.css}" />
+<script>
+    $(document).ready(function(){
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        $.ajax({
+            url : `/mainboard/search?pno=${pno}`,
+            type : "GET",
+            data : searchObj,
+            dataType: "json",
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function (data) {
+                console.log(data);
+                alert("성공 : " + data.content);
+                let searchRes = $("#petSitterContainer");
+                searchRes.empty();
+                var htmlList = "";
+
+                makePagination(data, pno, searchObj);
+
+                data.content.forEach(function (content){
+                    if (data.content.length === 0 || data.content.length === null) {
+                        htmlList += `<div>등록된 게시글이 없습니다.</div>`;
+                        $("#noting").html(htmlList);
+                    } else {
+                        htmlList += `<a href="/mainboard/detail/`+content.sitterNo+`">
+                                 <div class="petSitterItem">
+                                 <div class="thumbnail-crop" >
+                                 <div class="text-left">`;
+                        if(content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
+                            htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/tem_img.png" />`;
+                        } else {
+                            htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/`+content.fileDTOList[0].newFileName+`" />`;
+                        }
+                        htmlList += `</div>
+                                     </div>
+                                     </div>
+                                     <div>`+content.petTitle+`</div>`;
+                        htmlList += `<div>`+content.petAddress+`</div>`;
+                        if(content.price !== 0) {
+                            htmlList += `<div>`+content.price+`</div>`;
+                        } else {
+                            htmlList += `<div>협의가능</div>`;
+                        }
+                        htmlList += `</a>`;
+                    }
+                });
+                $("#petSitterContainer").html(htmlList);
+            },
+            error: function (jqXHR, textStatus) {
+                console.log("error:", textStatus);
+                alert("실패 : " + textStatus + jqXHR);
+            }
+        });
+    }
+
+    function makePagination(data, pno, searchObj) {
+        let totalPages = data.totalPages;       // 전체 페이지 수
+        let hasPrevious = !data.first;          // 이전 페이지 존재 여부
+        let hasNext = !data.last;               // 다음 페이지 존재 여부
+
+        console.log(searchObj);
+
+        let cur = data.number + 1;              // 현재 페이지 번호 (1-based)
+        let startPage = Math.floor((cur - 1) / 5) * 5 + 1;
+        let endPage = Math.min(startPage + 4, totalPages);
+
+        var row = "";
+
+        if(!data.empty){
+            row += `<ul class="pagination justify-content-center">`;
+            if(hasPrevious){
+                row += `<li class="page-item">`;
+                row += `<a class="page-link prev-page" data-pno="${cur - 1}"><span>이전</span></a></li>`;
+            } else {
+                row += `<li class="page-item disabled">`;
+                row += `<a class="page-link"><span>이전</span></a></li>`;
+            }
+            for(let i=startPage; i<=endPage; i++) {
+                if(i === cur){
+                    row += `<li class="page-item active"><a class="page-link page-nav" data-pno="${i - 1}">${i}</a></li>`;
+                }else{
+                    row += `<li><a class="page-link page-nav" data-pno="${i - 1}">${i}</a></li>`;
+                }
+
+            }
+            if(hasNext){
+                row += `<li class="page-item">`;
+                row += `<a class="page-link" data-pno="${cur}"><span>다음</span></a></li>`;
+            } else {
+                row += `<li class="page-item disabled">`;
+                row += `<a class="page-link"><span>다음</span></a></li>`;
+            }
+
+            row += `</ul>`;
+        }
+
+        $("#pagenations").html(row);
+
+        $(".prev-page").click(function() { search(searchObj, $(this).data('pno')); });
+        $(".next-page").click(function() { search(searchObj, $(this).data('pno')); });
+        $(".page-nav").click(function() { search(searchObj, $(this).data('pno')); });
+    }
+</script>
+<script>
+    //추천 버튼 클릭시 호출
+    const recElements = document.getElementsByClassName("recommend"); //클래스 이름
+    Array.from(recElements).forEach(function (element) {
+
+        element.addEventListener("click", function () {
+            if (confirm("추천하시겠습니까?")) { //confirm에서 확인 버튼을 누르면 true 값이 들어감
+                location.href = this.dataset.uri; //click 이벤트가 발생한 a요소의 data-uri 속성의 값을 가져와
+                                                  //location 객체의 href 속성의 값으로 적용해라 => 현재 browser의 주소를 변경해라
+                //location.href="/question/vote/${question.id}"; //삭제요청
+                //location.href="/answer/vote/${answer.id}"; //삭제요청
+
+            }
+        });
+    });
+</script>
 </body>
 </html>

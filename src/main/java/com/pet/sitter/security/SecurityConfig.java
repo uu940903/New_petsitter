@@ -28,7 +28,7 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-                .csrf().disable()
+                .csrf((csrf) -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/mainboard/list")))
                 .headers((headers) -> headers.addHeaderWriter(new XFrameOptionsHeaderWriter(
                         XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
                 .formLogin((formLogin) -> formLogin.loginPage("/member/login").loginProcessingUrl("/member/login").defaultSuccessUrl("/main"))

@@ -4,63 +4,63 @@
     <body class="container">
     <h2>공지게시판</h2>
     <form enctype="multipart/form-data">
-        <div class="row row1">
-            <table class="table">
-                <tr>
-                    <th class="col-2 text-center warning">작성자</th>
-                    <td class="col-4 text-center table-data">관리자</td>
-                    <th class="col-4 text-center warning">작성일</th>
-                    <th class="col-2 text-center table-data" th:text="${#temporals.format(noticeDTO.noDate, 'yyyy-MM-dd HH:mm')}"></th>
-                </tr>
-                <tr>
-                    <th class="col-2 text-center warning">조회수</th>
-                    <td class="col-4 text-center" th:text="${noticeDTO.getNoViewCnt()}"></td>
-                    <th class="col-2 text-center warning">첨부파일</th>
-                    <td class="col-4 text-center" th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}" th:text="${noticefile.noOrgNm}"></td>
-                </tr>
-                <tr>
-                    <th class="col-2 text-center warning">제목</th>
-                    <td class="col-10 text-left" colspan="3" th:text="${noticeDTO.noTitle}"></td>
-                </tr>
-                <tr>
-                    <td style="border: 0;">
-                        <!-- <form th:action="@{/detail/{noNo}}" enctype="multipart/form-data" method="get"> -->
+    <div class="row row1">
+        <table class="table">
+            <tr>
+                <th class="col-2 text-center warning">작성자</th>
+                <td class="col-4 text-center table-data">관리자</td>
+                <th class="col-4 text-center warning">작성일</th>
+                <th class="col-2 text-center table-data" th:text="${#temporals.format(noticeDTO.noDate, 'yyyy-MM-dd HH:mm')}"></th>
+            </tr>
+            <tr>
+                <th class="col-2 text-center warning">조회수</th>
+                <td class="col-4 text-center" th:text="${noticeDTO.getNoViewCnt()}"></td>
+                <th class="col-2 text-center warning">첨부파일</th>
+                <td class="col-4 text-center" th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}" th:text="${noticefile.noOrgNm}"></td>
+            </tr>
+            <tr>
+                <th class="col-2 text-center warning">제목</th>
+                <td class="col-10 text-left" colspan="3" th:text="${noticeDTO.noTitle}"></td>
+            </tr>
+            <tr>
+                <td style="border: 0;">
+                   <!-- <form th:action="@{/detail/{noNo}}" enctype="multipart/form-data" method="get"> -->
                         <!-- 파일네임을 명시해서 주소에 넘겨줌 -->
-                        <img th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}"  th:src="@{|/image/notice/${noticefile.noSavedNm}|}" width="300" height="300">
-                        <!-- <img th:src="| '/notice/detail/'${noticeFile.getNoSavedNm()}(filename=${noticeFile.getNoSavedNm()})|" width="150" height="150"> -->
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="4" class="text-left" valign="top" height="200">
+                        <img th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}"  th:src="@{|/image/${noticefile.noSavedNm}|}" width="300" height="300">
+                       <!-- <img th:src="| '/notice/detail/'${noticeFile.getNoSavedNm()}(filename=${noticeFile.getNoSavedNm()})|" width="150" height="150"> -->
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" class="text-left" valign="top" height="200">
                     <pre style="white-space: pre-wrap; border:none;background-color: white;"
                          th:text="${noticeDTO.noContent}"></pre>
-                    </td>
-                </tr>
+                </td>
+            </tr>
 
-            </table>
+        </table>
 
-            <div class="text-center">
-                <div class="btn-group">
-                    <div class="col">
-                        <a th:href="@{'/notice/edit/'+${noticeDTO.noNo}}">
-                            <button class="btn btn-dark">수정</button>
-                        </a>
-                    </div>
-                    <div class="col">
-                        <form th:action="@{'/notice/delete/' + ${noticeDTO.noNo}}" method="post">
-                            <input type="hidden" name="_method" value="delete"/>
-                            <button type="submit" id="deleteBtn" class="btn btn-dark">삭제</button>
-                        </form>
-                    </div>
-                    <div>
-                        <a th:href="@{'/notice/list'}" >
-                            <button class="btn btn-dark">목록</button>
-                        </a>
-                    </div>
+        <div class="text-center">
+            <div class="btn-group">
+                <div class="col">
+                    <a th:href="@{'/notice/edit/'+${noticeDTO.noNo}}">
+                        <button class="btn btn-dark">수정</button>
+                    </a>
+                </div>
+                <div class="col">
+                    <form th:action="@{'/notice/delete/' + ${noticeDTO.noNo}}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button type="submit" id="deleteBtn" class="btn btn-dark">삭제</button>
+                    </form>
+                </div>
+                <div>
+                    <a th:href="@{'/notice/list'}" >
+                        <button class="btn btn-dark">목록</button>
+                    </a>
                 </div>
             </div>
-
         </div>
+
+    </div>
     </form>
     </body>
     </form>

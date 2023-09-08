@@ -56,17 +56,23 @@ public class Petsitter {
     @Column
     private LocalDateTime endTime;
 
-    @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private Member member;
+    @Transient
+    private int startTimeHour;
+
+    @Transient
+    private int endTimeHour;
 
     @Column
     private String petAddress;
 
+    @ManyToOne
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private Member member;
+
     @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
     private List<PetsitterFile> petsitterFileList;
 
-    @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Week> weekList;
 
     @OneToOne(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
@@ -92,10 +98,17 @@ public class Petsitter {
         this.petAddress = petAddress;
     }
 
-
-
-    public boolean isPetsitterFileListEmpty () {
+    public boolean isPetsitterFileListEmpty() {
         return petsitterFileList == null || petsitterFileList.isEmpty();
     }
+
+
+   /*
+    @PostLoad
+    public void calculateHour() {
+        this.startTimeHour = this.startTime.getHour();
+        this.endTimeHour = this.endTime.getHour();
+    }
+    */
 
 }

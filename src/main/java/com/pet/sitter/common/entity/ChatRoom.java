@@ -10,34 +10,27 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class ChatRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String chatRoomNo;
+    private Long id;
+
+    @Column
+    @NotNull
+    private String roomUUID;
 
     @Column(columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     @NotNull
-    private LocalDateTime createdate;
+    private LocalDateTime createDate;
 
     @ManyToOne
-    @JoinColumn(name="sitterNo", referencedColumnName = "sitterNo")
+    @JoinColumn(name = "sitterNo", referencedColumnName = "sitterNo")
     private Petsitter petsitter;
 
-    @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private Member member;
-
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.REMOVE)
-    private List<ChatMessages> chatMessagesList;
-
-    @Builder
-    public ChatRoom(String chatRoomNo, LocalDateTime createdate, Petsitter petsitter, Member member, List<ChatMessages> chatMessagesList) {
-        this.chatRoomNo = chatRoomNo;
-        this.createdate = createdate;
-        this.petsitter = petsitter;
-        this.member = member;
-        this.chatMessagesList = chatMessagesList;
-    }
+    private List<ChatMessage> chatMessageList;
 }
