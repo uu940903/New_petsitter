@@ -10,6 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WeekId implements Serializable {
+
     private Long petsitter;
     private String day;
 }

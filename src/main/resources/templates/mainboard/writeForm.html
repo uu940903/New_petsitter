@@ -14,7 +14,8 @@
             <div th:each="err: ${#fields.allErrors()}" th:text="${err}"></div>
         </div>
         <div class="mb-3">
-            <input type="file" multiple="multiple" th:field="*{boardFile}" id="boardFile" name="boardFile">
+            <input type="file" multiple="multiple" th:field="*{boardFile}" id="boardFile" name="boardFile"
+                   onchange="readURL(this); checkExtension(this);" class="form-control">
             <img src="#" id="preview" style="width:150px;"/>
         </div>
         <div class="mb-3">
@@ -33,7 +34,13 @@
             <input type="text" th:field="*{price}" id="price" name="price">가격
         </div>
         <div class="mb-3">
-            <div>날짜<input type="text" th:field="*{day}" id="day" name="day"></div>
+            <div>월요일<input type="radio" th:field="*{day}" id="Mon" th:value="월" name="day"></div>
+            <div>화요일<input type="radio" th:field="*{day}" id="Tue" th:value="화" name="day"></div>
+            <div>수요일<input type="radio" th:field="*{day}" id="Wed" th:value="수" name="day"></div>
+            <div>목요일<input type="radio" th:field="*{day}" id="Thur" th:value="목" name="day"></div>
+            <div>금요일<input type="radio" th:field="*{day}" id="Fri" th:value="금" name="day"></div>
+            <div>토요일<input type="radio" th:field="*{day}" id="Sat" th:value="토" name="day"></div>
+            <div>일요일<input type="radio" th:field="*{day}" id="Sun" th:value="일" name="day"></div>
             <div>시작시간<input type="datetime-local" th:field="*{startTime}" id="startTime" name="startTime"></div>
             <div>끝시간<input type="datetime-local" th:field="*{endTime}" id="endTime" name="endTime"></div>
         </div>

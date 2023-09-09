@@ -36,8 +36,7 @@ public class PetsitterFile {
     private Petsitter petsitter;
 
     @Builder
-
-    public PetsitterFile(Long fileNo, String originFileName, String newFileName, String filePath, String type, Petsitter petsitter, Integer fileSize) {
+    public PetsitterFile(Long fileNo, String originFileName, String newFileName, String filePath, String type, Petsitter petsitter,Integer fileSize) {
         this.fileNo = fileNo;
         this.originFileName = originFileName;
         this.newFileName = newFileName;

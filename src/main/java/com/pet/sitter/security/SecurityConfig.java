@@ -9,12 +9,11 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
 
 @RequiredArgsConstructor
 @Configuration//스프링의 환경설정 파일임을 공지
@@ -29,8 +28,7 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-/*                .csrf((csrf) -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/mainboard/list")))*/
-/*                .csrf().disable()*/
+                .csrf((csrf) -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/mainboard/list")))
                 .headers((headers) -> headers.addHeaderWriter(new XFrameOptionsHeaderWriter(
                         XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
                 .formLogin((formLogin) -> formLogin.loginPage("/member/login").loginProcessingUrl("/member/login").defaultSuccessUrl("/main"))

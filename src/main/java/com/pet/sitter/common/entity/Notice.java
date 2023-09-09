@@ -1,7 +1,6 @@
 package com.pet.sitter.common.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
@@ -23,18 +22,15 @@ public class Notice {
     private Long noNo;
 
     @Column(length = 45)
-    @NotNull
     private String noTitle;
 
     @Column(columnDefinition = "text")
-    @NotNull
     private String noContent;
 
     @Column
     private LocalDateTime noDate =LocalDateTime.now();
 
     @Column
-    @NotNull
     @ColumnDefault("0")
     private Integer noViewCnt;
 

@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Petsitter {
 
     @Id
@@ -55,12 +56,6 @@ public class Petsitter {
     @Column
     private LocalDateTime endTime;
 
-    @Transient
-    private int startTimeHour;
-
-    @Transient
-    private int endTimeHour;
-
     @Column
     private String petAddress;
 
@@ -68,23 +63,20 @@ public class Petsitter {
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Member member;
 
-    @Column
-    private String petAddress;
-
     @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
     private List<PetsitterFile> petsitterFileList;
 
-    @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Week> weekList;
 
+    /*
     @OneToOne(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
     private Matching matching;
-
+*/
     @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
     private List<ChatRoom> chatRoomList;
 
     @Builder
-    public Petsitter(Long sitterNo, String petTitle, String petContent, String category, LocalDateTime petRegdate, Integer petViewCnt, Integer likeCnt, Integer price, String petCategory, LocalDateTime startTime, LocalDateTime endTime, String petAddress, Member member) {
     public Petsitter(Long sitterNo, String petTitle, String petContent, String category, LocalDateTime petRegdate, Integer petViewCnt, Integer likeCnt, Integer price, String petCategory, LocalDateTime startTime, LocalDateTime endTime, Member member, String petAddress) {
         this.sitterNo = sitterNo;
         this.petTitle = petTitle;
@@ -97,7 +89,6 @@ public class Petsitter {
         this.petCategory = petCategory;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.petAddress = petAddress;
         this.member = member;
         this.petAddress = petAddress;
     }
@@ -106,11 +97,4 @@ public class Petsitter {
         return petsitterFileList == null || petsitterFileList.isEmpty();
     }
 
-    /*
-    @PostLoad
-    public void calculateHour() {
-        this.startTimeHour = this.startTime.getHour();
-        this.endTimeHour = this.endTime.getHour();
-    }
-     */
 }

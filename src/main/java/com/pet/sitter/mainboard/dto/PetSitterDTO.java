@@ -40,6 +40,7 @@ public class PetSitterDTO {
     private List<Integer> fileSize;
     private int fileAttached;
 
+
     @Builder
     public PetSitterDTO(Petsitter petsitter) {
         this.sitterNo = petsitter.getSitterNo();
@@ -51,7 +52,6 @@ public class PetSitterDTO {
         this.price = petsitter.getPrice();
         this.petAddress = petsitter.getPetAddress();
         this.petCategory = petsitter.getPetCategory();
-        this.petAddress = petsitter.getPetAddress();
         this.petRegdate = petsitter.getPetRegdate();
         this.startTime = petsitter.getStartTime();
         this.endTime = petsitter.getEndTime();
@@ -89,7 +89,6 @@ public class PetSitterDTO {
                 .likeCnt(this.likeCnt)
                 .price(this.price)
                 .petCategory(this.petCategory)
-                .petAddress(this.petAddress)
                 .startTime(this.startTime)
                 .endTime(this.endTime)
                 .petAddress(this.petAddress)
@@ -102,7 +101,7 @@ public class PetSitterDTO {
         petsitter.setPetTitle(petSitterDTO.getPetTitle());
         petsitter.setCategory(petSitterDTO.getCategory());
         petsitter.setPetCategory(petSitterDTO.getPetCategory());
-        petsitter.setPrice(petSitterDTO.getPrice());
+        petsitter.setPrice(petSitterDTO.price);
         petsitter.setWeekList(petSitterDTO.toEntity().getWeekList());
         petsitter.setPetAddress(petSitterDTO.getPetAddress());
         petsitter.setStartTime(petSitterDTO.getStartTime());
