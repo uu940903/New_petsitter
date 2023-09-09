@@ -6,8 +6,9 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>PeSitterRead</title>
-    <link rel="stylesheet" href="/mainboard/css/detail.css" th:href="@{/mainboard/css/detail.css}" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/mainboard/css/detail.css" th:href="@{/mainboard/css/detail.css}"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+          integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
 </head>
 <body>
 <div class="wrap" style="width:800px; height:50%;">
@@ -110,15 +111,56 @@
         </script>
         <div class="recommendContainer" id="recommendContainer">
             <div class="recommend" id="recommend">
-<!-- 추천 -->
+                <!-- 추천 -->
             </div>
         </div>
-        <div class="chatBtn"><a class="btn btn-outline-dark btn-lg my-2" href="#">연락하기</a></div>
-        <!-- 이 버튼들도 임시로 여기 좀 두고가요 ....... -->
-        <div class=""><a th:href="@{|/mainboard/modify/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2">수정하기</a></div>
-        <div class=""><a th:href="@{|/mainboard/delete/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2" href="#">삭제하기</a></div>
+        <button class="btn btn-outline-dark btn-lg my-2" type="button"
+                th:onclick="'createAndEnterRoom(\'' + ${petSitter.sitterNo} + '\');'">연락하기
+        </button>        <!-- 이 버튼들도 임시로 여기 좀 두고가요 ....... -->
+        <div class=""><a th:href="@{|/mainboard/modify/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2">수정하기</a>
+        </div>
+        <div class=""><a th:href="@{|/mainboard/delete/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2" href="#">삭제하기</a>
+        </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        window.createAndEnterRoom = function (petsitterId) {
+            var host = /*[[${petSitter.member.memberId}]]*/ 'hostId';
+            var guest = /*[[${#authentication.name}]]*/ 'guestId';
+            console.log(petsitterId);
+
+            // CSRF 토큰 가져오기
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+
+            // AJAX 요청 설정
+            $.ajax({
+                url: '/chat/room',
+                type: 'POST',
+                data: { petsitterNo: petsitterId, host: host, guest: guest },
+                beforeSend: function (xhr) {
+                    // 요청 헤더에 CSRF 토큰 추가
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (response) {
+                    alert(response.roomUUID + "방 개설에 성공하였습니다.");
+                    if (guest !== "" && host !== guest) {
+                        localStorage.setItem('sitter.hostId', host);
+                        localStorage.setItem('sitter.guestId', guest);
+                        localStorage.setItem('sitter.roomId', response.id);
+                        localStorage.setItem('sitter.roomUUID', response.roomUUID);
+                        location.href = "/chat/room/enter/" + response.roomUUID;
+                    }
+                },
+                error: function () {
+                    alert("채팅방 개설에 실패하였습니다.");
+                }
+            });
+        }
+    });
+</script>
 <script src="/mainboard/js/slider.js"></script>
 <!--<link rel="stylesheet" type="text/css" href="/mainboard/css/bootstrap.min.css" th:href="@{/mainboard/css/bootstrap.min.css}" />-->
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>

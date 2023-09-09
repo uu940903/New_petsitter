@@ -23,21 +23,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.rmi.AccessException;
-import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -254,20 +248,78 @@ public class MainBoardService {
 
     //혜지시작
     //AreaSearch 테이블에 먼저 insert
-   /* public WeekDTO insertWeek (WeekDTO weekDTO) {
+  public WeekDTO insertWeek (WeekDTO weekDTO) {
         logger.info("MainBoardService-insertWeek()진입");
 
-        Week week = Week.dtoToEntity(weekDTO);
-        logger.info("MainBoardService-insertWeek() week: {}", week.getPetsitter());
-        logger.info("MainBoardService-insertWeek() week: {}", week.getDay());
+        List<String> dayList = new ArrayList<>();
+        int startTimeHour = 0;
+        int endTimeHour = 0;
 
-        weekRepository.save(week);
+        switch (day) {
+            case "weekday":
+                dayList.add("월");
+                dayList.add("화");
+                dayList.add("수");
+                dayList.add("목");
+                dayList.add("금");
+                break;
+            case "weekend":
+                dayList.add("토");
+                dayList.add("일");
+                break;
+            case "allDay":
+                dayList = null;
+                break;
+        }
 
-        logger.info("MainBoardService-insertWeek()종료");
-        return weekDTO;
-    }*/
+        switch (timeStr) {
+            case "dawn" -> {
+                startTimeHour = 0;
+                endTimeHour = 5;
+            }
+            case "morning" -> {
+                startTimeHour = 6;
+                endTimeHour = 11;
+            }
+            case "afternoon" -> {
+                startTimeHour = 12;
+                endTimeHour = 17;
+            }
+            case "midnight" -> {
+                startTimeHour = 18;
+                endTimeHour = 23;
+            }
+            case "allTime" -> {
+            }
+        }
 
-    //Petsitter 테이블 insert / 글작성
+        System.out.println("값 확인 : "+category+", "+petCategory+", "+petAddress+", "+dayList+", "+startTimeHour+", "+endTimeHour);
+
+        Page<Petsitter> petsitterPage = petsitterRepository.findAll(PetsitterSpec.searchWith(category, petCategory, petAddress, dayList, startTimeHour, endTimeHour), pageable);
+        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
+            PetSitterDTO petSitterDTO = PetSitterDTO.builder().petsitter(petsitter).build();
+            List<PetSitterFileDTO> petSitterFileDTOList = petsitter.getPetsitterFileList().stream()
+                    .map(petsitterFile -> PetSitterFileDTO.builder()
+                            .petsitterFile(petsitterFile)
+                            .build())
+                    .collect(Collectors.toList());
+            petSitterDTO.setFileDTOList(petSitterFileDTOList);
+            List<WeekDTO> weekDTOList = petsitter.getWeekList().stream()
+                    .map(week -> WeekDTO.builder()
+                            .week(week)
+                            .build())
+                    .collect(Collectors.toList());
+            petSitterDTO.setWeekDTOList(weekDTOList);
+            return petSitterDTO;
+        });
+        System.out.println();
+        return petSitterDTOPage;
+    }
+
+
+
+
+    //글작성
     public void write(PetSitterDTO petSitterDTO, String id, MultipartFile[] boardFile) throws IOException {
         logger.info("MainBoardService-write()진입");
 
@@ -290,7 +342,6 @@ public class MainBoardService {
 
         petSitterDTO.setPetAddress(petAddress);
 
-
         // id 정보 담아주고, MySQL에서 기본값 설정이 JPA에선 안먹어서 다시 설정해줌
         logger.info("Member 정보 : {}", member);
         Petsitter petsitter = petSitterDTO.toEntity();
@@ -304,62 +355,37 @@ public class MainBoardService {
         }
 
 
-        Long saveId = petsitterRepository.save(petsitter).getSitterNo(); //현재 입력한 글번호를 받아오는 코드
+        Long saveId = petsitterRepository.save(petsitter).getSitterNo();
         Petsitter board = petsitterRepository.findById(saveId).get();
 
-
-       // Week 엔티티 생성 및 연결
-        Week week = new Week();
-        week.setPetsitter(petsitter);
-        week.setDay("수"); // 예시로 월요일 설정, 필요한 요일로 변경 가능
-
+        // 요일 데이터 저장 로직
         List<Week> weekList = new ArrayList<>();
-        weekList.add(week);
-        petsitter.setWeekList(weekList);
-
-        // Week 엔티티를 저장
-        weekRepository.save(week);
-
-
+        for (WeekDTO weekDTO : petSitterDTO.getWeekDTOList()) {
+            Week week = new Week();
+            week.setPetsitter(board);
+            week.setDay(weekDTO.getDay());
+            weekList.add(week);
+            weekRepository.save(week);
+        }
 
         if (boardFile[0].isEmpty()) { //파일이 없을 때
             petsitterRepository.save(petsitter);
         } else { //파일이 있을 때
-
-            // 첨부 파일 있음.
-            /*
-                1. DTO에 담긴 파일을 꺼냄
-                2. 파일의 이름 가져옴
-                3. 서버 저장용 이름을 만듦
-                // 내사진.jpg => 839798375892_내사진.jpg
-                4. 저장 경로 설정
-                5. 해당 경로에 파일 저장
-                6. board_table에 해당 데이터 save 처리
-                7. board_file_table에 해당 데이터 save 처리
-            */
-
-/*            Long saveId = petsitterRepository.save(petsitter).getSitterNo(); //현재 입력한 글번호를 받아오는 코드
-            Petsitter board = petsitterRepository.findById(saveId).get();*/
-
-            //Petsitter 구한 번호를 PetsitterFile이랑 연결시켜줘야지
-
-
             PetsitterFile petsitterFile = new PetsitterFile();
 
             String uploadDirectory = "C:/uploadfile/petsitter_img/";
             File directory = new File(uploadDirectory);
             if (!directory.exists()) {
-                directory.mkdirs(); // 폴더를 생성합니다.
+                directory.mkdirs();
             }
 
-            for (MultipartFile files : boardFile) { //1.
-                String originFileName = files.getOriginalFilename(); // 2.
-                String newFileName = System.currentTimeMillis() + "_" + originFileName; // 3.
-                String filePath = uploadDirectory + newFileName; // 4. C:/petsitter_img/9802398403948_내사진.jpg
+            for (MultipartFile files : boardFile) {
+                String originFileName = files.getOriginalFilename();
+                String newFileName = System.currentTimeMillis() + "_" + originFileName;
+                String filePath = uploadDirectory + newFileName;
                 String type = files.getContentType();
                 Integer fileSize = Long.valueOf(files.getSize()).intValue();
-//            String savePath = "/Users/사용자이름/springboot_img/" + storedFileName; // C:/springboot_img/9802398403948_내사진.jpg
-                files.transferTo(new File(filePath)); // 5.
+                files.transferTo(new File(filePath));
 
                 petsitterFile = PetsitterFile.builder()
                         .originFileName(originFileName)
@@ -370,8 +396,6 @@ public class MainBoardService {
                         .build();
 
                 petsitterFile.setPetsitter(board);
-
-                //petsitterFileRepository.save(petsitterFile).setFileNo(saveId); //펫시터파일 테이블에 내가 작성한(메인게시글) 글번호를 넣겠다
                 petsitterFileRepository.save(petsitterFile);
             }
             petsitterRepository.save(petsitter);
@@ -437,9 +461,6 @@ public class MainBoardService {
             Long saveId = petsitterRepository.save(petsitter).getSitterNo(); //현재 입력한 글번호를 받아오는 코드
             Petsitter board = petsitterRepository.findById(saveId).get();
 
-            //Petsitter 구한 번호를 PetsitterFile이랑 연결시켜줘야지
-
-
             petsitterFile = new PetsitterFile();
 
             String uploadDirectory = "C:/uploadfile/petsitter_img/";
@@ -450,14 +471,13 @@ public class MainBoardService {
                 directory.mkdirs(); // 폴더를 생성합니다.
             }
 
-            for (MultipartFile files : boardFile) { //1.
-                String originFileName = files.getOriginalFilename(); // 2.
-                String newFileName = System.currentTimeMillis() + "_" + originFileName; // 3.
-                String filePath = uploadDirectory + newFileName; // 4. C:/petsitter_img/9802398403948_내사진.jpg
+            for (MultipartFile files : boardFile) {
+                String originFileName = files.getOriginalFilename();
+                String newFileName = System.currentTimeMillis() + "_" + originFileName;
+                String filePath = uploadDirectory + newFileName;
                 String type = files.getContentType();
                 Integer fileSize = Long.valueOf(files.getSize()).intValue();
-//            String savePath = "/Users/사용자이름/springboot_img/" + storedFileName; // C:/springboot_img/9802398403948_내사진.jpg
-                files.transferTo(new File(filePath)); // 5.
+                files.transferTo(new File(filePath));
 
                 petsitterFile = PetsitterFile.builder()
                         .originFileName(originFileName)
@@ -469,7 +489,6 @@ public class MainBoardService {
 
                 petsitterFile.setPetsitter(board);
 
-                //petsitterFileRepository.save(petsitterFile).setFileNo(saveId); //펫시터파일 테이블에 내가 작성한(메인게시글) 글번호를 넣겠다
                 petsitterFileRepository.save(petsitterFile);
             }
             //petsitterRepository.save(petsitter);
@@ -501,6 +520,44 @@ public class MainBoardService {
         petsitterRepository.delete(existingPost);
     }
 
+    @Transactional
+    //게시글 조회수 증가
+    public int updateViews (Long no) {
+        return petsitterRepository.updateViews(no);
+    }
 
+    @Transactional
+    //추천수 증가
+    public int incrementLikes (Long no) {
+        return petsitterRepository.updateLike(no);
+    }
+
+
+    @Transactional
+    public Page<PetSitterDTO> titleSearch(String keyword,int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+
+        sorts.add(Sort.Order.desc("petRegdate"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+
+        Page<Petsitter> titleSearchPage  = petsitterRepository.findByPetTitleContaining(pageable,keyword);
+        Page<PetSitterDTO> petSitterDTOPage = titleSearchPage.map(petsitter -> {
+            PetSitterDTO petSitterDTO = PetSitterDTO.builder().petsitter(petsitter).build();
+            List<PetSitterFileDTO> petSitterFileDTOList = petsitter.getPetsitterFileList().stream()
+                    .map(petsitterFile -> PetSitterFileDTO.builder()
+                            .petsitterFile(petsitterFile)
+                            .build())
+                    .collect(Collectors.toList());
+            petSitterDTO.setFileDTOList(petSitterFileDTOList);
+            List<WeekDTO> weekDTOList = petsitter.getWeekList().stream()
+                    .map(week -> WeekDTO.builder()
+                            .week(week)
+                            .build())
+                    .collect(Collectors.toList());
+            petSitterDTO.setWeekDTOList(weekDTOList);
+            return petSitterDTO;
+        });
+        return petSitterDTOPage;
+    }
 }
 

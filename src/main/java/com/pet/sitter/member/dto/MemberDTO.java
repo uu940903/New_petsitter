@@ -37,36 +37,6 @@ public class MemberDTO {
         this.nickname = member.getNickname();
         this.isshow = member.getIsshow();
     }
-
-
-    public Member toEntity(){
-        return Member.builder()
-                .id(this.id)
-                .memberId(this.memberId)
-                .pw(this.pw)
-                .name(this.name)
-                .phone(this.phone)
-                .eMail(this.eMail)
-                .birth(this.birth)
-                .address(this.address)
-                .nickname(this.nickname)
-                .isshow(this.isshow)
-                .build();
-    }
-
-    public static MemberDTO toMemberDTO(Member member) {
-        MemberDTO memberDTO = new MemberDTO();
-        memberDTO.setId(member.getId());
-        memberDTO.setMemberId(member.getMemberId());
-        memberDTO.setBirth(member.getBirth());
-        memberDTO.setAddress(member.getAddress());
-        memberDTO.setPw(member.getPw());
-        memberDTO.setDetailaddress(member.getDetailaddress());
-        memberDTO.setZipcode(member.getZipcode());
-        memberDTO.setName(member.getName());
-        memberDTO.setEMail(member.getEMail());
-        memberDTO.setNickname(member.getNickname());
-        memberDTO.setPhone(member.getPhone());
-        return memberDTO;
-    }
+    //예시
+    //MemberDTO memberDTO = new MemeberDTO(member);
 }

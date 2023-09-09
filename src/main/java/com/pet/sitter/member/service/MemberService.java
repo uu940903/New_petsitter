@@ -4,6 +4,7 @@ import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.exception.DataNotFoundException;
 import com.pet.sitter.member.repository.MemberRepository;
 import com.pet.sitter.member.validation.UserCreateForm;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,14 +39,60 @@ public class MemberService {
         memberRepository.save(member);
         return member;
     }
-    //user정보조회
-    public Member getUser(String memberId) {
-        Optional<Member> member2 = memberRepository.findBymemberId(memberId);
-        if(member2.isPresent()) {
-            return member2.get();
-        }else {
-            throw new DataNotFoundException("siteUser NOT FOUND");
+    //email 중복 검사
+    @Transactional
+    public boolean existsByMemberId(String memberId){
+        return memberRepository.existsByMemberId(memberId);
+    }
+
+//    //user정보조회
+//    public MemberDTO getUser(MemberDTO memberDTO) {
+//        Optional<Member> member2 = memberRepository.findBymemberId(memberDTO.getMemberId());
+//        if(member2.isPresent()) {
+//            Member member = member2.get();
+//            return MemberDTO.toMemberDTO(member);
+//        }else {
+//            throw new DataNotFoundException("member NOT FOUND");
+//        }
+//    }
+//
+public Member getUser(String username){
+    Optional<Member> optionalSiteUser = memberRepository.findBymemberId(username);
+    if(optionalSiteUser.isPresent()){
+        Member user = optionalSiteUser.get();
+        return user;
+    } else {
+        throw new DataNotFoundException("회원이 존재하지 않습니다.");
+    }
+}
+    public Member findByMemberId(String memberId){
+    Optional<Member> optionalMember = memberRepository.findBymemberId(memberId);
+    if(optionalMember.isPresent()) {
+        return optionalMember.get();
+    }
+    return memberRepository.findBymemberId(memberId).orElse(null);
+}
+
+    public void saveOrUpdate(Member member) {
+        memberRepository.save(member);
+    }
+    public boolean updatePassword(String memberId, String newPassword1) {
+        Optional<Member> userOptional = memberRepository.findBymemberId(memberId);
+
+        if (userOptional.isPresent()) {
+            Member member = userOptional.get();
+
+            // 여기서 새 비밀번호를 해시화하거나 다른 보안 절차를 수행해야 합니다.
+            // 이 예제에서는 간단히 새 비밀번호를 저장합니다.
+            member.setPw(newPassword1);
+
+            // 변경된 비밀번호를 데이터베이스에 저장
+            memberRepository.save(member);
+
+            return true; // 비밀번호 업데이트 성공
         }
+
+        return false; // 사용자를 찾을 수 없는 경우 또는 업데이트 실패
     }
 
 }

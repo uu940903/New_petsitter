@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,14 +28,13 @@ public class NoticeController {
     private final NoticeService noticeService;
 
 
-
     public NoticeController(NoticeService noticeService) {
         this.noticeService = noticeService;
     }
 
     //공지게시판 목록보기
     @GetMapping("/list")
-    public String list(Model model,@RequestParam(value = "page", defaultValue = "0") int page) {
+    public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
         Page<Notice> noticePage = noticeService.getNoticeList(page);
         model.addAttribute("noticePage", noticePage);
         return "notice/NoticeList";
@@ -43,15 +43,16 @@ public class NoticeController {
 
     //공지게시판 글작성폼보여주기
     @GetMapping("/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String write() {
         return "notice/NoticeForm";
     }
 
 
-
     //공지게시판 글 작성하기
     @PostMapping("/write")
-        public String write(@ModelAttribute NoticeDTO noticeDTO,@RequestParam("file") MultipartFile[] file, Model model) throws IOException {
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String write(@ModelAttribute NoticeDTO noticeDTO, @RequestParam("file") MultipartFile[] file, Model model) throws IOException {
         try {
             noticeService.write(noticeDTO, file);
             return "redirect:/notice/list";
@@ -69,33 +70,38 @@ public class NoticeController {
     public String detail(@PathVariable("noNo") Long noNo, Model model) {
         NoticeDTO noticeDTO = noticeService.getDetail(noNo);
         model.addAttribute("noticeDTO", noticeDTO);
+        System.out.println("요ㅗ로로로롤"+noticeDTO);
 
         return "notice/NoticeDetail";
     }
+
     //공지게시판 수정폼
     @GetMapping("/edit/{noNo}")
-    public String edit(@PathVariable("noNo") Long noNo, Model model){
-        NoticeDTO noticeDTO = noticeService.getDetail(noNo);
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 
-        model.addAttribute("noticeDTO",noticeDTO);
-        System.out.println("여기!!!!!!!!!!!1"+noticeDTO);
+    public String edit(@PathVariable("noNo") Long noNo, Model model) {
+        NoticeDTO noticeDTO = noticeService.getDetail(noNo);
+        model.addAttribute("noticeDTO", noticeDTO);
         return "notice/NoticeUpdate";
     }
 
     //공지게시판 수정하기
-    @PutMapping("/update")
-    public String getUpdate(Model model,Long noNo,NoticeDTO noticeDTO) throws IOException {
-        noticeService.getUpdate(noNo,noticeDTO);
-        model.addAttribute("noticeDTO",noticeDTO);
+    @PostMapping("/update")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
+    public String getUpdate(Long noNo, @ModelAttribute NoticeDTO noticeDTO, @RequestParam("file") MultipartFile[] newImageFiles) throws IOException {
+        noticeService.getUpdate(noNo, noticeDTO, newImageFiles);
+
         return "redirect:/notice/list";
     }
 
 
     //공지게시판 삭제처리
-    @DeleteMapping("/delete/{noNo}")
-    public String getDelete(NoticeDTO noticeDTO, Model model){
-        noticeService.getDelete(noticeDTO);
-        model.addAttribute("noticeDTO",noticeDTO);
+    @GetMapping("/delete/{noNo}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
+    public String getDelete(@PathVariable Long noNo){
+        noticeService.getDelete(noNo);
         return "redirect:/notice/list";
     }
 

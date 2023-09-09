@@ -1,7 +1,8 @@
 <html layout:decorate="~{layout}" class="container my-3">
 <div layout:fragment="content">
 
-    <form id="QuestionForm" th:action="@{/question/write}" enctype="multipart/form-data" method="post">
+    <form id="QuestionForm" th:action="@{/question/write}" th:object="${questionForm}" enctype="multipart/form-data" method="post">
+
         <div class="container">
             <h1>Q&A게시판</h1>
             <div class="row row1">
@@ -9,25 +10,25 @@
                     <tr>
                         <th class="text-right">제목</th>
                         <td>
-                            <input type="text" name="qnaTitle" size=50 class="input-sm">
+                            <input type="text" th:field="*{title}" size=50 class="input-sm">
                         </td>
                     </tr>
                     <tr>
                         <th class="text-right">내용</th>
                         <td>
-                            <textarea rows="10" cols="50" name="qnaContent"></textarea>
+                            <textarea rows="10" cols="50" th:field="*{content}"></textarea>
                         </td>
                     </tr>
                     <tr>
                         <th class="text-right">비밀번호</th>
                         <td>
-                            <input type=password name="qnaPw" size=15 class="input-sm">
+                            <input type=password th:field="*{password}" name="qnaPw" size=15 class="input-sm">
                         </td>
                     </tr>
                     <tr>
                         <th class="text-right">첨부파일</th>
                         <td>
-                            <input type=file multiple ="multiple"  name="file" size=15 class="input-sm">
+                            <input type=file multiple ="multiple"  th:field="*{file}" size=15 class="input-sm">
                         </td>
                     </tr>
                     <tr>

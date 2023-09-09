@@ -8,19 +8,19 @@
 
 <h1>Main.임시</h1>
 <!--<p>ID:<span th:text="${#authentication.principal.id}"></span></p>-->
-<p>UserID:<span th:text="${#authentication.principal.memberId}"></span></p>
-<p>Name:<span th:text="${#authentication.principal.name}"></span></p>
+<!--<div sec:authorize="isAuthenticated()">
+    <p>UserID:<span th:text="${#authentication.principal.memberId}"></span></p>
+</div>
+<div sec:authorize="isAuthenticated()">
+    <p>Name:<span th:text="${#authentication.principal.name}"></span></p>
+</div>
+<div sec:authorize="isAuthenticated()">
 <p>Nickname:<span th:text="${#authentication.principal.nickname}"></span></p>
-
-<p>UserID:<span th:text="${session.memberId}"></span></p>
-<p>Name:<span th:text="${session.name}"></span></p>
-<p>Nickname:<span th:text="${session.nickname}"></span></p>
+</div>-->
 <a th:href="@{/question/list}">QnA게시판</a>
 <a th:href="@{/notice/list}">공지게시판</a>
->>>>>>> origin/main
+
 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-    <!--sec:authorize="isAnonymous()"-로그인 되지 않은 경우에만 해당 엘리먼트가 표시되게 한다.
-        sec:authorize="isAuthenticated()"-로그인 된 경우에만 해당 엘리먼트가 표시되게 한다.-->
     <li class="nav-item">
         <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
     </li>
@@ -31,6 +31,9 @@
         <!--로그인 후 출력되는 영역 : 유저정보님-->
         <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/member/logout}"
            th:text="${#authentication.name + '님 로그아웃'}"></a>
+<!--        <form th:action="@{/member/logout}" method="post" th:csrf>
+            <input type="submit" value="Logout"/>
+        </form>-->
 
     </li>
     <li>

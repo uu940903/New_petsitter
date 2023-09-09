@@ -1,0 +1,83 @@
+<html layout:decorate="~{layout}" class="container my-3">
+<div layout:fragment="content">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 정보</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+        }
+        .member-info {
+            width: 400px; /* 원하는 너비로 조정하세요 */
+            height: 500px; /* 원하는 높이로 조정하세요 */
+            border: 1px solid #ccc;
+            padding: 20px;
+            text-align: center;
+        }
+        .info {
+            margin-bottom: 50px; /* 간격을 더 늘리려면 값을 더 크게 조정하세요 */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .label {
+            font-weight: bold;
+        }
+        .button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+
+<!--//_csrf._csrf.-->
+
+<form id="modifyForm" th:object="${modifyForm}"  method="post">
+    <input type="hidden" th:name="${parameterName}" th:value="${token}" />
+    <div class="member-info">
+        <h1>회원 정보 수정</h1>
+        <!--<div class="info">
+            <div>
+                <span class="label">아이디:</span>
+                <span class="value" th:text="${memberDTO.memberId}"></span>
+            </div>
+
+        </div>-->
+
+        <div class="info">
+            <label for="name" class="label">이름</label>
+            <input type="text"  th:field="*{name}" class="value"/>
+        </div>
+
+        <div class="info">
+            <label for="phone" class="label">전화번호</label>
+            <input type="text"  th:field="*{phone}" class="value"/>
+        </div>
+
+        <div class="info">
+            <label for="address" class="label">주소</label>
+            <input type="text"  th:field="*{address}" class="value"/>
+        </div>
+
+        <div class="info">
+            <label for="nickname" class="label">닉네임</label>
+            <input type="text"  th:field="*{nickname}" class="value"/>
+        </div>
+
+        <input type="submit" value="제출" class="button"/>
+
+    </div>
+</form>
+</body>
+</html>
