@@ -1,5 +1,10 @@
+.h3-membermodify{
+    text-align: center;
+    text-valign: middle;
+}
+
 .memberDetailTable {
-    width: 90%; /* 테이블의 너비를 100%로 설정 */
+    width: 100%; /* 테이블의 너비를 100%로 설정 */
     border-collapse: collapse; /* 테두리 사이의 공간을 없애기 */
 }
 
@@ -11,3 +16,30 @@
 .memberDetailTable tr:nth-child(even) {
     background-color: #f2f2f2; /* 짝수 줄 배경색 설정 */
 }
+
+.memberDetailTable tr td {
+    background-color: #FF6F0F;
+}
+
+.btn-save-form {
+    position: relative;
+    float: right;
+    margin: 10px;
+}
+
+.btn-detail{
+    position: relative;
+    float: right;
+    margin: 10px;
+}
+
+.btn-modify-memberDetail{
+    background-color: #808080;
+    color: #ffffff;
+} /*회원상세보기 수정버튼*/
+
+.btn-modify-memberDelete{
+    background-color: #ff0000;
+    color: #ffffff;
+} /*회원상세보기 삭제버튼*/
+
