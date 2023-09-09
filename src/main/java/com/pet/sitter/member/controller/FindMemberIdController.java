@@ -22,23 +22,6 @@ public class FindMemberIdController {
     private final MemberRepository memberRepository;
 
 
-  /*  @PostMapping("/updatePw")
-    public String searchPassword(@RequestParam String email, Model model) {
-        model.addAttribute(email);
-        Optional<Member> memberOptional = userRepository.findByEmail(email);
-        if (memberOptional.isPresent()) {
-            model.addAttribute("success", true);
-            model.addAttribute("email", email);
-        } else {
-            model.addAttribute("success", false);
-            model.addAttribute("message", "일치하는 사용자를 찾을 수 없습니다.");
-        }
-        return "/user/updatePw";
-    }*/
-
-
-
-
     @GetMapping("/memberid")
     public ResponseEntity<String> getEmailByPhoneNumber(@RequestParam String phone) {
         Optional<Member> memberOptional = memberRepository.findByPhone(phone);
@@ -51,9 +34,6 @@ public class FindMemberIdController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-
 
     @PostMapping("/pw")
     public ResponseEntity<String> getPassword(@RequestParam String memberId) {

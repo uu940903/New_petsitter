@@ -4,6 +4,11 @@ body{
     margin: 0 auto;
 }
 
+.nav-item a.active {
+    font-weight: bold; /* 활성 링크의 텍스트를 굵게 표시 */
+    color: red; /* 활성 링크의 텍스트 색상을 변경 */
+}
+
 /*h3글,검색바*/
 #h3AndSearch {
     display: flex;
@@ -80,7 +85,7 @@ padding-bottom: 7px;
     float: right;
 }
 
-/*게시판이미지*/
+/*게시판 상세보기 이미지*/
 .slide_image{
     width: 500px;
     height: 600px;
