@@ -44,7 +44,7 @@ public class MypageService {
         sorts.add(Sort.Order.desc("petsitter.sitterNo")); //내림차순기준
         Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
         Page<Matching> matchingPage = mypageRepository4.findByMatching(id,pageable);//페이지처리하기위한 Page<Matching>가져오기
-        System.out.printf("여기는 레파지토리 에서 가져온  매칭갯수%d",matchingPage.getTotalElements());
+        System.out.printf("여기는 레파지토리 에서 가져온 매칭갯수%d",matchingPage.getTotalElements());
 
 
         Page<MatchingDTO> matchingDTOPage = matchingPage.map(matching -> {   //member1의 matchingDTO가져오기
@@ -62,7 +62,7 @@ public class MypageService {
         List<Sort.Order> sorts = new ArrayList();
         sorts.add(Sort.Order.desc("sitterNo")); //내림차순기준
         Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
-        Page<Petsitter> petsitterPage = mypageRepository2.findBytest(id,pageable);//page<Petsitter>를 page<PetSitterDTO>로 변환
+        Page<Petsitter> petsitterPage = mypageRepository2.findByMatchingArticle(id,pageable);//page<Petsitter>를 page<PetSitterDTO>로 변환
         System.out.printf("여기는 레파지토리 에서 가져온 펫시터 엔티티갯수%d",petsitterPage.getTotalElements());
 
         Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
@@ -116,8 +116,8 @@ public class MypageService {
     public MemberDTO getMember(String memberId) {
         Optional<Member> member = mypageRepository.findByMemberId(memberId);
         if (member.isPresent()) {
-        MemberDTO memberDTO = new MemberDTO(member.get());
-        return memberDTO;
+            MemberDTO memberDTO = new MemberDTO(member.get());
+            return memberDTO;
         }else{
             throw new DataNotFoundException("member not Found");
         }

@@ -30,12 +30,11 @@ public class Week implements Serializable {
         this.day = day;
     }
 
-    /*public static List<Week> dtoToEntity (WeekDTO weekDTO) {
+    public static List<Week> dtoToEntity (WeekDTO weekDTO) {
         List<Week> weekList = new ArrayList<>();
         Week week = new Week();
         week.setDay(weekDTO.getDay());
-        weekList.add();
 
         return weekList;
-    }*/
+    }
 }

@@ -66,6 +66,7 @@ public class MemberController {
     @PostMapping("/join")
     public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
         System.out.println("id : "+userCreateForm.getMemberId());
+        System.out.println("에러 = "+bindingResult.hasErrors());
         if(bindingResult.hasErrors()) { //에러가 존재하면 signup을 보여줘
             return "/member/join";
         }

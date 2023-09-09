@@ -15,27 +15,9 @@
     <p class="font-monospace fw-bold">아이디: <span th:text="${memberId}"></span></p>
     </div>
   </div>
-<form id="updateForm" th:action="@{/member/updatePw}" th:object="${userCreateForm}" method="post">
+<form id="updateForm" th:action="@{/member/updatePw}" th:object="${userCreateForm2}" method="post">
     <input type="hidden" name="memberId" th:value="${memberId}">
-<!--<div  class="grid g-2">
-    <div class="">
-        <label for="newPassword1">새 비밀번호</label>
-    </div>
 
-    <div>
-        <input type="password" th:field="*{newPassword1}" id="newPassword1" name="newPassword1" required>
-    </div>
-    <div style="color:red;" th:if="${#fields.hasErrors('newPassword1')}" th:errors="*{newPassword1}" class="error"></div>
-
-    <div class="">
-        <label for="newPassword2">새 비밀번호 확인</label>
-     </div>
-
-    <div>
-        <input type="password" th:field="*{newPassword2}" id="newPassword2" name="newPassword2" required>
-    </div>
-    <div style="color:red;" th:if="${#fields.hasErrors('newPassword2')}" th:errors="*{newPassword2}" class="error"></div>
-</div>-->
     <div class="container">
         <div class="row">
             <div class="mb-4">

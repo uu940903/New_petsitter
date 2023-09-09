@@ -1,17 +1,16 @@
 package com.pet.sitter.member.service;
 
+import com.pet.sitter.member.validation.UserRole;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
-import java.util.Collections;
 @Getter
 public class CustomUserInfo extends org.springframework.security.core.userdetails.User {
 
     private String name;
     private String memberId;
     private String nickname;
-
     public CustomUserInfo(String username, String password,
                           Collection<? extends GrantedAuthority> authorities,
                           String name, String memberId, String nickname) {
