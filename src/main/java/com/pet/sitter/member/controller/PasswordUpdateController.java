@@ -4,6 +4,7 @@ package com.pet.sitter.member.controller;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.member.service.MemberService;
 import com.pet.sitter.member.validation.UserCreateForm;
+import com.pet.sitter.member.validation.UserCreateForm2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -27,12 +28,12 @@ public class PasswordUpdateController {
     public String showUpdatePasswordForm(Model model, @RequestParam String memberId) {
         // 업데이트 폼을 보여줄 때 필요한 데이터를 모델에 추가
         model.addAttribute("memberId", memberId);
-        model.addAttribute("userCreateForm", new UserCreateForm());
+        model.addAttribute("userCreateForm2", new UserCreateForm2());
         return "/member/updatePw"; // 업데이트 폼을 보여주는 HTML 페이지
     }
 
     @PostMapping("/member/updatePw")
-    public String updatePassword(@ModelAttribute("userCreateForm") UserCreateForm userCreateForm,
+    public String updatePassword(@ModelAttribute("userCreateForm2") UserCreateForm2 userCreateForm2,
                                  @RequestParam(name = "memberId") String memberId,
                                  Model model) {
 
@@ -45,8 +46,8 @@ public class PasswordUpdateController {
         }
 
         // 새 비밀번호와 새 비밀번호 확인이 일치하는지 확인
-        String newPassword1 = userCreateForm.getNewPassword1();
-        String newPassword2 = userCreateForm.getNewPassword2();
+        String newPassword1 = userCreateForm2.getNewPassword1();
+        String newPassword2 = userCreateForm2.getNewPassword2();
 
         if (newPassword1.equals(newPassword2)) {
             // 새 비밀번호와 새 비밀번호 확인이 일치하는 경우
@@ -61,7 +62,7 @@ public class PasswordUpdateController {
         } else {
             // 새 비밀번호와 새 비밀번호 확인이 일치하지 않는 경우
             // 업데이트 결과를 모델에 추가
-            model.addAttribute("updateResult", "새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.");
+            model.addAttribute("updateResult", "비밀번호와 비밀번호 확인이 일치하지 않습니다.");
         }
 
         return "/member/updatePasswordPage"; // 업데이트 결과를 보여주는 HTML 페이지

@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,7 @@ public class NoticeController {
 
     //공지게시판 글작성폼보여주기
     @GetMapping("/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String write() {
         return "notice/NoticeForm";
     }
@@ -49,6 +51,7 @@ public class NoticeController {
 
     //공지게시판 글 작성하기
     @PostMapping("/write")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String write(@ModelAttribute NoticeDTO noticeDTO, @RequestParam("file") MultipartFile[] file, Model model) throws IOException {
         try {
             noticeService.write(noticeDTO, file);
@@ -74,6 +77,8 @@ public class NoticeController {
 
     //공지게시판 수정폼
     @GetMapping("/edit/{noNo}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     public String edit(@PathVariable("noNo") Long noNo, Model model) {
         NoticeDTO noticeDTO = noticeService.getDetail(noNo);
         model.addAttribute("noticeDTO", noticeDTO);
@@ -82,6 +87,8 @@ public class NoticeController {
 
     //공지게시판 수정하기
     @PostMapping("/update")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     public String getUpdate(Long noNo, @ModelAttribute NoticeDTO noticeDTO, @RequestParam("file") MultipartFile[] newImageFiles) throws IOException {
         noticeService.getUpdate(noNo, noticeDTO, newImageFiles);
 
@@ -91,6 +98,8 @@ public class NoticeController {
 
     //공지게시판 삭제처리
     @GetMapping("/delete/{noNo}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     public String getDelete(@PathVariable Long noNo){
         noticeService.getDelete(noNo);
         return "redirect:/notice/list";

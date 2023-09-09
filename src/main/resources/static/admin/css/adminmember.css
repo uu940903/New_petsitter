@@ -1,0 +1,13 @@
+.memberDetailTable {
+    width: 90%; /* 테이블의 너비를 100%로 설정 */
+    border-collapse: collapse; /* 테두리 사이의 공간을 없애기 */
+}
+
+.memberDetailTable td {
+    border: 1px solid #ddd; /* 셀마다 경계선을 설정 */
+    padding: 8px; /* 셀 안쪽 패딩 설정 */
+}
+
+.memberDetailTable tr:nth-child(even) {
+    background-color: #f2f2f2; /* 짝수 줄 배경색 설정 */
+}

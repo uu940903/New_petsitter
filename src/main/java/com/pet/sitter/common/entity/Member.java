@@ -1,5 +1,6 @@
 package com.pet.sitter.common.entity;
 
+import com.pet.sitter.member.validation.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;

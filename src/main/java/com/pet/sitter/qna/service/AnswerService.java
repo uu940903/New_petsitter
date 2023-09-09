@@ -8,6 +8,7 @@ import com.pet.sitter.qna.dto.AnswerDTO;
 import com.pet.sitter.qna.dto.QuestionDTO;
 import com.pet.sitter.qna.repository.AnswerRepository;
 import com.pet.sitter.qna.repository.QuestionRepository;
+import com.pet.sitter.qna.validation.AnswerForm;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,20 +31,23 @@ public class AnswerService {
     //Entity --> DTO변환
     //Answer 글 등록
     @Transactional
-    public void addAnswer(QuestionDTO questionDTO, AnswerDTO answerDTO) {
-        Question question = questionRepository.findById(questionDTO.getQnaNo())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid qnaNo: " + questionDTO.getQnaNo()));
-        Answer answer = Answer.builder()
-                .id(answerDTO.getId())
-                .content(answerDTO.getContent())
-                .question(question)
-                .createdDate(answerDTO.getCreatedDate())
-                .modifiedDate(answerDTO.getModifiedDate())
+    public void addAnswer(QuestionDTO questionDTO, AnswerForm answerForm, Member member) {
+        Question question = Question.builder()
+                .qnaNo(questionDTO.getQnaNo())
                 .build();
+
+        Answer answer = Answer.builder()
+                .id(answerForm.getId())
+                .content(answerForm.getContent())
+                .createdDate(LocalDateTime.now())
+                .question(question)
+                .member(member)
+                .build();
+
         answerRepository.save(answer);
     }
 
-    //댓글 리스트
+   //댓글 리스트
     @Transactional
     public AnswerDTO getDetail(Long id) {
         Optional<Answer> answerOptional = answerRepository.findById(id);
@@ -56,33 +60,36 @@ public class AnswerService {
                 .id(answer.getId())
                 .content(answer.getContent())
                 .question(answer.getQuestion())
-                .createdDate(answer.getCreatedDate())
+                .createdDate(LocalDateTime.now())
                 .member(answer.getMember())
                 .build();
-        System.out.println(answerDTO);
         return answerDTO;
     }
 
-    //댓글 수정
+  //댓글 수정 처리
     @Transactional
-    public void modify(Long id, QuestionDTO questionDTO, AnswerDTO answerDTO) {
+    public void modify(Long id, AnswerDTO answerDTO,AnswerForm answerForm) {
         Optional<Answer> answerOptional = answerRepository.findById(id);
+        Answer answer = answerOptional.get();
         if (answerOptional.isPresent()) {
-            Answer answer = answerOptional.get();
-            answer.setId(answerDTO.getId());
-            answer.setContent(answerDTO.getContent());
-            answer.setModifiedDate(answerDTO.getModifiedDate());
+            answer.setId(answerForm.getId());
+            answer.setContent(answerForm.getContent());
+            answer.setModifiedDate(LocalDateTime.now());
             answer.setQuestion(answerDTO.getQuestion());
             answer.setMember(answerDTO.getMember());
             answerRepository.save(answer);
         }
     }
+
+    //댓글 삭제
+    public void answerDelete(Long id) {
+        Optional<Answer> answerOptional = answerRepository.findById(id);
+        if(answerOptional.isPresent()){
+            Answer answer = answerOptional.get();
+            answerRepository.delete(answer);
+        }
+
+    }
+
 }
-//
-//
-//    //댓글 삭제
-//    public void answerDelete(QuestionDTO questionDTO) {
-//        questionRepository.delete(questionDTO.toEntity());
-//    }
-//
-//}
+
