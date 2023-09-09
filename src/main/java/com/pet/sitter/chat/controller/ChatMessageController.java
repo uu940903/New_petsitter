@@ -29,8 +29,10 @@ public class ChatMessageController {
     private SimpMessagingTemplate messagingTemplate;
 
     @MessageMapping("/chat/message")
-    public void message(@Header("roomId") Long roomId, @Header("memberId") String memberId, @Payload ChatMessageDTO message) {
-        chatMessageService.sendMessage(roomId, memberId, message);
+    public void message(@Payload ChatMessageDTO chatMessageDTO) {
+        chatMessageService.sendMessage(chatMessageDTO.getChatRoom().getId(),
+                chatMessageDTO.getSender().getMemberId(),
+                chatMessageDTO);
     }
 
     @MessageMapping("/chat/message/enter")

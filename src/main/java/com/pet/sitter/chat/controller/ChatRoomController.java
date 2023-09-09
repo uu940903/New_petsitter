@@ -1,8 +1,10 @@
 package com.pet.sitter.chat.controller;
 
 import com.pet.sitter.chat.dto.ChatRoomDTO;
+import com.pet.sitter.chat.repository.ChatRoomRepository;
 import com.pet.sitter.chat.service.ChatRoomService;
 import com.pet.sitter.common.entity.ChatRoom;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,15 +24,15 @@ public class ChatRoomController {
     private final ChatRoomService chatRoomService;
 
     @Autowired
+    ChatRoomRepository chatRoomRepository;
+
+    @Autowired
     public ChatRoomController(ChatRoomService chatRoomService) {
         this.chatRoomService = chatRoomService;
     }
 
     @GetMapping("/room")
     public String rooms(Model model) {
-        List<ChatRoom> chatRoomsList = chatRoomService.getAllChatRooms();
-        model.addAttribute("chatrooms", chatRoomsList);
-
         return "/chat/room";
     }
 
@@ -47,6 +49,13 @@ public class ChatRoomController {
 
         return chatRoomService.createChatRoom(id, hostId, guestId);
     }
+
+    @GetMapping("/room/{roomUUID}")
+    @ResponseBody
+    public ChatRoomDTO roomInfo(@PathVariable String roomUUID) {
+        return new ChatRoomDTO(chatRoomRepository.findChatRoomByRoomUUID(roomUUID));
+    }
+
 
     // 채팅방 입장 화면
     @GetMapping("/room/enter/{roomUUID}")

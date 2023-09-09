@@ -76,7 +76,7 @@ public class ChatMessageService {
         System.out.println("Message Content: " + chatMessage.getContent());
         chatMessageRepository.save(chatMessage);
 
-        messagingTemplate.convertAndSend("/sub/chat/room/" + chatRoom.getId(), message);
+        messagingTemplate.convertAndSend("/sub/chat/room/" + chatRoom.getRoomUUID(), message);
     }
 
     public List<ChatMessageDTO> getMessageListByRoomId(Long roomId) {
