@@ -12,12 +12,14 @@ import com.pet.sitter.mainboard.repository.PetsitterRepository;
 import com.pet.sitter.member.dto.MemberDTO;
 import com.pet.sitter.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -79,21 +81,31 @@ public class ChatMessageService {
 
     public List<ChatMessageDTO> getMessageListByRoomId(Long roomId) {
         List<ChatMessage> messageList = chatMessageRepository.findChatMessagesByChatRoom_Id(roomId);
-        return convertToDTOList(messageList);
+        return messageList.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<ChatMessageDTO> convertToDTOList(List<ChatMessage> messageList) {
-        List<ChatMessageDTO> messageListDTO = new ArrayList<>();
-        for (ChatMessage message : messageList) {
-            ChatMessageDTO messageDTO = new ChatMessageDTO();
-            messageDTO.setId(message.getId());
-            messageDTO.setContent(message.getContent());
-            messageDTO.setSender(new MemberDTO(message.getSender()));
-            messageDTO.setSendTime(message.getSendTime());
+    private ChatMessageDTO convertToDTO(ChatMessage message) {
+        ChatMessageDTO messageDTO = new ChatMessageDTO();
+        messageDTO.setId(message.getId());
+        messageDTO.setContent(message.getContent());
+        messageDTO.setSender(new MemberDTO(message.getSender()));
+        messageDTO.setSendTime(message.getSendTime());
 
-            messageListDTO.add(messageDTO);
-        }
-        return messageListDTO;
+        return messageDTO;
     }
 
+    public List<ChatMessageDTO> getPreviousMessages(String roomUUID) {
+        return chatMessageRepository.findMessagesByChatRoomRoomUUID(roomUUID)
+                .stream()
+                .map(entity -> new ChatMessageDTO(
+                        entity.getId(),
+                        new ChatRoomDTO(entity.getChatRoom()),
+                        new MemberDTO(entity.getSender()),
+                        entity.getContent(),
+                        entity.getSendTime()
+                ))
+                .collect(Collectors.toList());
+    }
 }

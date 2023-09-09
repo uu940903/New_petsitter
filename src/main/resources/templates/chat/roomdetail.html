@@ -44,52 +44,9 @@
     console.log(roomUUID);
     console.log(sender);
 
-    function findRoom() {
-        // AJAX를 사용하여 서버에서 채팅방 정보를 가져오기
-        $.ajax({
-            url: '/chat/room/enter/' + roomUUID,
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                // 가져온 데이터를 사용하여 채팅방 이름 설정
-                $("h2").text(data.roomName);
-            }
-        });
-    }
-
-    function sendMessage() {
-        var message = document.getElementById('messageInput').value;
-
-        // JSON 형식의 데이터를 생성
-        var headers = {
-            'roomId': this.roomId,
-            'memberId': this.sender
-        };
-        ws.send("/pub/chat/message", headers, JSON.stringify({type: 'TALK', content: message}));
-        console.log('메세지 송신 전' + sender);
-        // JSON.stringify를 사용하여 데이터를 문자열로 변환
-        var chatMessageJSON = JSON.stringify(chatMessage);
-
-        // WebSocket을 통해 메시지를 서버로 전송
-        ws.send("/pub/chat/message", {}, JSON.stringify(chatMessage));
-        console.log('메세지 송신 후' + sender);
-
-        // 입력 필드 초기화
-        this.message = '';
-    }
-
-    function recvMessage(recv) {
-        var messageList = document.getElementById('messageList');
-        var listItem = document.createElement('li');
-        listItem.className = 'list-group-item';
-        listItem.innerText = (recv.type == 'ENTER' ? '[알림]' : recv.sender) + " - " + recv.message;
-        messageList.insertBefore(listItem, messageList.firstChild);
-    }
-
-
     function connect() {
         ws.connect({}, function (frame) {
-            ws.subscribe("/sub/chat/room/enter", function (message) {
+            ws.subscribe("/sub/chat/room/enter/" + roomUUID, function (message) {
                 var recv = JSON.parse(message.body);
                 recvMessage(recv);
             });
@@ -105,8 +62,58 @@
         });
     }
 
+    function findRoom() {
+        $.ajax({
+            url: '/chat/room/enter/' + roomUUID,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $("h2").text(data.roomName);
+            }
+        });
+    }
+
+    function loadPreviousMessages() {
+        $.ajax({
+            url: '/chat/history/' + roomUUID,
+            method: 'GET',
+            dataType: 'json',
+            success: function (messages) {
+                messages.forEach(recvMessage);
+            }
+        });
+    }
+
+    function sendMessage() {
+        var messageInput = document.getElementById('messageInput');
+        var message = messageInput.value;
+
+        // JSON 형식의 데이터를 생성
+        var headers = {
+            'roomId': roomId,
+            'roomUUID': roomUUID,
+            'memberId': sender
+        };
+        ws.send("/pub/chat/message", headers, JSON.stringify({content: message}));
+        messageInput.value = '';
+    }
+
+    function recvMessage(recv) {
+        console.log(recv);
+        var messageList = document.getElementById('messageList');
+        var listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+
+        listItem.innerText = recv.sender.nickname + " - " + recv.content;
+
+        messageList.appendChild(listItem); // 메시지를 추가하는 부분을 변경
+
+        // 새로운 메시지가 추가될 때 화면을 스크롤하여 아래로 이동
+        messageList.scrollTop = messageList.scrollHeight;
+    }
 
     findRoom();
+    loadPreviousMessages();
     connect();
 </script>
 </body>

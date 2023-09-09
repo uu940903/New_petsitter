@@ -17,4 +17,12 @@ public class ChatMessageDTO {
     private MemberDTO sender; // 메시지 보낸사람
     private String content; // 메시지
     private LocalDateTime sendTime;
+
+    public ChatMessageDTO(Long id, ChatRoomDTO chatRoom, MemberDTO sender, String content, LocalDateTime sendTime) {
+        this.id = id;
+        this.chatRoom = chatRoom;
+        this.sender = sender;
+        this.content = content;
+        this.sendTime = sendTime;
+    }
 }
