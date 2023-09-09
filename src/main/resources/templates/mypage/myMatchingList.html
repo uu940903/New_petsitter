@@ -3,7 +3,7 @@
     <table class="table">
         <thead class="table-dark">
         <tr>
-
+            <th>게시판글번호</th>
             <th>제목</th>
             <th>매칭인원</th>
             <th>매칭일자</th>
@@ -30,6 +30,7 @@
             <!--1? =12-(1*10)-1 -->
             <!--요청주소 http://localhost:포트/question/detail?id=1001
                <td th:text="${question.subject}"><a href="/question/detail?id=${question.id}"></a></td>-->
+            <td th:text="${question.sitterNo}"></td>
             <td>
                 <!--요청주소 http://localhost:포트/question/detail/1001
                  th:href속성에서  주소를 나타낼때에는 반드시  @{}을 이용해야한다
@@ -46,9 +47,10 @@
 
             //매칭인원
             <td th:text="${matchingPage.content[loop.index].member.memberId+'와'+matchingPage.content[loop.index].member2.memberId}">매칭 인원</td>
-                        <!-- ${matchingPage.content[loop.index].member.memberId + ', ' + matchingPage.content[loop.index].member2.memberId}-->
+            <!-- ${matchingPage.content[loop.index].member.memberId + ', ' + matchingPage.content[loop.index].member2.memberId}-->
 
             <!-- temporals.format(날짜대상,"date포맷") -->
+            <td th:text="${#dates.format(matchingPage.content[loop.index].creatdateMatching, 'yyyy-MM-dd HH:mm:ss')}"></td>
             <td th:text="${#dates.format(matchingPage.content[loop.index].creatdateMatching, 'yyyy-MM-dd HH:mm:ss')}"></td>
 
 

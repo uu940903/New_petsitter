@@ -16,7 +16,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Matching {
     @Id
-    @JoinColumn(name="sitterNo", referencedColumnName = "sitterNo")
+    @JoinColumn(name="sitter_no", referencedColumnName = "sitterNo")
     @OneToOne
     private Petsitter petsitter;
 
