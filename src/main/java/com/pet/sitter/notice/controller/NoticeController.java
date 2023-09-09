@@ -70,7 +70,7 @@ public class NoticeController {
     public String detail(@PathVariable("noNo") Long noNo, Model model) {
         NoticeDTO noticeDTO = noticeService.getDetail(noNo);
         model.addAttribute("noticeDTO", noticeDTO);
-        System.out.println("요ㅗ로로로롤"+noticeDTO);
+
 
         return "notice/NoticeDetail";
     }
@@ -81,6 +81,7 @@ public class NoticeController {
 
     public String edit(@PathVariable("noNo") Long noNo, Model model) {
         NoticeDTO noticeDTO = noticeService.getDetail(noNo);
+        System.out.println("수정"+noticeDTO);
         model.addAttribute("noticeDTO", noticeDTO);
         return "notice/NoticeUpdate";
     }
@@ -88,7 +89,6 @@ public class NoticeController {
     //공지게시판 수정하기
     @PostMapping("/update")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-
     public String getUpdate(Long noNo, @ModelAttribute NoticeDTO noticeDTO, @RequestParam("file") MultipartFile[] newImageFiles) throws IOException {
         noticeService.getUpdate(noNo, noticeDTO, newImageFiles);
 
@@ -99,7 +99,6 @@ public class NoticeController {
     //공지게시판 삭제처리
     @GetMapping("/delete/{noNo}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-
     public String getDelete(@PathVariable Long noNo){
         noticeService.getDelete(noNo);
         return "redirect:/notice/list";

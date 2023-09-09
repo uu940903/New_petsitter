@@ -4,6 +4,10 @@
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     </head>
     <body>
     <div class="d-flex justify-content-between align-items-center">
@@ -23,7 +27,6 @@
                 <th>조회수</th>
             </tr>
             </thead>
-
             <tbody>
             <!-- CONTENTS !-->
             <tr th:each="question, loop: ${questionPage}" style="height: 40px;">
@@ -33,6 +36,7 @@
                     <a th:href="@{'/question/detail/' + ${question.qnaNo}}" style="color: black;">
                         <span class="col-5" th:text="${question.qnaTitle}"></span>
                     </a>
+                </td>
                 <td class="col-3" th:text="${question.member.getNickname}"></td>
                 <td>
                     <span class="col-2" th:text="${#temporals.format(question.qnaDate, 'yyyy-MM-dd HH:mm')}"></span>
@@ -41,6 +45,7 @@
                     <span class="col-1" th:text="${question.qnaViewCnt}"></span>
                 </td>
             </tr>
+
             </tbody>
         </table>
 
@@ -75,3 +80,7 @@
 </div>
 
 </html>
+
+
+
+

@@ -11,7 +11,7 @@
                 </span>
                 <span class="date">
                     <span class="badge bg-light text-dark p-2 text-start">
-                    <td th:text="${#temporals.format(boardDetail.petRegdate,'yyyy-MM-dd HH:mm')}"></td>
+                        <td th:text="${#temporals.format(boardDetail.petRegdate,'yyyy-MM-dd HH:mm')}"></td>
                     </span>
                 </span>
             </span>
@@ -32,82 +32,20 @@
 
         </div>
     </div>
+
     <div class="my-3">
         <!--질문수정버튼 - 로그인해야지만 수정가능, 로그인한유저가 글쓴이와 동일해야만 한다-->
         <a th:href="@{|/admin/modify/${boardDetail.sitterNo}|}"
-           class="btn btn-sm btn-outline-secondary" th:text="수정"></a>
+           class="btn btn-outline-secondary" th:text="수정"></a>
         <!--sec:authorize="isAuthenticated()"
         th:if="${ question.writer!=null and #authentication.getPrincipal().getUsername()==question.writer.username}"-->
 
         <!--질문삭제버튼 - 로그인해야지만 삭제가능, 로그인한유저가 글쓴이와 동일해야만 한다-->
         <a href="javascript:void(0);" th:data-uri="@{|/admin/delete/${boardDetail.sitterNo}|}"
-           class="delete btn btn-sm btn-outline-secondary"
-           th:text="삭제"></a>
+           class="delete btn btn-outline-secondary" th:text="삭제"></a>
         <!--sec:authorize="isAuthenticated()"-->
         <!--th:if="${ question.writer!=null and #authentication.getPrincipal().getUsername()==question.writer.username}"-->
 
-        <!-- &lt;!&ndash;질문추천버튼&ndash;&gt;
-         <a href="javascript:void(0);" th:href="@{|/question/vote/${question.id}|}"
-            class="recommend btn btn-sm btn-outline-secondary">추천
-             <span class="badge rounded-pill bg-success"
-                   th:text="${#lists.size(question.voter)}"></span>
-         </a>
-     </div>
- </div>
-</div>
-&lt;!&ndash; 답변갯수 출력 &ndash;&gt;
-<h5 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
-&lt;!&ndash; 반복:답변목록시작 &ndash;&gt;
-<div class="card my-3">
- <div class="card-body" th:each="answer:${question.answerList}">
-     <div class="card-text" style="white-space:pre-line;" th:text="${answer.content}"></div>
-     <div class="d-flex justify-content-end">  &lt;!&ndash;d-flex:한개의 row를 block레벨로 처리&ndash;&gt;
-         <div class="badge bg-light text-dark p-2 text-start">
-             <div class="my-2">
-                 <span th:if="${answer.writer!=null}" th:text="${answer.writer.username}"></span>
-             </div>
-             <div th:text="${#temporals.format(answer.createDate,'yyyy-MM-dd HH:mm')}"/>
-         </div>
-     </div>
-
-     &lt;!&ndash; 답변수정버튼 - 로그인해야지만 수정가능, 로그인한유저가 글쓴이와 동일해야만 한다&ndash;&gt;
-     <a th:href="@{|/answer/modify/${answer.id}|}"
-        class="btn btn-sm btn-outline-secondary"
-        sec:authorize="isAuthenticated()"
-        th:if="${answer.writer!=null and #authentication.getPrincipal().getUsername()==answer.writer.username}"
-        th:text="수정"></a>
-
-     &lt;!&ndash; 답변삭제버튼 - 로그인해야지만 삭제가능, 로그인한유저가 글쓴이와 동일해야만 한다 &ndash;&gt;
-     <a href="javascript:void(0);" th:href="@{|/answer/delete/${answer.id}|}"
-        class="delete btn btn-sm btn-outline-secondary"
-        sec:authorize="isAuthenticated()"
-        th:if="${answer.writer!=null and #authentication.getPrincipal().getUsername()==answer.writer.username}"
-        th:text="삭제"></a>
-
-     &lt;!&ndash;답변추천버튼&ndash;&gt;
-     <a href="javascript:void(0);" th:href="@{|/answer/vote/${answer.id}|}"
-        class="recommend btn btn-sm btn-outline-secondary">추천
-         <span class="badge rounded-pill bg-success"
-               th:text="${#lists.size(answer.voter)}"></span>
-     </a>
- </div>
-</div>
-&lt;!&ndash; 반복:답변목록끝 &ndash;&gt;
-&lt;!&ndash; 답변등록폼 &ndash;&gt;
-<form id="answerForm" class="my-3" th:object="${answerForm}" th:action="@{|/answer/add/${question.id}|}"
-   method="post">
- &lt;!&ndash;<form id="answerForm" class="my-3" action="/answer/add" method="post">&ndash;&gt;
- &lt;!&ndash;<input type="text" name="id" value="301"/>&ndash;&gt;
- &lt;!&ndash; 유효성검사시 에러메세지 출력영역 &ndash;&gt;
- <div th:replace="~{form_errors::formErrorsFragment}"></div>
- &lt;!&ndash; 타임리프의 security이용
-             sec:authorize="isAnonymous()"은 로그인하지않는 경우-> 답변등록사용불가
-             sec:authorize="isAuthenticated()"은 로그인한 경유-> 답변등록사용가능&ndash;&gt;
- <textarea sec:authorize="isAnonymous()" th:field="*{content}" disabled="disabled" rows="8"
-           class="form-control"></textarea>
- <textarea sec:authorize="isAuthenticated()" th:field="*{content}" rows="8" class="form-control"></textarea>
- <input type="submit" value="답변등록" class="btn btn-primary my-2"/>
-</form>-->
     </div>
 
 

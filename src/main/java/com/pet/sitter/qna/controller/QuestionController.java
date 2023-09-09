@@ -30,7 +30,6 @@ public class QuestionController {
     private final MemberService memberService;
 
     //question 글 작성 폼 보여주기
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
     public String writeForm(QuestionForm questionForm){
         return "qna/questionForm";
@@ -38,7 +37,6 @@ public class QuestionController {
 
 
     //quesiton 글 작성
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/write")
     public String write(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal,
                         QuestionDTO questionDTO, @RequestParam("file") MultipartFile[] file) throws IOException {
@@ -70,7 +68,7 @@ public class QuestionController {
 
     //question 게시글 수정폼
     @GetMapping("/edit/{qnaNo}")
-    public String edit(Model model,@PathVariable Long qnaNo,AnswerForm answerForm){
+    public String edit(Model model,@PathVariable("qnaNo") Long qnaNo,AnswerForm answerForm){
         QuestionDTO questionDTO = questionService.detail(qnaNo);
 
         model.addAttribute("questionDTO",questionDTO);

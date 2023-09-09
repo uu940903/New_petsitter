@@ -58,7 +58,6 @@ public class AdminMemberService {
         memberDTO.setPhone(member.getPhone());
         memberDTO.setAddress(member.getAddress());
         memberDTO.setEMail(member.getEMail());
-        memberDTO.toString();
         return memberDTO;
     }
 

@@ -1,7 +1,7 @@
 <html layout:decorate="~{layout}" class="container my-3">
 <div layout:fragment="content">
 
-    <form id="NoticeForm" th:action="@{/notice/update/}" enctype="multipart/form-data" method="post">
+    <form id="NoticeForm" th:action="@{/notice/update}" enctype="multipart/form-data" method="post">
         <input type="hidden" name="noNo" th:value="${noticeDTO.noNo}"/>
         <div class="container">
             <h1>공지게시판</h1>

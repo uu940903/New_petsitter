@@ -11,7 +11,7 @@
                     <tr>
                         <th class="text-right">제목</th>
                         <td>
-                            <input type="text" name="noTitle" size=50 class="input-sm"
+                            <input type="text" name="qnaTitle" size=50 class="input-sm"
                                    th:value="${questionDTO.qnaTitle}">
                         </td>
                     </tr>
@@ -37,12 +37,13 @@
                     <div class="btn-group">
                         <div class="col">
                             <form th:action="@{'/question/update/' + ${questionDTO.qnaNo}}" method="post" sec:authorize="isAuthenticated()"
-                                  th:if="${questionDTO.member.getNickname!=null and #authentication.getPrincipal().getNickname()==questionDTO.member.getNickname}">
+                                  th:if="${questionDTO.member.memberId!=null and #authentication.getPrincipal().getUsername()==questionDTO.member.memberId}">
                                 <button type="submit" class="btn btn-dark">수정</button>
+                            </form>
                         </div>
                         <div class="col">
                             <a th:href="@{'/question/list'}">
-                                <button class="btn btn-dark">취소</button>
+                                <button type="button" class="btn btn-dark">취소</button>
                             </a>
                         </div>
                     </div>

@@ -98,7 +98,7 @@ public class Petsitter {
         this.petAddress = petAddress;
     }
 
-    public boolean isPetsitterFileListEmpty() {
+    public boolean isPetsitterFileListEmpty () {
         return petsitterFileList == null || petsitterFileList.isEmpty();
     }
 
