@@ -20,6 +20,7 @@
         </div>
         <input type="text" id="messageInput" class="form-control">
         <div class="input-group-append">
+            <!-- 수정: 클릭 이벤트 핸들러 추가 -->
             <button class="btn btn-primary" type="button" onclick="sendMessage()">보내기</button>
         </div>
     </div>
@@ -44,52 +45,13 @@
     console.log(roomUUID);
     console.log(sender);
 
-    function findRoom() {
-        // AJAX를 사용하여 서버에서 채팅방 정보를 가져오기
-        $.ajax({
-            url: '/chat/room/enter/' + roomUUID,
-            method: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                // 가져온 데이터를 사용하여 채팅방 이름 설정
-                $("h2").text(data.roomName);
-            }
-        });
-    }
-
-    function sendMessage() {
-        var message = document.getElementById('messageInput').value;
-
-        // JSON 형식의 데이터를 생성
-        var headers = {
-            'roomId': this.roomId,
-            'memberId': this.sender
-        };
-        ws.send("/pub/chat/message", headers, JSON.stringify({type: 'TALK', content: message}));
-        console.log('메세지 송신 전' + sender);
-        // JSON.stringify를 사용하여 데이터를 문자열로 변환
-        var chatMessageJSON = JSON.stringify(chatMessage);
-
-        // WebSocket을 통해 메시지를 서버로 전송
-        ws.send("/pub/chat/message", {}, JSON.stringify(chatMessage));
-        console.log('메세지 송신 후' + sender);
-
-        // 입력 필드 초기화
-        this.message = '';
-    }
-
-    function recvMessage(recv) {
-        var messageList = document.getElementById('messageList');
-        var listItem = document.createElement('li');
-        listItem.className = 'list-group-item';
-        listItem.innerText = (recv.type == 'ENTER' ? '[알림]' : recv.sender) + " - " + recv.message;
-        messageList.insertBefore(listItem, messageList.firstChild);
-    }
-
-
     function connect() {
+        // 수정: WebSocket 연결이 이미 열려 있는지 확인
+        if (ws && ws.connected) {
+            return;
+        }
         ws.connect({}, function (frame) {
-            ws.subscribe("/sub/chat/room/enter", function (message) {
+            ws.subscribe("/sub/chat/room/" + roomUUID, function (message) {
                 var recv = JSON.parse(message.body);
                 recvMessage(recv);
             });
@@ -97,17 +59,72 @@
             if (reconnect++ <= 5) {
                 setTimeout(function () {
                     console.log("connection reconnect");
-                    sock = new SockJS("/ws-stomp");
-                    ws = Stomp.over(sock);
+                    // 수정: 재연결 시도 시 새로운 소켓 및 WebSocket 생성 제거
                     connect();
                 }, 10 * 1000);
             }
         });
     }
 
+    function findRoom() {
+        $.ajax({
+            url: '/chat/room/enter/' + roomUUID,
+            method: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                $("h2").text(data.roomName);
+            }
+        });
+    }
 
-    findRoom();
-    connect();
+    function loadPreviousMessages() {
+        $.ajax({
+            url: '/chat/history/' + roomUUID,
+            method: 'GET',
+            dataType: 'json',
+            success: function (messages) {
+                messages.forEach(recvMessage);
+            }
+        });
+    }
+
+    function sendMessage() {
+        var messageInput = document.getElementById('messageInput');
+        var message = messageInput.value;
+
+        // JSON 형식의 데이터를 생성
+        var chatMessageDTO = {
+            sender: {
+                'memberId': sender
+            },
+            chatRoom: {
+                'id': roomId,
+                'roomUUID': roomUUID
+            },
+            content: message
+        };
+        ws.send("/pub/chat/message", {}, JSON.stringify(chatMessageDTO));
+        messageInput.value = '';
+    }
+
+    function recvMessage(recv) {
+        var messageList = document.getElementById('messageList');
+        var listItem = document.createElement('li');
+        listItem.className = 'list-group-item';
+
+        listItem.innerText = recv.sender.nickname + " - " + recv.content;
+
+        // 메시지를 추가하고 스크롤을 아래로 이동
+        messageList.appendChild(listItem);
+        // 수정: 스크롤을 아래로 이동하는 부분을 추가하여 실시간으로 스크롤되도록 함
+        messageList.scrollTop = messageList.scrollHeight;
+    }
+
+    $(document).ready(function () {
+        findRoom();
+        loadPreviousMessages();
+        connect();
+    });
 </script>
 </body>
 </html>

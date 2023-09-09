@@ -23,7 +23,7 @@ public class ChatRoomService {
     private PetsitterRepository petsitterRepository;
 
     @Autowired
-    ChatMessageController chatMessageController;
+    ChatMessageService chatMessageService;
 
     @Autowired
     MemberRepository memberRepository;
@@ -43,13 +43,14 @@ public class ChatRoomService {
 
         chatRoom.setPetsitter(petsitterRepository.findBySitterNo(id));
         chatRoom.setRoomUUID(UUID.randomUUID().toString());
-        chatRoom.setName(chatRoom.getPetsitter().getPetTitle() + " [" + memberRepository.findMemberByMemberId(guestId) + "]");
+        chatRoom.setName(chatRoom.getPetsitter().getPetTitle() + " [" +
+                memberRepository.findMemberByMemberId(hostId).getNickname() + " && " +
+                memberRepository.findMemberByMemberId(guestId).getNickname() + "]");
         chatRoom.setCreateDate(LocalDateTime.now());
         ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
-        System.out.println(chatRoom.getId() + "번 채팅방 저장 성공");
 
-        chatMessageController.enterMessage(chatRoom.getId(), hostId);
-        chatMessageController.enterMessage(chatRoom.getId(), guestId);
+        chatMessageService.enterMessage(chatRoom.getId(), hostId);
+        chatMessageService.enterMessage(chatRoom.getId(), guestId);
 
         return convertToChatRoomDTO(savedChatRoom);
     }
@@ -66,9 +67,13 @@ public class ChatRoomService {
         ChatRoomDTO chatRoomDTO = new ChatRoomDTO();
         chatRoomDTO.setId(chatRoom.getId());
         chatRoomDTO.setRoomUUID(chatRoom.getRoomUUID());
-        chatRoomDTO.setName(chatRoom.getName());
         chatRoomDTO.setCreateDate(chatRoom.getCreateDate());
         System.out.println("chatRoomDTO_ID: " + chatRoomDTO.getId());
         return chatRoomDTO;
+    }
+
+    public String getChatRoomUUIDById(Long roomId) {
+        ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room not Found"));
+        return chatRoom.getRoomUUID();
     }
 }
