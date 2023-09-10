@@ -20,7 +20,7 @@ public interface MypageRepository2 extends JpaRepository<Petsitter,Long> {
 
 
     @Query("SELECT p FROM Petsitter p JOIN Matching m ON p.sitterNo = m.petsitter.sitterNo WHERE m.member.id = :id")
-    Page<Petsitter> findByMatchingArticle(@Param("id") Long id,Pageable pageable);
+    Page<Petsitter> findBytest(@Param("id") Long id,Pageable pageable);
 
 
 

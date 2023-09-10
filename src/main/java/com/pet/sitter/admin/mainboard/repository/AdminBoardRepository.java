@@ -31,11 +31,6 @@ public interface AdminBoardRepository extends JpaRepository<Petsitter,Long> {
     Page<Petsitter> findAll(Pageable pageable);
     @Query("SELECT p FROM Petsitter p JOIN FETCH p.member m WHERE p.sitterNo = :sitterNo")
     Optional<Petsitter> findBySitterNoWithMember(@Param("sitterNo") Long sitterNo);
-
-
-    /*@Query("SELECT p FROM Petsitter p JOIN FETCH p.member m WHERE p.sitterNo = :sitterNo")
-    Page<Petsitter> findByMemberContaining(Member member,Pageable pageable);*/
-
     Page<Petsitter> findByPetTitleContaining(String searchKeyword, Pageable pageable);
 
 }

@@ -14,8 +14,8 @@
         </thead>
         <tbody>
         <tr th:each="memberDTO, loop : ${memberPage}">
-            <td th:text="${memberPage.getTotalElements - (memberPage.number * memberPage.size) - loop.index}"></td>
-
+            <!--<td th:text="${memberPage.getTotalElements - (memberPage.number * memberPage.size) - loop.index}"></td>-->
+            <td th:text="${memberDTO.id}"></td>
             <!--요청주소 http://localhost/포트/question/detail?id/1~100
                 <td th:text="${question.subject}"><a href="/question/detail?id=${question.id}"></a></td>-->
             <td>
@@ -33,13 +33,13 @@
             <td th:text="${memberDTO.memberId}"></td>
             <td th:text="${memberDTO.phone}"></td>
             <td th:text="${memberDTO.EMail}"></td>
-            <!--<td>
-                <a th:href="@{|/admin/modify/${memberDTO.sitterNo}|}"
+            <td>
+                <a th:href="@{|/admin/memberModify/${memberDTO.id}|}"
                    class="btn btn-modify-custom btn-outline-secondary" th:text="수정"></a>
 
-                <a th:data-uri="'/admin/delete/' + ${memberDTO.sitterNo}"
+                <a th:data-uri="'/admin/memberDelete/' + ${memberDTO.id}"
                    class="delete btn  btn-delete-custom btn-outline-secondary">삭제</a>
-            </td>-->
+            </td>
 
         </tr>
         </tbody>

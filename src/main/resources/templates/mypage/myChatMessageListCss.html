@@ -1,0 +1,23 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-3">
+    <link rel="stylesheet" href="/mypage/css/myChatMessageListCss.css" th:href="@{/mypage/css/myChatMessageListCss.css}"/>
+    <div class="wrap" th:each="chatMessage, loop : ${chatMessageDTO}">
+        <div class="chat ch1" sec:authorize="isAuthenticated()" th:if="${chatMessage.sender!=null and #authentication.getPrincipal().getUsername() != chatMessage.sender.memberId}">
+            <div class="icon"><i class="fa-solid fa-user"></i></div>
+            <div class="textbox" th:text="${chatMessage.content}"><span class="d-flex justify-content-end" th:text="${chatMessage.sender.memberId}+/+${#temporals.format(chatMessage.sendTime,'yyyy-MM-dd HH:mm')}"></span></div>
+        </div>
+        <div class="chat ch2" sec:authorize="isAuthenticated()" th:if="${chatMessage.sender!=null and #authentication.getPrincipal().getUsername() == chatMessage.sender.memberId}">
+            <div class="icon" ><i class="fa-solid fa-user"></i></div>
+            <div class="textbox" th:text="${chatMessage.content}"><span class="d-flex justify-content-end" th:text="${chatMessage.sender.memberId}+/+${#temporals.format(chatMessage.sendTime,'yyyy-MM-dd HH:mm')}"></span></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
