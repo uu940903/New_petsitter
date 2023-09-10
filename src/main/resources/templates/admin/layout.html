@@ -5,12 +5,10 @@
     <meta charset="UTF-8">
     <title>GSSitter - Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css"
-           th:href="@{/admin/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" type="text/css"
-           th:href="@{/admin/css/adminboard.css}"/>
-    <link rel="stylesheet" type="text/css"
-           th:href="@{/admin/css/adminmember.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/adminboard.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/admin/css/adminmember.css}"/>
+
 </head>
 <body>
 <!--navigation부분-->
@@ -21,6 +19,7 @@
 
 <!--baseTemplate안에 포함될 내용 끝 -->
 <script src="/admin/js/bootstrap.min.js" th:src="@{/admin/js/bootstrap.min.js}"></script>
+
 <th:block layout:fragment="script"></th:block>
 </body>
 <!-- javascript부분 -- ----------------------------->
@@ -38,8 +37,25 @@
                 location.href = this.dataset.uri;
                 //location.href="/question/delete/${question.id}";//질문삭제요청
                 //location.href="/answer/delete/${answer.id}";//답변삭제요청
-            };
+            }
+            ;
         });
     });
+
+    //게시판 회원목록
+    document.addEventListener("DOMContentLoaded", function () {
+        var currentUrl = window.location.pathname;
+
+        // 게시판 페이지에 있을 때 회원목록 링크를 숨깁니다.
+        if (currentUrl.endsWith("/admin/boardList")) {
+            document.querySelector(".nav-item-board-list").style.display = "none";
+        }
+        // 회원목록 페이지에 있을 때 게시판 링크를 숨깁니다.
+        else if (currentUrl.endsWith("/admin/memberList")) {
+            document.querySelector(".nav-item-member-list").style.display = "none";
+        }
+    });
 </script>
+
+
 </html>

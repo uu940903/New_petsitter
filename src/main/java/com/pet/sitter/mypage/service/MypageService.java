@@ -1,18 +1,14 @@
 package com.pet.sitter.mypage.service;
 
-import com.pet.sitter.common.entity.Matching;
-import com.pet.sitter.common.entity.Member;
-import com.pet.sitter.common.entity.Petsitter;
-import com.pet.sitter.common.entity.Question;
+import com.pet.sitter.chat.dto.ChatMessageDTO;
+import com.pet.sitter.chat.dto.ChatRoomDTO;
+import com.pet.sitter.common.entity.*;
 import com.pet.sitter.exception.DataNotFoundException;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.member.dto.MemberDTO;
 import com.pet.sitter.mypage.dto.MatchingDTO;
-import com.pet.sitter.mypage.repository.MypageRepository;
+import com.pet.sitter.mypage.repository.*;
 
-import com.pet.sitter.mypage.repository.MypageRepository2;
-import com.pet.sitter.mypage.repository.MypageRepository3;
-import com.pet.sitter.mypage.repository.MypageRepository4;
 import com.pet.sitter.qna.dto.QuestionDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,9 +31,52 @@ public class MypageService {
     private final MypageRepository2 mypageRepository2;
     private final MypageRepository3 mypageRepository3;
     private final MypageRepository4 mypageRepository4;
+    private final MypageRepository5 mypageRepository5;
+    private final MypageRepository6 mypageRepository6;
     private final PasswordEncoder passwordEncoder;
 
 
+    //채팅메세지 가져오기
+    public List<ChatMessageDTO> myChatMessage(Long id, int page) {
+        System.out.println("채팅메세지 가져오기 받은 파라미터"+id);
+        List<Sort.Order> sorts = new ArrayList();
+        sorts.add(Sort.Order.desc("id")); //내림차순기준
+        List<ChatMessage> chatMessageList = mypageRepository6.findByChatMessage(id);
+        for(ChatMessage chatMessage:chatMessageList){
+            System.out.println("content"+chatMessage.getContent());
+        }
+        System.out.printf("여기는 레파지토리6 에서 가져온  메세지갯수%d",chatMessageList.size());
+        int index = chatMessageList.size();
+
+        List<ChatMessageDTO> chatMessageDTOList = new ArrayList<>();
+        for (ChatMessage chatMessage : chatMessageList) {
+            ChatMessageDTO chatMessageDTO = ChatMessageDTO.builder().chatMessage(chatMessage).build();
+            chatMessageDTOList.add(chatMessageDTO);
+        }
+        System.out.println(chatMessageDTOList.size());
+        return chatMessageDTOList;
+    }
+
+
+    //채팅방가져오기
+    public Page<ChatRoomDTO> getMyChatRoomList(Long id, int page) {
+        List<Sort.Order> sorts = new ArrayList();
+        sorts.add(Sort.Order.desc("createDate")); //내림차순기준
+        Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
+        Page<ChatRoom> chatRoomPage = mypageRepository5.findByChatRoom(id,pageable);
+        System.out.printf("여기는 레파지토리5 에서 가져온  채팅방갯수%d",chatRoomPage.getTotalElements());
+
+        Page<ChatRoomDTO> chatroomDTOPage = chatRoomPage.map(chatroom -> {   //member1의 matchingDTO가져오기
+            ChatRoomDTO dto = new ChatRoomDTO();
+            dto.setId(chatroom.getId());
+            dto.setRoomUUID(chatroom.getRoomUUID());
+            dto.setCreateDate(chatroom.getCreateDate());
+            dto.setPetSitterDTO(new PetSitterDTO(chatroom.getPetsitter()));
+
+            return dto;
+        });
+        return chatroomDTOPage;
+    }
 
     //매칭내역가져오기
     public Page<MatchingDTO> getMatchingList(long id, int page) {
@@ -44,7 +84,7 @@ public class MypageService {
         sorts.add(Sort.Order.desc("petsitter.sitterNo")); //내림차순기준
         Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
         Page<Matching> matchingPage = mypageRepository4.findByMatching(id,pageable);//페이지처리하기위한 Page<Matching>가져오기
-        System.out.printf("여기는 레파지토리 에서 가져온 매칭갯수%d",matchingPage.getTotalElements());
+        System.out.printf("여기는 레파지토리 에서 가져온  매칭갯수%d",matchingPage.getTotalElements());
 
 
         Page<MatchingDTO> matchingDTOPage = matchingPage.map(matching -> {   //member1의 matchingDTO가져오기
@@ -62,7 +102,7 @@ public class MypageService {
         List<Sort.Order> sorts = new ArrayList();
         sorts.add(Sort.Order.desc("sitterNo")); //내림차순기준
         Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
-        Page<Petsitter> petsitterPage = mypageRepository2.findByMatchingArticle(id,pageable);//page<Petsitter>를 page<PetSitterDTO>로 변환
+        Page<Petsitter> petsitterPage = mypageRepository2.findBytest(id,pageable);//page<Petsitter>를 page<PetSitterDTO>로 변환
         System.out.printf("여기는 레파지토리 에서 가져온 펫시터 엔티티갯수%d",petsitterPage.getTotalElements());
 
         Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
@@ -153,6 +193,7 @@ public class MypageService {
         sorts.add(Sort.Order.desc("petRegdate")); //내림차순기준
         Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
         Page<Petsitter> petsitterPage = mypageRepository2.findByMemberMemberId(id,pageable);//page<Petsitter>를 page<PetSitterDTO>로 변환
+        System.out.printf("여기는 레파지토리 에서 가져온 펫시터 내글 갯수%d",petsitterPage.getTotalElements());
         Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
             PetSitterDTO dto = new PetSitterDTO(petsitter);
             dto.setMember(new MemberDTO(petsitter.getMember())); // Member 설정
@@ -250,6 +291,7 @@ public class MypageService {
         member.setNickname(nickname);
         mypageRepository.save(member);
     }
+
 
 
 }

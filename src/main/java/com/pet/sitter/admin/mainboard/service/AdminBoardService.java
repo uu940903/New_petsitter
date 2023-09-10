@@ -48,14 +48,6 @@ public class AdminBoardService {
         return new PageImpl<>(petSitterDTOList, pageable, petSitterPage.getTotalElements());
     }
 
-
-    /*//검색
-    @Transactional
-    public Page<Petsitter>search(String keyword){
-        List<Petsitter> petsitterList = adminBoardRepository.findByMember_NameContaining(keyword);
-        return petsitterList;
-    }*/
-
     //게시글 상세 조회
     public PetSitterDTO getBoardDetail(Long sitterNo) {
         Optional<Petsitter> optionalPetsitter = adminBoardRepository.findBySitterNo(sitterNo);
@@ -87,8 +79,6 @@ public class AdminBoardService {
         return petSitterDTO;
     }
 
-
-
     //수정처리
     public void modify(Petsitter petsitter, String petTitle, String petContent) {
         System.out.println("modify 서비스 진입");
@@ -106,7 +96,6 @@ public class AdminBoardService {
         return petsitter.get();
     }
 
-
     //삭제처리
     @Transactional
     public void delete(Long sitterNo) {
@@ -117,85 +106,5 @@ public class AdminBoardService {
     public Page<Petsitter> boardSearchList(String searchKeyword, Pageable pageable) {
         return adminBoardRepository.findByPetTitleContaining(searchKeyword, pageable);
     }
-
-
-
-
-
-    /*public Page<PetSitterDTO> getBoardList(int page){
-        List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("petRegdate"));
-        Pageable pageable = PageRequest.of((page),10, Sort.by(sorts));
-        return adminBoardRepository.findAll(pageable).map(PetSitterDTO::new);
-    }*/
-
-     /*int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), PetSitterDTOList.size());
-        Page<PetSitterDTO> boardPage = new PageImpl<>(PetSitterDTOList.subList(start, end), pageable, PetSitterDTOList.size());
-
-        return boardPage;*/
-/*        Page<PetSitterDTO> boardPage = petSitterPage.map(PetSitterDTO::new);
-        List<Petsitter> petsitterList = petSitterPage.get().toList();
-        List<PetSitterDTO> petSitterDTOList = boardPage.get().toList();
-        List<MemberDTO> memberDTOList = new ArrayList<>();
-        for(Petsitter petsitter : petsitterList){
-            MemberDTO memberDTO = MemberDTO.builder().member(petsitter.getMember()).build();
-            PetSitterDTO petSitterDTO = PetSitterDTO.builder().petsitter(petsitter).build();
-            petSitterDTO.setMember(memberDTO);
-            petSitterDTOList.add(petSitterDTO);
-
- */
-
-
-    //게시글목록조회 : findAll()
-    /*public List<PetSitterDTO> getBoardList() {
-        List<Petsitter> petsitterList = adminBoardRepository.findAll();
-        List<PetSitterDTO> petSitterDTOList = petsitterList.stream().map(petsitter -> {
-            PetSitterDTO petSitterDTO = new PetSitterDTO();
-            petSitterDTO.setSitterNo(petsitter.getSitterNo());
-            petSitterDTO.setPetTitle(petsitter.getPetTitle());
-            petSitterDTO.setPetContent(petsitter.getPetContent());
-            petSitterDTO.setCategory(petsitter.getCategory());
-            petSitterDTO.setMember(petsitter.getMember());
-            petSitterDTO.setPetCategory(petsitter.getPetCategory());
-            petSitterDTO.setPetRegdate(petsitter.getPetRegdate());
-            petSitterDTO.setPetViewCnt(petsitter.getPetViewCnt());
-            petSitterDTO.setStartTime(petsitter.getStartTime());
-            petSitterDTO.setEndTime(petsitter.getEndTime());
-            return petSitterDTO;
-        }).collect(Collectors.toList());
-
-        return petSitterDTOList;
-    }*/
-
-
-    /*
-    //질문등록처리
-    public void add(String petTitle, String petContent, Member member){
-        AdminMainDTO adminMainDTO = new AdminMainDTO();
-        adminMainDTO.setPetTitle(petTitle);
-        adminMainDTO.setPetContent(petContent);
-        adminMainDTO.setPetRegdate(LocalDateTime.now());
-        adminMainDTO.setMember(member);
-        adminMainRepository.save(adminMainDTO);
-    }*/
-
-    /*public Petsitter getBoardDetail2(Long sitterNo) {
-        Optional<Petsitter> petsitter = adminBoardRepository.findBySitterNo(sitterNo);
-        if(petsitter.isPresent()){
-            return petsitter.get();
-        }else{
-            throw new DataNotFoundException("member");
-        }
-    }*/
-
-
-
-    /*public void modify(Petsitter petsitter, String petTitle, String petContent) {
-        petsitter.setPetTitle(petTitle);
-        petsitter.setPetContent(petContent);
-        adminBoardRepository.save(petsitter);
-    }*/
-
 
 }

@@ -25,14 +25,6 @@ public class AdminBoardController {
 
     private final AdminBoardService adminBoardService;
 
-    /*//목록조회
-    @GetMapping("/boardList")
-    public String boardList(Model model, HttpServletRequest request,
-                            @RequestParam(value="page",defaultValue="0") int page){
-        Page<PetSitterDTO> boardPage = adminBoardService.getBoardList(page);
-        model.addAttribute("boardPage",boardPage);
-        return "admin/boardList";
-    }*/
     //목록조회
     @GetMapping("/boardList")
     public String boardList(Model model, @RequestParam(value="page",defaultValue="0") int page,
@@ -58,20 +50,6 @@ public class AdminBoardController {
         model.addAttribute("boardDetail",boardDetail);
         return "admin/boardDetail";
     }
-
-    //수정폼 보여줘=>여기에서는 질문등록폼을 이용
-    //@PreAuthorize("isAuthenticated()")//인증을 요하는 메서드
-   /* @GetMapping("/modify/{sitterNo}")
-    public String questionModify(AdminBoardForm adminBoardForm,
-                                 @PathVariable("sitterNo") Long sitterNo, Principal principal){
-        //1.파라미터받기
-        //2.비즈니스로직수행
-        PetSitterDTO petSitterDTO = adminBoardService.getBoardDetail(sitterNo); //질문상세
-        adminBoardForm.setPetTitle(petSitterDTO.getPetTitle());
-        adminBoardForm.setPetContent(petSitterDTO.getPetContent());
-        //3.Model //4.View
-        return "admin/boardForm"; // 질문등록폼으로 이동
-    }*/
 
     //수정폼
     @GetMapping("/modify/{sitterNo}")
@@ -104,59 +82,10 @@ public class AdminBoardController {
         return String.format("redirect:/admin/detail/%d",sitterNo); //수정상세페이지로 이동
     }
 
-   /* //질문등록처리
-    //SiteUser siteUser : 질문작성자의 정보
-    public void add(String subject, String content, SiteUser qsiteUser){
-        Question question = new Question();
-        question.setSubject(subject);
-        question.setContent(content);
-        question.setCreateDate(LocalDateTime.now());
-        question.setWriter(qsiteUser);
-        System.out.println("질문서비스 question="+question);
-        questionReprository.save(question);
-    }*/
-
-
-
-    //수정처리
-    /*@PostMapping("/modify/{sitterNo}")
-    public String modify(@Valid AdminBoardForm adminBoardForm, BindingResult bindingResult,
-                         @PathVariable("sitterNo") Integer id, Principal principal){
-        //1.파라미터받기
-        if(bindingResult.hasErrors()){ //유효성검사시 에러가 발생하면
-            return "boardform"; //question_form.html문서로 이동
-        }
-        //2.비즈니스로직수행
-        //로그인한 유저가 글쓴이와 일치햐야지만 수정권한을 가지게 된다 =>수정처리 진행된
-        PetSitterDTO petSitterDTO = adminBoardRepository.getQuestion(id); //질문상세
-        if(!question.getWriter().getUsername().equals(principal.getName())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
-        }
-
-        questionService.modify(question,questionForm.getSubject(),questionForm.getContent());
-        return String.format("redirect:/question/detail/%d",id); //수정상세페이지로 이동
-    }*/
-
-    //삭제처리
-    /*@GetMapping("/delete/{sitterNo}")
-    public String boardDelete(@PathVariable("sitterNo") Long sitterNo,PetSitterDTO petSitterDTO,
-                                 Principal principal){
-        //1.파라미터받기
-        //2.비즈니스로직수행
-        PetSitterDTO detailDelete = adminBoardService.getBoardDetail(sitterNo); //질문상세
-        Petsitter petsitter = petSitterDTO.toEntity();
-        adminBoardService.delete(petsitter);
-        return "redirect:/admin/boardList";//(질문목록조회 요청에 따른)질의목록페이지로 이동
-    }*/
-       /* if(!petSitterDTO.getMember().getNickname().equals(principal.getName())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"삭제권한이 없습니다.");
-        }*/
-
+    //삭제
     @GetMapping("/delete/{sitterNo}")
     public String boardDelete(@PathVariable("sitterNo") Long sitterNo, Principal principal){
         adminBoardService.delete(sitterNo);
         return "redirect:/admin/boardList";
     }
-
-
 }
