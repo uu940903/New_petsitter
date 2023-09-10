@@ -27,7 +27,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -248,78 +247,6 @@ public class MainBoardService {
 
     //혜지시작
     //AreaSearch 테이블에 먼저 insert
-  public WeekDTO insertWeek (WeekDTO weekDTO) {
-        logger.info("MainBoardService-insertWeek()진입");
-
-        List<String> dayList = new ArrayList<>();
-        int startTimeHour = 0;
-        int endTimeHour = 0;
-
-        switch (day) {
-            case "weekday":
-                dayList.add("월");
-                dayList.add("화");
-                dayList.add("수");
-                dayList.add("목");
-                dayList.add("금");
-                break;
-            case "weekend":
-                dayList.add("토");
-                dayList.add("일");
-                break;
-            case "allDay":
-                dayList = null;
-                break;
-        }
-
-        switch (timeStr) {
-            case "dawn" -> {
-                startTimeHour = 0;
-                endTimeHour = 5;
-            }
-            case "morning" -> {
-                startTimeHour = 6;
-                endTimeHour = 11;
-            }
-            case "afternoon" -> {
-                startTimeHour = 12;
-                endTimeHour = 17;
-            }
-            case "midnight" -> {
-                startTimeHour = 18;
-                endTimeHour = 23;
-            }
-            case "allTime" -> {
-            }
-        }
-
-        System.out.println("값 확인 : "+category+", "+petCategory+", "+petAddress+", "+dayList+", "+startTimeHour+", "+endTimeHour);
-
-        Page<Petsitter> petsitterPage = petsitterRepository.findAll(PetsitterSpec.searchWith(category, petCategory, petAddress, dayList, startTimeHour, endTimeHour), pageable);
-        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
-            PetSitterDTO petSitterDTO = PetSitterDTO.builder().petsitter(petsitter).build();
-            List<PetSitterFileDTO> petSitterFileDTOList = petsitter.getPetsitterFileList().stream()
-                    .map(petsitterFile -> PetSitterFileDTO.builder()
-                            .petsitterFile(petsitterFile)
-                            .build())
-                    .collect(Collectors.toList());
-            petSitterDTO.setFileDTOList(petSitterFileDTOList);
-            List<WeekDTO> weekDTOList = petsitter.getWeekList().stream()
-                    .map(week -> WeekDTO.builder()
-                            .week(week)
-                            .build())
-                    .collect(Collectors.toList());
-            petSitterDTO.setWeekDTOList(weekDTOList);
-            return petSitterDTO;
-        });
-        System.out.println();
-        return petSitterDTOPage;
-    }
-
-
-
-
-    //글작성
     public void write(PetSitterDTO petSitterDTO, String id, MultipartFile[] boardFile) throws IOException {
         logger.info("MainBoardService-write()진입");
 

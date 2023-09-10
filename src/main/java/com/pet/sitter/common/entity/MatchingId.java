@@ -5,11 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class WeekId implements Serializable {
+public class MatchingId implements Serializable {
     private Long petsitter;
-    private String day;
+    private LocalDateTime creatdateMatching;
+    private Member member;
+    private Member member2;
 }

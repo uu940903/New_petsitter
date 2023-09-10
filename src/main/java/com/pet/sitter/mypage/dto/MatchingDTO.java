@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,15 +25,14 @@ public class MatchingDTO {
     private Date creatdateMatching;
 
 
-    private MemberDTO member;
+    private List<Member> memberList;
 
-
-    private MemberDTO member2;
-
+    /*
     @Builder
     public MatchingDTO(Matching matching){
         this.petsitter=matching.getPetsitter();
         this.creatdateMatching=matching.getCreatdateMatching();
 
     }
+     */
 }

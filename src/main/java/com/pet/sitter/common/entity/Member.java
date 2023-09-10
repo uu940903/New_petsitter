@@ -65,10 +65,8 @@ public class Member {
     @OneToMany(mappedBy = "sender", cascade = CascadeType.REMOVE)
     private List<ChatMessage> chatMessagesList;
 
-
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Matching> matchingList;
-
 
     @Builder
     public Member(Long id, String memberId, String pw, String name, String phone, String eMail, String birth, String address, String detailaddress, String zipcode, String nickname, String isshow, List<Petsitter> petsitterList) {

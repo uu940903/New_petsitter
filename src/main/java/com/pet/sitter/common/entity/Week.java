@@ -1,9 +1,12 @@
 package com.pet.sitter.common.entity;
 
+import com.pet.sitter.mainboard.dto.WeekDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter

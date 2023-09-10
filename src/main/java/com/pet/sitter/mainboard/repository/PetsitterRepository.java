@@ -32,13 +32,6 @@ public interface PetsitterRepository extends JpaRepository<Petsitter, Long>, Jpa
     //추천
     //List<Petsitter> findByPetCategoryAndPetAddressOrderByPetRegdateDesc(String petCategory, String petAddress);
 
-    Petsitter deleteBySitterNo (Long sitterNo);
-
-    //검색
-    Page<Petsitter> findAll(Specification<Petsitter> spec, Pageable pageable);
-
-
-
     //*****************혜지
     //삭제
     Petsitter deleteBySitterNo (Long sitterNo);

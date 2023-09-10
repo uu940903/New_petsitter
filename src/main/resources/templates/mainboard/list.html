@@ -89,7 +89,7 @@
         <th:block th:each="petSitter, loop :${petSitterPage}" id="thBlock">
             <a th:href="@{|/mainboard/detail/${petSitter.sitterNo}|}">
                 <div class="petSitterItem">
-                    <div class="thumbnail-crop" >
+                    <div class="thumbnail-crop">
                         <div th:if="${petSitter == null or (petSitter.fileDTOList == null or petSitter.fileDTOList.isEmpty())}">
                             <img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/tem_img.png" />
                         </div>
@@ -97,13 +97,11 @@
                             <img class="thumbnail" alt="petSitter" id="user_thumbnail" th:src="@{|/image/mainboard/${petSitter.fileDTOList[0].newFileName}|}" />
                         </div>
                     </div>
-                </div>
-                <div class="text-left">
-                <div th:text="${petSitter.petTitle}"></div>
-                <div th:data-sitterno="${petSitter.sitterNo}"></div>
-                <div th:text="${petSitter.petAddress}"></div>
-                <div th:if="${petSitter.price!=0}" th:text="${petSitter.price}"></div>
-                <div th:if="${petSitter.price==0}" th:text="협의가능"></div>
+                    <div class="item_name" th:text="${petSitter.petTitle}"></div>
+                    <div th:data-sitterno="${petSitter.sitterNo}"></div>
+                    <div th:text="${petSitter.petAddress}"></div>
+                    <div class="item_cost" th:if="${petSitter.price!=0}" th:text="${petSitter.price}"></div>
+                    <div class="item_place" th:if="${petSitter.price==0}" th:text="협의가능"></div>
                 </div>
             </a>
         </th:block>
@@ -143,6 +141,14 @@
             let addressVal = $("#address").val();
             let dayVal = $("#day").val();
             let timeVal = $("#time").val();
+            console.log(categoryVal+petCategoryVal+addressVal+dayVal+timeVal);
+
+            const searchParams =
+                `category=${categoryVal}` +
+                `&petCategory=${petCategoryVal}` +
+                `&address=${addressVal}` +
+                `&day=${dayVal}` +
+                `&time=${timeVal}`;
 
             const searchObj = {
                 category: categoryVal,
@@ -184,30 +190,31 @@
                 makePagination(data, pno, searchObj);
 
                 data.content.forEach(function (content){
-                if (data.content.length === 0 || data.content.length === null) {
-                    htmlList += `<div>등록된 게시글이 없습니다.</div>`;
-                    $("#noting").html(htmlList);
-                } else {
-                    htmlList += `<a href="/mainboard/detail/`+content.sitterNo+`">
-                                 <div class="petSitterItem">
-                                 <div class="thumbnail-crop" >`;
-                    if(content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
-                        htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/tem_img.png" />`;
+                    if (data.content.length === 0 || data.content.length === null) {
+                        htmlList += `<div>등록된 게시글이 없습니다.</div>`;
+                        $("#noting").html(htmlList);
                     } else {
-                        htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/`+content.fileDTOList[0].newFileName+`" />`;
-                    }
+                        htmlList += `<a href="/mainboard/detail/`+content.sitterNo+`">
+                                 <div class="petSitterItem">
+                                 <div class="thumbnail-crop" >
+                                 <div class="text-left">`;
+                        if(content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
+                            htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/tem_img.png" />`;
+                        } else {
+                            htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/`+content.fileDTOList[0].newFileName+`" />`;
+                        }
                         htmlList += `</div>
                                      </div>
-                                     <div class="text-left">
+                                     </div>
                                      <div>`+content.petTitle+`</div>`;
                         htmlList += `<div>`+content.petAddress+`</div>`;
-                    if(content.price !== 0) {
-                        htmlList += `<div>`+content.price+`</div>`;
-                    } else {
-                        htmlList += `<div>협의가능</div>`;
+                        if(content.price !== 0) {
+                            htmlList += `<div>`+content.price+`</div>`;
+                        } else {
+                            htmlList += `<div>협의가능</div>`;
+                        }
+                        htmlList += `</a>`;
                     }
-                        htmlList += `</div></a>`;
-                }
                 });
                 $("#petSitterContainer").html(htmlList);
             },
@@ -257,13 +264,13 @@
             }
 
             row += `</ul>`;
+        }
+
+        $("#pagenations").html(row);
+
+        $(".prev-page").click(function() { search(searchObj, $(this).data('pno')); });
+        $(".next-page").click(function() { search(searchObj, $(this).data('pno')); });
+        $(".page-nav").click(function() { search(searchObj, $(this).data('pno')); });
     }
-
-    $("#pagenations").html(row);
-
-    $(".prev-page").click(function() { search(searchObj, $(this).data('pno')); });
-    $(".next-page").click(function() { search(searchObj, $(this).data('pno')); });
-    $(".page-nav").click(function() { search(searchObj, $(this).data('pno')); });
-}
 </script>
 </html>

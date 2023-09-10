@@ -2,27 +2,24 @@ package com.pet.sitter.common.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Matching {
     @Id
-    @JoinColumn(name="sitter_no", referencedColumnName = "sitterNo")
-    @OneToOne
-    private Petsitter petsitter;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long matchingNo;
 
     @Column
     @NotNull
-    private Date creatdateMatching;
+    private LocalDateTime creatdateMatching;
 
     @ManyToOne
     @JoinColumn(name="matchingNo1", referencedColumnName = "id")
@@ -32,4 +29,7 @@ public class Matching {
     @JoinColumn(name="matchingNo2", referencedColumnName = "id")
     private Member member2;
 
+    @OneToOne
+    @JoinColumn(name="sitter_no", referencedColumnName = "sitterNo")
+    private Petsitter petsitter;
 }
