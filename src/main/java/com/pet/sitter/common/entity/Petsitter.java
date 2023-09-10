@@ -56,12 +56,6 @@ public class Petsitter {
     @Column
     private LocalDateTime endTime;
 
-    @Transient
-    private int startTimeHour;
-
-    @Transient
-    private int endTimeHour;
-
     @Column
     private String petAddress;
 
@@ -98,7 +92,7 @@ public class Petsitter {
         this.petAddress = petAddress;
     }
 
-    public boolean isPetsitterFileListEmpty() {
+    public boolean isPetsitterFileListEmpty () {
         return petsitterFileList == null || petsitterFileList.isEmpty();
     }
 

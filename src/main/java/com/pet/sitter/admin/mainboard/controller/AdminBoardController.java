@@ -28,15 +28,7 @@ public class AdminBoardController {
     //목록조회
     @GetMapping("/boardList")
     public String boardList(Model model, @RequestParam(value="page",defaultValue="0") int page,
-                            Pageable pageable, String searchKeyword){
-        Page<Petsitter> list = null;
-        Page<PetSitterDTO> list2 = null;
-        /*searchKeyword = 검색하는 단어*/
-        if(searchKeyword == null){
-            list2 = adminBoardService.getBoardList(pageable.getPageNumber()); //기존의 리스트보여줌
-        }else{
-            list = adminBoardService.boardSearchList(searchKeyword, pageable); //검색리스트반환
-        }
+                            Pageable pageable){
         Page<PetSitterDTO> boardPage = adminBoardService.getBoardList(page);
         model.addAttribute("boardPage",boardPage);
         return "admin/boardList";

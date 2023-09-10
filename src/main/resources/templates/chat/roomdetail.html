@@ -14,6 +14,11 @@
     <div>
         <h2 th:text="${roomName}"></h2>
     </div>
+    <div class="d-flex justify-content-top">
+        <form>
+            <input id="subBtn" class="btn btn-primary" type="button" value="매칭하기"/>
+        </form>
+    </div>
     <div class="input-group">
         <div class="input-group-prepend">
             <label class="input-group-text">내용</label>
@@ -125,6 +130,24 @@
         loadPreviousMessages();
         connect();
     });
+
+    var hostId = localStorage.getItem('sitter.hostId');
+    var guestId = localStorage.getItem('sitter.guestId');
+
+   $("#subBtn").click(function(){
+        alert("hostId : "+hostId+", guestId : "+guestId+", roomId : "+roomId);
+        $.ajax({
+            url: '/chat/room/matching',
+            method: 'GET',
+            data: { roomId : roomId, hostId : hostId, guestId : guestId, roomUUID : roomUUID },
+            success: function (response) {
+                alert("매칭이 성공 되었습니다.");
+            },
+             error: function(request, status, error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        });
+   })
 </script>
 </body>
 </html>

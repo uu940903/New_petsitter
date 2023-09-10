@@ -18,17 +18,19 @@ public interface PetsitterRepository extends JpaRepository<Petsitter, Long>, Jpa
 
     //페이지네이션
     Page<Petsitter> findAll(Pageable pageable);
+    Page<Petsitter> findAllByPetAddressContaining(Pageable pageable, String petAddress);
 
     //무한 스크롤
-    Page<Petsitter> findAllBySitterNoLessThanOrderByPetRegdateDesc(Pageable page, Long sitterNo);
+    //Page<Petsitter> findAllBySitterNoLessThanOrderByPetRegdateDesc(Pageable page, Long sitterNo);
 
     //상세페이지 조회
     Petsitter findBySitterNo(Long sitterNo);
 
-    //검색
+    //카테고리 검색
     Page<Petsitter> findAll(Specification<Petsitter> spec, Pageable pageable);
 
-
+    //추천
+    //List<Petsitter> findByPetCategoryAndPetAddressOrderByPetRegdateDesc(String petCategory, String petAddress);
 
     //*****************혜지
     //삭제

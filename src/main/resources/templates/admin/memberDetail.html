@@ -1,6 +1,6 @@
 <html layout:decorate="~{admin/layout}" xmlns:th="http://www.thymeleaf.org">
 <div layout:fragment="adminContent" class="container">
-    <h5 class="my-3 border-bottom pb-2">회원수정</h5>
+    <h1 class="my-3 h1-memberdetail border-bottom pb-2">회원수정</h1>
     <!--CSRF자동생성을 하기 위해 th:action속성은 제거,
         CSRF값을 설정하기 위한 hidden을 추가한다
         폼의 action속성의 값은 question_form의 브라우저의 현재 URL을 기준으로 설정된다.
@@ -33,7 +33,7 @@
 
         <tr>
             <td>닉네임</td>
-            <td th:if="${memberDetail.NickName!=null}" th:text="${memberDetail.NickName}"></td>
+            <td th:if="${memberDetail.Nickname!=null}" th:text="${memberDetail.Nickname}"></td>
             <!--<td><input th:value="${memberDetail.nickname}"></td>-->
         </tr>
 
@@ -69,6 +69,6 @@
            class="btn btn-modify-memberDetail btn-outline-secondary" th:text="수정"></a>
 
         <a href="javascript:void(0);" th:data-uri="@{|/admin/memberDelete/${memberDetail.id}|}"
-           class="delete btn btn-modify-memberDelete btn-outline-secondary" th:text="삭제"></a>
+           class="delete btn btn-delete-memberDelete btn-outline-secondary" th:text="삭제"></a>
     </span>
 </div>
