@@ -89,7 +89,7 @@
         <th:block th:each="petSitter, loop :${petSitterPage}" id="thBlock">
             <a th:href="@{|/mainboard/detail/${petSitter.sitterNo}|}">
                 <div class="petSitterItem">
-                    <div class="thumbnail-crop" >
+                    <div class="thumbnail-crop">
                         <div th:if="${petSitter == null or (petSitter.fileDTOList == null or petSitter.fileDTOList.isEmpty())}">
                             <img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/tem_img.png" />
                         </div>
@@ -97,12 +97,12 @@
                             <img class="thumbnail" alt="petSitter" id="user_thumbnail" th:src="@{|/image/mainboard/${petSitter.fileDTOList[0].newFileName}|}" />
                         </div>
                     </div>
+                    <div class="item_name" th:text="${petSitter.petTitle}"></div>
+                    <div th:data-sitterno="${petSitter.sitterNo}"></div>
+                    <div th:text="${petSitter.petAddress}"></div>
+                    <div class="item_cost" th:if="${petSitter.price!=0}" th:text="${petSitter.price}"></div>
+                    <div class="item_place" th:if="${petSitter.price==0}" th:text="협의가능"></div>
                 </div>
-                <div th:text="${petSitter.petTitle}"></div>
-                <div th:data-sitterno="${petSitter.sitterNo}"></div>
-                <div th:text="${petSitter.petAddress}"></div>
-                <div th:if="${petSitter.price!=0}" th:text="${petSitter.price}"></div>
-                <div th:if="${petSitter.price==0}" th:text="협의가능"></div>
             </a>
         </th:block>
     </div>

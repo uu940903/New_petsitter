@@ -4,9 +4,9 @@ import com.pet.sitter.chat.dto.ChatMessageDTO;
 import com.pet.sitter.chat.dto.ChatRoomDTO;
 import com.pet.sitter.chat.repository.ChatMessageRepository;
 import com.pet.sitter.chat.repository.ChatRoomRepository;
-import com.pet.sitter.common.entity.ChatMessage;
-import com.pet.sitter.common.entity.ChatRoom;
-import com.pet.sitter.common.entity.Member;
+import com.pet.sitter.chat.repository.MatchingRepository;
+import com.pet.sitter.common.entity.*;
+import com.pet.sitter.exception.DataNotFoundException;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.mainboard.repository.PetsitterRepository;
 import com.pet.sitter.member.dto.MemberDTO;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -30,6 +31,7 @@ public class ChatMessageService {
     private final MemberRepository memberRepository;
     private final PetsitterRepository petsitterRepository;
     private final SimpMessageSendingOperations messagingTemplate;
+    private final MatchingRepository matchingRepository;
 
     public void enterMessage(Long chatRoomId, String memberId) {
 
@@ -107,5 +109,27 @@ public class ChatMessageService {
                         entity.getSendTime()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    public void matching(Long roomId, String hostId, String guestId) {
+        Matching matching = new Matching();
+        ChatRoom chatRoom = chatRoomRepository.findChatRoomById(roomId);
+        Optional<Member> member = memberRepository.findBymemberId(hostId);
+        if(member.isEmpty()) {
+            throw new DataNotFoundException("회원이 없습니다.");
+        }
+        Member hostMember = member.get();
+        Optional<Member> member2 = memberRepository.findBymemberId(guestId);
+        if(member2.isEmpty()) {
+            throw new DataNotFoundException("회원이 없습니다.");
+        }
+        Member guestMember = member2.get();
+
+        Petsitter petsitter = chatRoom.getPetsitter();
+        matching.setPetsitter(petsitter);
+        matching.setCreatdateMatching(LocalDateTime.now());
+        matching.setMember(hostMember);
+        matching.setMember2(guestMember);
+        matchingRepository.save(matching);
     }
 }

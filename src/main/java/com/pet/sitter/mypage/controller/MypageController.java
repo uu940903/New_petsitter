@@ -84,11 +84,8 @@ public class MypageController {
     }
 
 
-
-
-
-
-    /*//jointest
+    /*
+    //jointest
     @GetMapping("/machingResult")
     public String machingResult(@RequestParam(value="page",defaultValue="0") int page, Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -102,7 +99,9 @@ public class MypageController {
 
         model.addAttribute("petsitterPage",petsitterPage);
         return "mypage/myMatchingList";
-    }*/
+    }
+
+     */
 
 
 
@@ -150,10 +149,6 @@ public class MypageController {
         model.addAttribute("questionPage",questionPage);
         return "mypage/myQnAList";
     }
-
-
-
-    //
 
 
     /*//나의 매칭내역보기

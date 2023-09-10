@@ -1,6 +1,5 @@
 package com.pet.sitter.common.entity;
 
-import com.pet.sitter.member.validation.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -68,7 +67,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<Matching> matchingList;
-
 
     @Builder
     public Member(Long id, String memberId, String pw, String name, String phone, String eMail, String birth, String address, String detailaddress, String zipcode, String nickname, String isshow, List<Petsitter> petsitterList) {

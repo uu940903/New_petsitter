@@ -15,8 +15,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://gettersettersitter.cocxfarlqxip.ap-northeast-2.rds.amazonaws.com:3306/GetterSetterSitter?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul
-    username: admin
-    password: gst12345
+    username: mingzzi
+    password: mingzzi1234
   devtools:
     livereload:
       enabled: true
