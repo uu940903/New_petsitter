@@ -1,15 +1,8 @@
 <html layout:decorate="~{admin/layout}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <div layout:fragment="adminContent" class="container my-4">
-    <div class="container my-3" id="h3AndSearch">
-        <h3>구합니다</h3>
-        <div class="search">
-            <input class="searchInput" type="text" placeholder="검색어 입력">
-            <img  class="searchImg" src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
-        </div>
-    </div>
-    <!--<a th:href="@{/question/add}" class="btn btn-primary" id="topQuestionBtn">글쓰기</a>-->
-    <table class="table">
-        <thead class="table-dark">
+    <h1 class="boardlist">게시판</h1>
+    <table class="table container my-4">
+        <thead class="table-nav-tr">
         <tr>
             <th>번호</th>
             <th>반려동물</th>
@@ -25,33 +18,23 @@
         </thead>
         <tbody>
         <tr th:each="petSitterDTO, loop : ${boardPage}">
+
             <td th:text="${boardPage.getTotalElements - (boardPage.number * boardPage.size) - loop.index}"></td>
 
-            <!--<td th:text="${petSitterDTO.sitterNo}"></td>-->
             <td th:text="${petSitterDTO.petCategory}"></td>
 
-            <!--요청주소 http://localhost/포트/question/detail?id/1~100
-                <td th:text="${question.subject}"><a href="/question/detail?id=${question.id}"></a></td>-->
             <td>
-                <!--요청주소 http://localhost/포트/question/detail/1~100
-                th:href속성에서 주소를 나타낼때에는 반드시@{}을 이용해야한다
-                @{URL}
-                주의:URL이 조하되어질대에는 @{||} 작성해야한다-->
-
                 <a th:href="@{|/admin/detail/${petSitterDTO.sitterNo}|}"
                    th:text="${petSitterDTO.petTitle}"></a>
-                <!-- 답변갯수출력 : 답변갯수가 0개 초과시 출력 -->
-                <!--<span class="text-danger small ms-1"
-                      th:if="${#lists.size(question.answerList)>0}"
-                      th:text="${#lists.size(question.answerList)}"></span>-->
             </td>
             <td th:text="${petSitterDTO.petViewCnt}"></td>
-            <td th:if="${petSitterDTO.member!=null}" th:text="${petSitterDTO.member.NickName}"></td>
+            <td th:if="${petSitterDTO.member!=null}" th:text="${petSitterDTO.member.Nickname}"></td>
             <td th:if="${petSitterDTO.member!=null}" th:text="${petSitterDTO.member.name}"></td>
             <!-- temporals.format(날짜대상,"date포맷") -->
             <td th:text="${#temporals.format(petSitterDTO.startTime,'yyyy.MM.dd')}"></td>
             <td th:text="${#temporals.format(petSitterDTO.endTime,'yyyy.MM.dd')}"></td>
             <td th:text="${#temporals.format(petSitterDTO.petRegdate,'yyyy-MM-dd HH:mm')}"></td>
+
             <td>
                 <a th:href="@{|/admin/modify/${petSitterDTO.sitterNo}|}"
                    class="btn btn-modify-custom btn-outline-secondary" th:text="수정"></a>
