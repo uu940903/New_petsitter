@@ -1,6 +1,7 @@
+
 <html layout:decorate="~{layout}" class="container my-3">
 <div layout:fragment="content">
-
+    <link rel="stylesheet" type="text/css" th:href="@{/qna/css/questionForm.css}">
     <form id="QuestionForm" th:action="@{/question/write}" th:object="${questionForm}" enctype="multipart/form-data" method="post">
 
         <div class="container">
@@ -22,7 +23,7 @@
                     <tr>
                         <th class="text-right">비밀번호</th>
                         <td>
-                            <input type=password th:field="*{password}" name="qnaPw" size=15 class="input-sm">
+                            <input type=password th:field="*{password}" name="qnaPw" size=15 placeholder="숫자4자리" class="input-sm">
                         </td>
                     </tr>
                     <tr>
@@ -32,10 +33,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="text-center" colspan="2">
-                            <input class="btn btn-dark" type="submit" value="등록">
+                        <td class="text-center border-0" colspan="2">
+                            <input class="btn btn-modify-custom btn-outline-secondary" type="submit" value="등록">
                             <a th:href="@{'/question/list'}">
-                                <button class="btn btn-dark">취소</button>
+                                <button type="button" class="btn btn-modify-custom btn-outline-secondary">취소</button>
                             </a>
                         </td>
                     </tr>

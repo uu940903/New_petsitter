@@ -1,50 +1,26 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
-    /*
+
     <table class="table">
         <thead class="table-dark">
         <tr>
 
             <th>제목</th>
 
-            <th>질문등록일</th>
+            <th>챗방생성일</th>
 
         </tr>
         </thead>
         <tbody>
-        <!--1페이지당 출력할 게시물수만큼 반복시작
-        *페이징처리에서 글번호 공식에 사용되는 개념
-           paging정보.getTotalElements:총게시물수
-           paging정보.number:현재 페이지 번호
-           paging정보.size:페이지당게시물개수
-           loop정보.index:나열 인덱스(0부터 시작.for반복문내부의 index)
-           여기에서는 한페이지당 게시글수를 10-> 0~9 =>0첫번째페이지 글번호12 11 10~3
-           여기에서는 한페이지당 게시글수를 2-> 0~1=>1 두번째페이지 글번호 2 1
-        -->
+
         <tr th:each="question, loop : ${chatRoomDTO}">
-            <!-- 글번호=총게시물수-(현재페이지번호*페이지당게시물개수)-나열 인덱스 -->
-            <!--12? =12-(0*10)-0 -->
-            <!-- =12-(0*10)-1 -->
-            <!-- =12-(0*10)-2 -->
-            <!--3? =12-(0*10)-9 -->
 
-            <!--2? =12-(1*10)-0 -->
-            <!--1? =12-(1*10)-1 -->
-
-            <!--요청주소 http://localhost:포트/question/detail?id=1001
-               <td th:text="${question.subject}"><a href="/question/detail?id=${question.id}"></a></td>-->
             <td>
-                <!--요청주소 http://localhost:포트/question/detail/1001
-                 th:href속성에서  주소를 나타낼때에는 반드시  @{}을 이용해야한다
-                  @{URL}
-                  주의:URL이  조합되어질때에는  @{| |} 작성해야한다-->
+
                 <a href="/mainboard/detail/${question.sitterNo}"
-                   th:href="@{|/mypage/myChatMessage/${question.id}|}"
-                   th:text="${question.roomUUID}"></a>
-                <!-- 답변갯수출력 : 답변갯수가 0개 초과시 출력 -->
-                <!-- <span class="text-danger small ms-1"
-                       th:if="${#lists.size(question.answerList)>0}"
-                       th:text="${#lists.size(question.answerList)}"></span>-->
+                   th:href="@{|/chat/room/enter/${question.roomUUID}|}"
+                   th:text="${question.name}"></a>
+
             </td>
 
             <!-- temporals.format(날짜대상,"date포맷") -->
@@ -54,7 +30,6 @@
         </tr><!--1페이지당 출력할 게시물수만큼 반복끝-->
         </tbody>
     </table>
-    <a th:href="@{/question/add}" class="btn btn-primary">질문등록하기</a>
 
     <!-- Pagenation 부분 영역 시작-->
     <div th:if="${ !chatRoomDTO.isEmpty() }">

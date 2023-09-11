@@ -1,6 +1,5 @@
 package com.pet.sitter.qna.repository;
 
-import com.pet.sitter.common.entity.Notice;
 import com.pet.sitter.common.entity.Question;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

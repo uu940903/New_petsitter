@@ -37,9 +37,9 @@ ol, ul {
 }
 
 .wrap {
-   max-width: 1280px;
-   margin: 0 auto;
-   text-align: center;
+    max-width: 1280px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .option {
@@ -49,7 +49,7 @@ ol, ul {
 .petSitter-cover {
     height: 340px;
     padding: 0 16px 0 16px;
-    margin: 50px 0px;
+    margin: -17px 0px;
 }
 
 .petSitter-cover {
@@ -66,8 +66,8 @@ ol, ul {
 }
 
 .cover-image .petSitter-cover-image img {
-    position: absolute;
-    top: 130px;
+    position: relative;
+    top: 53px;
     right: 0px;
     width: 40%;
     overflow: hidden;
@@ -199,4 +199,16 @@ ol, ul {
     border-radius: 10px;
     outline: 3px solid #ffca2c;
     border-radius: 10px;
+}
+
+.writeBtn {
+    left: 89rem;
+    position: relative;
+    border-radius: 30px 30px 30px 30px;
+    width: 60px;
+    height: 60px;
+    color: #ff9100;
+    border: none;
+    background-color: #ff9100;
+    text-align: center;
 }

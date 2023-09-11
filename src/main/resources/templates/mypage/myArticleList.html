@@ -1,14 +1,81 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+
+<html layout:decorate="~{layout}" >
+<div layout:fragment="content" class="container my-4">
 <head>
+    <style>
+
+
+        .thead-orange {
+            background-color: orange;
+            color: white; /* 글자색을 흰색으로 설정 */
+        }
+
+        .pagination-orange .page-link {
+            color: orange; /* 페이지 링크 텍스트 색상을 주황색으로 설정 */
+            border-color: orange; /* 페이지 링크 테두리 색상을 주황색으로 설정 */
+        }
+
+        .pagination-orange .page-link:hover {
+            background-color: orange; /* 페이지 링크에 마우스를 올렸을 때 배경색을 주황색으로 설정 */
+            color: white; /* 페이지 링크 텍스트 색상을 흰색으로 설정 */
+        }
+
+        .pagination-orange .active .page-link {
+            background-color: orange; /* 활성 페이지 링크의 배경색을 주황색으로 설정 */
+            border-color: orange; /* 활성 페이지 링크 테두리 색상을 주황색으로 설정 */
+
+       }
+
+       /* 채팅 보기 버튼 배경색 변경 */
+     .btn-primary.custom-btn {
+         background-color: #FF7A85; /* 원하는 배경색으로 변경 */
+         border-color: #FF7A85; /* 테두리 색상을 배경색과 동일하게 설정 (선택 사항) */
+         color: white; /* 텍스트 색상을 흰색으로 설정 (선택 사항) */
+     }
+
+     .btn-primary.custom-btn:hover {
+         background-color: pink; /* 마우스를 올렸을 때 배경색 변경 (선택 사항) */
+         border-color: pink;
+     }
+     .table {
+         background-color: #FFF; /* 원하는 배경색으로 변경 */
+     }
+
+     /*tbody의 a태그색상*/
+     .table tbody a {
+         color: black; /* 원하는 텍스트 색상으로 변경 */
+     }
+
+     /* 번호 텍스트 색상 변경 */
+     th.scope-number {
+         color: black; /* 원하는 텍스트 색상으로 변경 */
+     }
+
+         /* 글쓴이 텍스트 색상 변경 */
+     td.author {
+         color: black; /* 원하는 텍스트 색상으로 변경 */
+     }
+
+     /* 등록일 텍스트 색상 변경 */
+     td.registration-date {
+         color: black; /* 원하는 텍스트 색상으로 변경 */
+     }
+
+    /*페이지*/
+     .pagination.pagination-orange .page-item.active .page-link {
+    background-color: orange; /* 활성 페이지 링크의 배경색을 원하는 색상으로 변경 */
+    border-color: orange; /* 활성 페이지 링크 테두리 색상을 원하는 색상으로 변경 (선택 사항) */
+    color: white; /* 활성 페이지 링크 텍스트 색상을 흰색으로 변경 (선택 사항) */
+}
+    </style>
     <!-- 여기에 필요한 스타일시트 및 스크립트를 추가하세요. -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container my-3">
-    <h1>질문 목록</h1>
+    <h1>게시글 목록</h1>
     <table class="table table-striped">
-        <thead class="thead-dark">
+        <thead class="thead-orange">
         <tr>
             <th scope="col">번호</th>
             <th scope="col">제목</th>
@@ -19,17 +86,17 @@
         </thead>
         <tbody>
         <tr th:each="question, loop : ${petsitterPage}">
-            <th scope="row" th:text="${petsitterPage.totalElements - (petsitterPage.number * petsitterPage.size) - loop.index}"></th>
+            <th class="scope-number" scope="row" th:text="${petsitterPage.totalElements - (petsitterPage.number * petsitterPage.size) - loop.index}"></th>
             <td>
                 <a th:href="@{|/mainboard/detail/${question.sitterNo}|}" th:text="${question.petTitle}"></a>
             </td>
-            <td th:if="${question.member != null}" th:text="${question.member.memberId}"></td>
-            <td th:text="${#temporals.format(question.petRegdate,'yyyy-MM-dd HH:mm')}"></td>
+            <td class="author" th:if="${question.member != null}" th:text="${question.member.memberId}"></td>
+            <td class="registration-date" th:text="${#temporals.format(question.petRegdate,'yyyy-MM-dd HH:mm')}"></td>
             <td>
                 <!-- 채팅 보기 버튼 또는 메시지 표시 -->
                 <th:block th:if="${question != null}">
                     <a th:href="@{|/mypage/myChatRoomList/${question.sitterNo}|}">
-                        <button type="button" class="btn btn-primary">채팅보기</button>
+                        <button type="button" class="btn btn-primary custom-btn">채팅보기</button>
                     </a>
                 </th:block>
                 <th:block th:if="${question == null}">
@@ -39,11 +106,11 @@
         </tr>
         </tbody>
     </table>
-    <a th:href="@{/question/add}" class="btn btn-success">질문등록하기</a>
+
 
     <!-- 페이지네이션 부분 -->
     <div th:if="${!petsitterPage.isEmpty()}" class="text-center">
-        <ul class="pagination">
+        <ul class="pagination pagination-orange justify-content-center">
             <li class="page-item" th:classappend="${!petsitterPage.hasPrevious} ? 'disabled'">
                 <a class="page-link" th:href="@{|?page=${petsitterPage.number-1}|}">이전</a>
             </li>

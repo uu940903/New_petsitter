@@ -5,7 +5,6 @@ import com.pet.sitter.common.entity.Answer;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Question;
 import com.pet.sitter.common.entity.QuestionFile;
-import com.pet.sitter.member.dto.MemberDTO;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 

@@ -22,14 +22,17 @@ public class Matching {
     private LocalDateTime creatdateMatching;
 
     @ManyToOne
-    @JoinColumn(name="matchingNo1", referencedColumnName = "id")
+    @JoinColumn(name = "matchingNo1", referencedColumnName = "id")
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name="matchingNo2", referencedColumnName = "id")
+    @JoinColumn(name = "matchingNo2", referencedColumnName = "id")
     private Member member2;
 
     @OneToOne
-    @JoinColumn(name="sitter_no", referencedColumnName = "sitterNo")
+    @JoinColumn(name = "sitter_no", referencedColumnName = "sitterNo")
     private Petsitter petsitter;
+
+    @Column
+    private Long chatRoomNo;
 }

@@ -8,32 +8,49 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/webjars/bootstrap/5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/chat/css/kakao.css" th:href="@{/chat/css/kakao.css}"/>
 </head>
-<body>
+<body class="wrap">
 <div class="container">
     <div>
         <h2 th:text="${roomName}"></h2>
     </div>
-    <div class="d-flex justify-content-top">
-        <form>
-            <input id="subBtn" class="btn btn-primary" type="button" value="매칭하기"/>
-        </form>
+
+
+    <div class="list-group" id="messageList">
+        <!-- Messages will be appended here using JavaScript -->
     </div>
-    <div class="input-group">
-        <div class="input-group-prepend">
-            <label class="input-group-text">내용</label>
-        </div>
-        <input type="text" id="messageInput" class="form-control">
+    <footer class="input-group" style="position: sticky; bottom: 25px">
+        <label for="messageInput"></label><input type="text" id="messageInput" class="form-control">
         <div class="input-group-append">
             <!-- 수정: 클릭 이벤트 핸들러 추가 -->
-            <button class="btn btn-primary" type="button" onclick="sendMessage()">보내기</button>
+            <button class="btn btn-primary orange-btn" type="button" onclick="sendMessage()">보내기</button>
         </div>
-    </div>
-    <ul class="list-group" id="messageList">
-        <!-- Messages will be appended here using JavaScript -->
-    </ul>
-    <div></div>
+        &nbsp;
+        <div th:if="${#authentication.name} == ${hostId}">
+            <div th:if="${matchChatRoomNo == null}">
+                <div class="d-flex justify-content-top">
+                    <div class="input-group-append" id="isBtn">
+                        <button id="subBtn" class="btn btn-primary orange-btn chkMatch" type="button">매칭하기</button>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${matchChatRoomNo != null}">
+                <div class="d-flex justify-content-top">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary chkMatch" id="delBtn" type="button"
+                                style="background-color: darkgray; border-color: darkgray">매칭취소
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
+<div id="roomId" th:data-room-id="${roomId}"></div>
+<div id="roomUUID" th:data-uuid="${roomUUID}"></div>
+<div id="hostId" th:data-host-id="${hostId}"></div>
+<div id="guestId" th:data-guest-id="${guestId}"></div>
 <!-- JavaScript -->
 <script src="/webjars/sockjs-client/1.5.1/sockjs.min.js"></script>
 <script src="/webjars/stomp-websocket/2.3.4/stomp.min.js"></script>
@@ -43,12 +60,23 @@
     var ws = Stomp.over(sock);
     var reconnect = 0;
 
-    var roomId = localStorage.getItem('sitter.roomId');
-    var roomUUID = localStorage.getItem('sitter.roomUUID');
+    var roomId = document.getElementById('roomId').getAttribute('data-room-id');
+    var roomUUID = document.getElementById('roomUUID').getAttribute('data-uuid');
+    var hostId = document.getElementById('hostId').getAttribute('data-host-id');
+    var guestId = document.getElementById('guestId').getAttribute('data-guest-id');
     var sender = /*[[${#authentication.name}]]*/ 'senderId';
     console.log(roomId);
     console.log(roomUUID);
+    console.log(hostId);
+    console.log(guestId);
     console.log(sender);
+
+    document.getElementById('messageInput').addEventListener('keydown', function (event) {
+        if (event.keyCode === 13 && !event.shiftKey) {
+            event.preventDefault(); // 기본 동작(새 줄 추가)을 방지합니다.
+            sendMessage();
+        }
+    });
 
     function connect() {
         // 수정: WebSocket 연결이 이미 열려 있는지 확인
@@ -110,19 +138,42 @@
         };
         ws.send("/pub/chat/message", {}, JSON.stringify(chatMessageDTO));
         messageInput.value = '';
+        document.body.scrollTop = document.body.scrollHeight;
+        document.documentElement.scrollTop = document.documentElement.scrollHeight;
     }
 
     function recvMessage(recv) {
         var messageList = document.getElementById('messageList');
-        var listItem = document.createElement('li');
-        listItem.className = 'list-group-item';
 
-        listItem.innerText = recv.sender.nickname + " - " + recv.content;
+        var listItem = document.createElement('div');
+        listItem.className = 'chat';
 
-        // 메시지를 추가하고 스크롤을 아래로 이동
+        var icon = document.createElement('div');
+        icon.className = 'icon';
+
+        var user = document.createElement('i');
+        user.className = 'fa-solid fa-user';
+
+        var textbox = document.createElement('div');
+        textbox.className = 'textbox';
+        textbox.innerText = recv.content;
+
+        icon.appendChild(user);
+
+        listItem.appendChild(icon);
+        listItem.appendChild(textbox);
+
+        if (recv.sender.memberId === /*[[${#authentication.name}]]*/ '') {
+            listItem.classList.add('ch2');
+        } else {
+            listItem.classList.add('ch1');
+        }
+
+        // Append the constructed chat container to the message list
         messageList.appendChild(listItem);
-        // 수정: 스크롤을 아래로 이동하는 부분을 추가하여 실시간으로 스크롤되도록 함
         messageList.scrollTop = messageList.scrollHeight;
+        document.body.scrollTop = document.body.scrollHeight;
+        document.documentElement.scrollTop = document.documentElement.scrollHeight;
     }
 
     $(document).ready(function () {
@@ -131,23 +182,43 @@
         connect();
     });
 
-    var hostId = localStorage.getItem('sitter.hostId');
-    var guestId = localStorage.getItem('sitter.guestId');
-
-   $("#subBtn").click(function(){
-        alert("hostId : "+hostId+", guestId : "+guestId+", roomId : "+roomId);
+    $("#subBtn").click(function () {
+        alert("hostId : " + hostId + ", guestId : " + guestId + ", roomId : " + roomId);
         $.ajax({
             url: '/chat/room/matching',
             method: 'GET',
-            data: { roomId : roomId, hostId : hostId, guestId : guestId, roomUUID : roomUUID },
+            data: {id: roomId, hostId: hostId, guestId: guestId, roomUUID: roomUUID},
             success: function (response) {
                 alert("매칭이 성공 되었습니다.");
+                location.reload();
+
+                document.body.scrollTop = document.body.scrollHeight;
+                document.documentElement.scrollTop = document.documentElement.scrollHeight;
             },
-             error: function(request, status, error){
-                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            error: function (request, status, error) {
+                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
             }
         });
-   })
+    })
+
+    $("#delBtn").click(function () {
+        alert("hostId : " + hostId + ", guestId : " + guestId + ", roomId : " + roomId);
+        $.ajax({
+            url: '/chat/room/delmatching',
+            method: 'GET',
+            data: {id: roomId, hostId: hostId, guestId: guestId, roomUUID: roomUUID},
+            success: function (response) {
+                alert("매칭이 취소 되었습니다.");
+                location.reload();
+
+                document.body.scrollTop = document.body.scrollHeight;
+                document.documentElement.scrollTop = document.documentElement.scrollHeight;
+            },
+            error: function (request, status, error) {
+                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
+            }
+        });
+    })
 </script>
 </body>
 </html>

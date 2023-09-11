@@ -3,16 +3,14 @@ package com.pet.sitter.qna.controller;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Question;
 import com.pet.sitter.member.service.MemberService;
-import com.pet.sitter.qna.dto.AnswerDTO;
 import com.pet.sitter.qna.dto.QuestionDTO;
+import com.pet.sitter.qna.repository.QuestionRepository;
 import com.pet.sitter.qna.service.QuestionService;
 import com.pet.sitter.qna.validation.AnswerForm;
 import com.pet.sitter.qna.validation.QuestionForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,9 +26,9 @@ import java.security.Principal;
 public class QuestionController {
     private final QuestionService questionService;
     private final MemberService memberService;
+    private final QuestionRepository questionRepository;
 
     //question 글 작성 폼 보여주기
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/write")
     public String writeForm(QuestionForm questionForm){
         return "qna/questionForm";
@@ -38,7 +36,6 @@ public class QuestionController {
 
 
     //quesiton 글 작성
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/write")
     public String write(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal,
                         QuestionDTO questionDTO, @RequestParam("file") MultipartFile[] file) throws IOException {
@@ -70,7 +67,7 @@ public class QuestionController {
 
     //question 게시글 수정폼
     @GetMapping("/edit/{qnaNo}")
-    public String edit(Model model,@PathVariable Long qnaNo,AnswerForm answerForm){
+    public String edit(Model model,@PathVariable("qnaNo") Long qnaNo,AnswerForm answerForm){
         QuestionDTO questionDTO = questionService.detail(qnaNo);
 
         model.addAttribute("questionDTO",questionDTO);
@@ -92,5 +89,27 @@ public class QuestionController {
         questionService.delete(qnaNo);
         return "redirect:/question/list";
     }
+
+    //비밀번호 폼
+    @GetMapping("/checkPassword/{qnaNo}")
+    public String checkPw(@PathVariable("qnaNo") Long qnaNo, QuestionDTO questionDTO,Model model){
+        model.addAttribute("qnaNo",qnaNo);
+        return "qna/PasswordCheck";
+    }
+
+
+    //비밀번호 확인 처리
+    @PostMapping("/checkPassword")
+    public String checkPassword(@RequestParam Long qnaNo, @RequestParam String inputPassword, Model model) {
+        System.out.println("요기요="+qnaNo);
+        String result = questionService.checkPassword(qnaNo, inputPassword);
+        System.out.println("저기요="+result);
+        if ("success".equals(result)) {
+            return String.format("redirect:detail/%d",qnaNo);
+        }
+        return String.format("redirect:qna/PasswordCheck/%d",qnaNo);
+    }
+
+
 
 }

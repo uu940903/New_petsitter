@@ -19,7 +19,7 @@ public class PetsitterSpec {
                 predicates.add(builder.equal(root.get("category"), category));
             }
             if(!petCategory.equals("all") && (StringUtils.hasText(petCategory))) {
-                    predicates.add(builder.equal(root.get("petCategory"), petCategory));
+                predicates.add(builder.equal(root.get("petCategory"), petCategory));
             }
             if (StringUtils.hasText(petAddress)) {
                 predicates.add(builder.like(root.get("petAddress"),"%" + petAddress + "%"));

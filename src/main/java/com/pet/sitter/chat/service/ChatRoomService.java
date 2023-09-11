@@ -2,8 +2,13 @@ package com.pet.sitter.chat.service;
 
 import com.pet.sitter.chat.controller.ChatMessageController;
 import com.pet.sitter.chat.dto.ChatRoomDTO;
+import com.pet.sitter.chat.repository.ChatMessageRepository;
 import com.pet.sitter.chat.repository.ChatRoomRepository;
+import com.pet.sitter.chat.repository.MatchingRepository;
+import com.pet.sitter.common.entity.ChatMessage;
 import com.pet.sitter.common.entity.ChatRoom;
+import com.pet.sitter.common.entity.Matching;
+import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.mainboard.repository.PetsitterRepository;
 import com.pet.sitter.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +34,9 @@ public class ChatRoomService {
     MemberRepository memberRepository;
 
     @Autowired
+    MatchingRepository matchingRepository;
+
+    @Autowired
     public ChatRoomService(ChatRoomRepository chatRoomRepository) {
         this.chatRoomRepository = chatRoomRepository;
     }
@@ -38,21 +46,31 @@ public class ChatRoomService {
     }
 
     public ChatRoomDTO createChatRoom(Long id, String hostId, String guestId) {
-        System.out.println("PetSitterId(Service): " + id);
-        ChatRoom chatRoom = new ChatRoom();
+        Petsitter petsitter = petsitterRepository.findBySitterNo(id);
+        if (chatRoomRepository.findChatRoomByPetsitterAndGuestId(petsitter, guestId) == null) {
+            ChatRoom chatRoom = new ChatRoom();
 
-        chatRoom.setPetsitter(petsitterRepository.findBySitterNo(id));
-        chatRoom.setRoomUUID(UUID.randomUUID().toString());
-        chatRoom.setName(chatRoom.getPetsitter().getPetTitle() + " [" +
-                memberRepository.findMemberByMemberId(hostId).getNickname() + " && " +
-                memberRepository.findMemberByMemberId(guestId).getNickname() + "]");
-        chatRoom.setCreateDate(LocalDateTime.now());
-        ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
+            chatRoom.setPetsitter(petsitterRepository.findBySitterNo(id));
+            chatRoom.setRoomUUID(UUID.randomUUID().toString());
+            chatRoom.setName(chatRoom.getPetsitter().getPetTitle() + " [" +
+                    memberRepository.findMemberByMemberId(hostId).getNickname() + " & " +
+                    memberRepository.findMemberByMemberId(guestId).getNickname() + "]");
+            chatRoom.setCreateDate(LocalDateTime.now());
+            chatRoom.setHostId(hostId);
+            chatRoom.setGuestId(guestId);
 
-        chatMessageService.enterMessage(chatRoom.getId(), hostId);
-        chatMessageService.enterMessage(chatRoom.getId(), guestId);
+            ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);
 
-        return convertToChatRoomDTO(savedChatRoom);
+            chatMessageService.enterMessage(chatRoom.getId(), hostId);
+            chatMessageService.enterMessage(chatRoom.getId(), guestId);
+
+            return convertToChatRoomDTO(savedChatRoom);
+        } else {
+            ChatRoom chatRoom = chatRoomRepository.findChatRoomByPetsitterAndGuestId(petsitter, guestId);
+            return convertToChatRoomDTO(chatRoom);
+        }
+
+
     }
 
     public ChatRoom getChatRoomById(Long id) {
@@ -75,5 +93,16 @@ public class ChatRoomService {
     public String getChatRoomUUIDById(Long roomId) {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId).orElseThrow(() -> new RuntimeException("Room not Found"));
         return chatRoom.getRoomUUID();
+    }
+
+    public Matching getMatchingByRoomId(Long roomId) {
+        System.out.println("before: " + roomId);
+        Matching matching = matchingRepository.findMatchingByChatRoomNo(roomId);
+        if (matching == null) {
+            return null;
+        } else {
+            System.out.println("after: " + roomId + " | " + matching);
+            return matching;
+        }
     }
 }

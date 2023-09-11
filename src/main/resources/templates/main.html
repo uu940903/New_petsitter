@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
 <head>
     <meta charset="UTF-8">
     <title>Main</title>
@@ -38,6 +38,9 @@
     </li>
     <li>
         <a sec:authorize="isAuthenticated()" th:href="@{/mainboard/write}">메인게시판 글작성</a>
+    </li>
+    <li>
+        <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/memberList}">관리자 멤버</a>
     </li>
     <li>
         <a th:href="@{/mainboard/list}">메인게시판 글목록</a>

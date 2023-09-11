@@ -1,21 +1,73 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<!--<html layout:decorate="~{layout}">
+<div layout:fragment="content">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>PeSitterRead</title>
-    <link rel="stylesheet" href="/mainboard/css/detail.css" th:href="@{/mainboard/css/detail.css}"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-          integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
-</head>
+
+</head>-->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<title>PeSitterRead</title>
+<link rel="stylesheet" href="/mainboard/css/detail.css" th:href="@{/mainboard/css/detail.css}"/>
+<link rel="stylesheet" href="/mainboard/css/detail.css" th:href="@{/layout/css/nav.css}"/>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+      integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
 <body>
+<nav>
+    <div id="header">
+        <div id="header_wrap">
+            <div id="header_content">
+                <a th:href="@{/mainboard/list}">
+                    <img class="nav-img" src="/layout/image/restore.png" width="150" height="auto">
+                </a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu_selected" style="text-decoration: none;" href="/notice/list">공지게시판</a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu" style="text-decoration: none;" href="/question/list">Q&A게시판</a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu" style="text-decoration: none;" href="/mypage/info">마이페이지</a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu" style="text-decoration: none;"sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/memberList}">관리자 메뉴</a>
+            </div>
+            <div id="header_content">
+                <form id="titleSearchForm" th:action="@{/mainboard/titleSearch}" method="post">
+                    <div id="header_content">
+                        <input  class="search_input" placeholder="애완동물을 검색해주세요." th:name="keyword">
+                    </div>
+                    <div id="header_content">
+                        <input type="submit" class="chat_button" value="검색">
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</nav>
 <div class="slideshow-container">
     <div class="slides" th:if="${petSitter.fileDTOList!=null}">
         <div class="mySlides fade" th:each="petSitterFile, loop : ${petSitter.fileDTOList}">
             <img class="slide_image" th:src="@{|/image/mainboard/${petSitterFile.newFileName}|}" th:alt="${petSitterFile.originFileName}"/>
         </div>
+    </div>
+    <a th:if="${petSitter.fileDTOList!=null}" class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <a th:if="${petSitter.fileDTOList!=null}" class="next" onclick="plusSlides(1)">&#10095;</a>
+    <br>
+    <div style="text-align:center" >
+            <span style="text-align:center" th:each="petSitterFile, i : ${petSitter.fileDTOList}">
+            <span class="dot" th:attr="onclick='currentSlide(' + ${i.index + 1} + ')'"></span>
+            </span>
     </div>
         <a th:if="${petSitter.fileDTOList!=null}" class="prev" onclick="plusSlides(-1)">&#10094;</a>
         <a th:if="${petSitter.fileDTOList!=null}" class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -36,7 +88,14 @@
 <div class="container">
     <div class="content" th:each="petSitter, loop : ${petSitter}" >
         <div class="nickname" th:text="${petSitter.member.nickname}"></div>
-        <div class="title" th:text="${petSitter.petTitle}"></div>
+        <div class="titleRecommend">
+            <div class="title" th:text="${petSitter.petTitle}"></div>
+            <div class="recommendBtn">
+                <a href="javascript:void(0);" th:data-uri="@{|/mainboard/incrementLikes/${petSitter.sitterNo}|}" class="recommend btn btn-sm btn-outline-secondary">
+                    <img src="/mainboard/image/thumb_up.png" th:text="${petSitter.likeCnt}">
+                </a>
+            </div>
+        </div>
         <div class="category_regDate">
             <span class="category" id="category" th:text="${petSitter.category}"></span>&nbsp/&nbsp<span class="petCategory" id="petCategory" th:text="${petSitter.petCategory}"></span>&nbsp/&nbsp<span class="regDate" th:text="${#temporals.format(petSitter.petRegdate, 'yyyy-MM-dd HH:mm')}"></span>
         </div>
@@ -183,12 +242,12 @@ window.addEventListener('load', function(){
                 htmlList += `<a href="/mainboard/detail/`+content.sitterNo+`">
                              <div class="petSitterItem">
                              <div class="thumbnail-crop" >`;
-                if(content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
-                    htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/tem_img.png" />`;
-                } else {
-                    htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/`+content.fileDTOList[0].newFileName+`" />`;
-                }
-                    htmlList += `</div>
+                        if(content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
+                            htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/tem_img.png" />`;
+                        } else {
+                            htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/`+content.fileDTOList[0].newFileName+`" />`;
+                        }
+                        htmlList += `</div>
                                  <div class="text-left">
                                  <div class="item_name">`+content.petTitle+`</div>`;
                     htmlList += `<div class="item_place">`+content.petAddress+`</div>`;
@@ -199,14 +258,21 @@ window.addEventListener('load', function(){
                 }
                     htmlList += `</div></div></a>`;
             }
-            });
-            $("#recommend").html(htmlList);
-        },
-        error: function(error) {
-            console.error(error);
-        }
+        });
     });
-});
 </script>
+
+<footer>
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3"></ul>
+    <div class="container">
+        <div class="row" style="margin: 0 auto;">
+            <div class="text-center" style="font-size: 12px;">© 대표 이희민 등 7명 사업자번호 5959-59-5959</div>
+
+            <div class="text-center" style="font-size: 12px;">주소 서울특별시 강남구 태해란로 7길 7 (펫퍼센트)</div>
+
+            <div class="text-center" style="font-size: 12px;">전화 5959-5959 고객문의 pet@petpercent.com</div>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

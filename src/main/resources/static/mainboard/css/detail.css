@@ -124,8 +124,8 @@ button {
 }
 
 .title {
-   font-size : 24px;
-   margin : 10px;
+    font-size : 24px;
+    margin : 10px;
 }
 
 .nickname {
@@ -160,33 +160,33 @@ button {
 }
 
 .chatBtn {
-  display:inline-block;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  padding-top: 1rem;
+    display:inline-block;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 1rem;
 }
 
 .temporary {
-  position: relative;
-  overflow: hidden;
+    position: relative;
+    overflow: hidden;
 }
 
 .temporary_image {
-  display: block;
-  width: 70%;
-  height: 70%;
-  object-fit: cover;
+    display: block;
+    width: 70%;
+    height: 70%;
+    object-fit: cover;
 }
 
 .temporary_list {
-  display: flex;
-  transform: translate(0, 0);
+    display: flex;
+    transform: translate(0, 0);
 }
 
 .temporary_item {
-  flex: 0 0 100%;
-  list-style: none;
+    flex: 0 0 100%;
+    list-style: none;
 }
 
 .recommendContainer {
@@ -250,7 +250,11 @@ div.content.recommendContainer.recommend.thumbnail-crop.thumbnail {
     margin: 50px 150px;
 }
 
+<<<<<<< HEAD
  .petSitterItem {
+=======
+.petSitterItem {
+>>>>>>> ca93218287ce941303fb4ffe2088c09d2ce5461f
     display: inline-flex;
     margin: 18px;
     width: 424px;
@@ -270,9 +274,18 @@ a {
 }
 
 a:visited {
+<<<<<<< HEAD
   color : black;
 }
 
+=======
+    color : black;
+}
+.text-center {
+    margin-top: 15px;
+    margin-bottom: 22px;
+}
+>>>>>>> ca93218287ce941303fb4ffe2088c09d2ce5461f
 
 /*
 .item_name{

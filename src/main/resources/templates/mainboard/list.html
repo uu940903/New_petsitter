@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,15 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/mainboard/css/list.css" th:href="@{/mainboard/css/list.css}"/>
-    <link rel="stylesheet" type="text/css" href="/mainboard/css/bootstrap.min.css" th:href="@{/mainboard/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-
-<!-- 글작성 버튼 임시로 여기 좀 둘게요 헤헤.......... -->
-<!--<button><a sec:authorize="isAuthenticated()" th:href="@{/mainboard/write}">메인게시판 글작성</a></button>-->
-<button><a th:href="@{/mainboard/write}">메인게시판 글작성</a></button>
-<button><a th:href="@{/main}">임시메인페이지</a></button>
-
 <section class="petSitter-cover">
     <div class="cover-content">
         <div class="cover-image">
@@ -32,7 +26,7 @@
 <div class="wrap">
     <div class="form">
         <span class="search_text">Category</span>
-    <form id="searchForm" class="form_content">
+        <form id="searchForm" class="form_content">
         <span class="option">
             <label>
                 <select id="category" name="category" class="selectClass">
@@ -92,8 +86,8 @@
                 <input type="button" value="검색" id="subBtn" name="subBtn"/>
             </label>
         </span>
-    </form>
-    <span class="titleSearchForm">
+        </form>
+        <span class="titleSearchForm">
     <span class="search_text">Search</span>
     <form id="titleSearchForm" th:action="@{/mainboard/titleSearch}" method="post" class="form_content">
         <input type="search" placeholder="제목을 검색하세요." th:name="keyword" class="titleSearchInput">
@@ -109,7 +103,7 @@
                 <div class="petSitterItem">
                     <div class="thumbnail-crop">
                         <div th:if="${petSitter == null or (petSitter.fileDTOList == null or petSitter.fileDTOList.isEmpty())}">
-                            <img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/logo.png"  />
+                            <img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/logo.png" />
                         </div>
                         <div th:if="${petSitter != null and (petSitter.fileDTOList != null and !petSitter.fileDTOList.isEmpty())}">
                             <img class="thumbnail" alt="petSitter" id="user_thumbnail" th:src="@{|/image/mainboard/${petSitter.fileDTOList[0].newFileName}|}" />
@@ -125,6 +119,7 @@
         </th:block>
     </div>
 </div>
+<button class="writeBtn btn-light mb-5"><a th:href="@{/mainboard/write}" class="aTag"><img src="/mainboard/image/edit_icon.png"></a></button>
 <!-- 반복문 끝 -->
 <div class="pagenations" id="pagenations" name="pagenations">
     <div th:if="${!petSitterPage.isEmpty()}">

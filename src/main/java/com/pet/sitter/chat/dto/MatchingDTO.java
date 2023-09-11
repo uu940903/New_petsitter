@@ -16,5 +16,5 @@ public class MatchingDTO {
     private LocalDateTime creatdateMatching;
     private Member member;
     private Member member2;
-
+    private Long chatRoomNo;
 }
