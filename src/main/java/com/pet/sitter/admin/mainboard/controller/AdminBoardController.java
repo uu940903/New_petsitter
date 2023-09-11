@@ -28,7 +28,15 @@ public class AdminBoardController {
     //목록조회
     @GetMapping("/boardList")
     public String boardList(Model model, @RequestParam(value="page",defaultValue="0") int page,
-                            Pageable pageable){
+                            Pageable pageable, String searchKeyword){
+        Page<Petsitter> list = null;
+        Page<PetSitterDTO> list2 = null;
+        /*searchKeyword = 검색하는 단어*/
+        if(searchKeyword == null){
+            list2 = adminBoardService.getBoardList(pageable.getPageNumber()); //기존의 리스트보여줌
+        }else{
+            list = adminBoardService.boardSearchList(searchKeyword, pageable); //검색리스트반환
+        }
         Page<PetSitterDTO> boardPage = adminBoardService.getBoardList(page);
         model.addAttribute("boardPage",boardPage);
         return "admin/boardList";
@@ -68,7 +76,6 @@ public class AdminBoardController {
 
         System.out.println(adminBoardForm.getPetTitle());
         //2.비즈니스로직수행
-        //로그인한 유저가 글쓴이와 일치해야지만 수정권한을 가지게 된다 =>수정처리 진행된
         Petsitter petsitter = adminBoardService.getModify(sitterNo); //질문상세
         adminBoardService.modify(petsitter,adminBoardForm.getPetTitle(),adminBoardForm.getPetContent());
         return String.format("redirect:/admin/detail/%d",sitterNo); //수정상세페이지로 이동

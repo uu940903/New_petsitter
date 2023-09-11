@@ -72,7 +72,7 @@ public class MypageService {
             dto.setRoomUUID(chatroom.getRoomUUID());
             dto.setCreateDate(chatroom.getCreateDate());
             dto.setPetSitterDTO(new PetSitterDTO(chatroom.getPetsitter()));
-
+            dto.setName(chatroom.getName());
             return dto;
         });
         return chatroomDTOPage;

@@ -82,7 +82,6 @@ public class AdminMemberController {
         System.out.println("전화 = "+adminMemberForm.getPhone());
         System.out.println("닉네임 = "+adminMemberForm.getNickname());
         //2.비즈니스로직수행
-        //로그인한 유저가 글쓴이와 일치해야지만 수정권한을 가지게 된다 =>수정처리 진행된
         Member member = adminMemberService.getModify(id); //질문상세
         adminMemberService.modify(id,adminMemberForm.getMemberId(), adminMemberForm.getName(),adminMemberForm.getNickname(),
                  adminMemberForm.getBirth(), adminMemberForm.getPhone(),

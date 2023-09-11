@@ -34,6 +34,8 @@ button {
 }
 
 .buttons {
+/*position: absolute;*/
+  position: auto;
   top: 0;
   width: 100%;
   height: calc(100% - 1rem);
@@ -41,6 +43,7 @@ button {
 
 .buttons__prev,
 .buttons__next {
+  position: ;
   top: 50%;
   width: 36px;
   height: 36px;
@@ -169,33 +172,4 @@ button {
 .temporary_item {
   flex: 0 0 100%;
   list-style: none;
-}
-
-.recommendContainer {
-    margin-top:50px;
-}
-
-div.content.recommendContainer.recommend.thumbnail-crop {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    overflow: hidden;
-}
-
-div.content.recommendContainer.recommend.thumbnail-crop.thumbnail {
-    position: absolute;
-    top: -72px;
-    left: -35px;
-    width: 240px;
-}
-
-.tem_thumbnail {
-    width: 200px;
-    height: 200px;
-}
-
-.thumbnail {
-    top: -72px;
-    left: -35px;
-    width: 240px;
 }
