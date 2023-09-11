@@ -1,0 +1,72 @@
+.wrap {
+    width: 1280px;
+    margin: 0 auto;
+    /*text-align: center;*/
+}
+
+.writeBtn {
+    margin-top: 50px;
+    text-align: center;
+}
+
+/*!* 요일 선택 *!
+input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #4f5050;
+    border-radius: 50%; !* 동그랗게 만듭니다 *!
+    outline: none;
+    cursor: pointer;
+}
+
+!* 체크된 상태일 때 배경색 추가 *!
+input[type="checkbox"]:checked {
+    background-color: #0d6efd;
+}*/
+
+#sample6_address, #sample6_detailAddress {
+    width: 570px;
+    display: inline-block;
+}
+
+#startTimeFloating, #endTimeFloating {
+    width: 635px;
+    display: inline-block;
+}
+
+#detailAddressDiv, #addressDiv {
+    width: 570px;
+    display: inline-block;
+}
+
+#petCategoryInput, #categoryInput {
+    display: inline-block;
+    width: 300px;
+}
+
+#petCategoryDiv, #categoryDiv {
+    display: inline-block;
+    width: 900px;
+}
+
+#priceDiv, #dayDiv {
+    display: inline-block;
+    width: 635px;
+}
+
+#dayDiv {
+    text-align: center;
+    /*justify-content: space-between;*/
+}
+
+.writeBtn {
+    margin-bottom: 100px;
+}
+
+.title, .recommendBtn {
+    display: inline-block;
+    width: 635px;
+}

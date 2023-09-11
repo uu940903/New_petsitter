@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <meta charset="UTF-8">
-    <title>글 등록</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>글쓰기</title>
+    <link rel="stylesheet" type="text/css" href="/mainboard/css/write.css" th:href="@{/mainboard/css/write.css}"/>
 </head>
 <body>
-<div class="container">
-    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+<div class="wrap">
+    <h2 class="my-3 border-bottom pb-2">게시글 작성</h2>
     <form id="writeForm" th:action="@{|/mainboard/modify/${sitterNo}|}" th:object="${writeForm}" method="post"
           enctype="multipart/form-data">
         <!-- 유효성 검사시 에러 메세지 출력 영역 -->
@@ -14,42 +18,115 @@
             <div th:each="err: ${#fields.allErrors()}" th:text="${err}"></div>
         </div>
         <div class="mb-3">
+            <img class="mb-3 rounded float-start" src="#" id="preview" style="width:130px; height:130px;"/>
             <input type="file" multiple="multiple" th:field="*{boardFile}" id="boardFile" name="boardFile"
-                   onchange="readURL(this); checkExtension(this);" class="form-control">
-            <img src="#" id="preview" style="width:150px;"/>
+                   onchange="readURL(this); checkExtension(this);" class="mt-3 form-control">
         </div>
-        <div class="mb-3">
+        <div class="mb-3 grid text-center form-floating">
+            <input type="text" class="form-control" name="petTitle" id="petTitle" th:field="*{petTitle}">
             <label for="petTitle" class="form-label">제목</label>
-            <input type="text" th:field="*{petTitle}" name="petTitle" id="petTitle" class="form-control">
         </div>
-        <div class="mb-3">
+        <!--<div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01">Options</label>
+            <select th:field="*{category}" th:name="category" class="form-select" id="inputGroupSelect01">
+                <option selected required>당신이 찾고 있는 사람은 펫부모입니까, 펫시터입니까?</option>
+                <option value="offer" required>Pet Parant</option>
+                <option value="search" required>Pet Sitter</option>
+            </select>
+        </div>-->
+        <!--<div class="mb-3">
+            <div class="mb-3" readonly="readonly"> 당신은 펫부모입니까, 펫시터입니까?"</div>
+            <input type="radio" th:field="*{category}" th:name="category" value="offer">Pet Parant
+            <input type="radio" th:field="*{category}" th:name="category" value="search">Pet Sitter
+        </div>-->
+        <div class="mb-3 input-group">
+            <input type="text" class="form-control" id="categoryInput" aria-label="Text input with radio button" placeholder="당신의 펫은 강아지인가요, 고양이인가요?" disabled="disabled">
+            <div class="input-group-text" id="categoryDiv">
+                <input class="form-check-input mt-0" type="radio" th:field="*{category}" th:value="offer" aria-label="Radio button for following text input">Pet Parant
+                <input class="form-check-input mt-0" type="radio" th:field="*{category}" th:value="search" aria-label="Radio button for following text input">Pet Sitter
+            </div>
+        </div>
+        <div class="mb-3 input-group">
+            <input type="text" class="form-control" id="petCategoryInput" aria-label="Text input with radio button" placeholder="당신의 펫은 강아지인가요, 고양이인가요?" disabled="disabled">
+            <div class="input-group-text" id="petCategoryDiv">
+                <input class="form-check-input mt-0" type="radio" th:field="*{petCategory}" th:value="dog" aria-label="Radio button for following text input">강아지
+                <input class="form-check-input mt-0" type="radio" th:field="*{petCategory}" th:value="cat" aria-label="Radio button for following text input">고양이
+            </div>
+        </div>
+        <!--<div class="mb-3">
+            <div>당신의 펫은 강아지인가요, 고양이인가요?</div>
             <input type="radio" th:field="*{petCategory}" th:name="petCategory" th:value="dog">강아지
             <input type="radio" th:field="*{petCategory}" th:name="petCategory" th:value="cat">고양이
-        </div>
+        </div>-->
         <div class="mb-3">
-            <input type="radio" th:field="*{category}" th:name="category" value="offer">구인
-            <input type="radio" th:field="*{category}" th:name="category" value="search">구직
+            <div class="mb-3 grid text-center form-floating" id="priceDiv">
+                <input type="text" class="form-control" name="price" id="price" th:field="*{price}">
+                <label for="price" class="form-label">가격</label>
+            </div>
+            <div class="mb-3" id="dayDiv">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="mon" name="weekList" value="월">
+                    <label class="form-check-label" for="mon">월</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="tue" name="weekList" value="화">
+                    <label class="form-check-label" for="tue">화</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="wed" name="weekList" value="수">
+                    <label class="form-check-label" for="wed">수</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="thur" name="weekList" value="목">
+                    <label class="form-check-label" for="thur">목</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="fri" name="weekList" value="금">
+                    <label class="form-check-label" for="fri">금</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="sat" name="weekList" value="토">
+                    <label class="form-check-label" for="sat">토</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="sun" name="weekList" value="일">
+                    <label class="form-check-label" for="sun">일</label>
+                </div>
+            </div>
         </div>
         <div>
-            <input type="text" th:field="*{price}" id="price" name="price">가격
+            <div class="mb-3 grid text-center form-floating" id="startTimeFloating">
+                <input type="datetime-local" name="startTime" id="startTime" th:field="*{startTime}" class="form-control">
+                <label for="startTime">시작시간</label>
+            </div>
+            <div class="mb-3 grid text-center form-floating" id="endTimeFloating">
+                <input type="datetime-local" name="endTime" id="endTime" th:field="*{endTime}" class="form-control">
+                <label for="endTime">끝시간</label>
+            </div>
         </div>
         <div class="mb-3">
-            <div>날짜<input type="text" th:field="*{day}" id="day" th:name name="day"></div>
-            <div>시작시간<input type="datetime-local" th:field="*{startTime}" id="startTime" name="startTime"></div>
-            <div>끝시간<input type="datetime-local" th:field="*{endTime}" id="endTime" name="endTime"></div>
+            <div class="mb-3 grid text-center form-floating" id="addressDiv">
+                <input type="text" name="petAddress" id="sample6_address" th:field="*{petAddress}" class="form-control float-start">
+                <label for="sample6_address">주소</label>
+            </div>
+            <div class="mb-3 grid text-center form-floating" id="detailAddressDiv">
+                <input type="text" name="petAddress" id="sample6_detailAddress" th:field="*{petAddress}" class="form-control float-start">
+                <label for="sample6_detailAddress">상세주소</label>
+            </div>
+            <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="btn btn-light">
+            <input type="hidden" name="petAddressEct" id="sample6_postcode" placeholder="우편번호">
+            <input type="hidden" name="petAddressEct" id="sample6_extraAddress" placeholder="참고항목">
         </div>
-        <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-        <input type="text" th:field="*{petAddress}" name="petAddress" id="sample6_address" placeholder="주소"><br>
-        <input type="text" th:field="*{petAddress}" name="petAddress" id="sample6_detailAddress" placeholder="상세주소">
-        <input type="hidden" name="petAddressEct" id="sample6_postcode" placeholder="우편번호">
-        <input type="hidden" name="petAddressEct" id="sample6_extraAddress" placeholder="참고항목">
         <div class="mb-3">
-            <label for="petContent" class="form-label">내용</label>
-            <textarea type="text" th:field="*{petContent}" name="petContent" id="petContent" class="form-control" rows="8"></textarea>
+            <label for="petContent" class="form-label"></label>
+            <textarea type="text"class="form-control"name="petContent"id="petContent" th:field="*{petContent}" cols="100" rows="8" placeholder="내용을 입력하세요."></textarea>
         </div>
-        <input type="submit" value="글등록" class="btn btn-primary my-2">
+        <div class="writeBtn">
+            <input type="submit" value="글등록" class="btn btn-light">
+        </div>
     </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
     function sample6_execDaumPostcode() {
