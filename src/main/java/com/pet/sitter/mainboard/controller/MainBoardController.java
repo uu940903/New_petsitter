@@ -21,7 +21,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/mainboard")
