@@ -1,64 +1,47 @@
 <html layout:decorate="~{admin/layout}" xmlns:th="http://www.thymeleaf.org">
 <div layout:fragment="adminContent" class="container">
-    <h1 class="my-3 h1-memberdetail border-bottom pb-2">회원수정</h1>
-    <!--CSRF자동생성을 하기 위해 th:action속성은 제거,
-        CSRF값을 설정하기 위한 hidden을 추가한다
-        폼의 action속성의 값은 question_form의 브라우저의 현재 URL을 기준으로 설정된다.
-        즉 수정버튼을 클릭해서 폼이 보여지는 경우는 action="/question/modify/질문번호" method="post"
-        즉 등록버튼을 클릭해서 폼이 보여지는 경우는 action="/question/add" method="post"-->
-    <!--<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
 
-    <!--유효성검사시 에러메세지 출력영역-->
-    <!--<div  th:replace="~{form_errors::formErrorsFragment}"></div>-->
+    <h1 class="my-3 h1-memberdetail border-bottom pb-2">회원수정</h1>
     <tbody>
     <table class="memberDetailTable">
         <tr>
             <td>회원번호</td>
             <td th:text="${memberDetail.id}"></td>
-            <!-- id는 수정이 불가능하도록 readonly속성 추가 -->
-            <!--<td><input th:value="${memberDetail.id}" readonly="readonly"></td>-->
         </tr>
 
         <tr>
             <td>아이디</td>
             <td th:text="${memberDetail.memberId}"></td>
-            <!--<td><input th:value="${memberDetail.memberId}" readonly="readonly"></td>-->
         </tr>
 
         <tr>
             <td>이름</td>
             <td th:if="${memberDetail.name!=null}" th:text="${memberDetail.name}"></td>
-            <!-- <td><input th:value="${memberDetail.name}"></td>-->
         </tr>
 
         <tr>
             <td>닉네임</td>
             <td th:if="${memberDetail.Nickname!=null}" th:text="${memberDetail.Nickname}"></td>
-            <!--<td><input th:value="${memberDetail.nickname}"></td>-->
         </tr>
 
         <tr>
             <td>생년월일</td>
             <td th:text="${memberDetail.birth}"></td>
-            <!--<td><input th:value="${memberDetail.birth}" readonly="readonly"></td>-->
         </tr>
 
         <tr>
             <td>핸드폰번호</td>
             <td th:text="${memberDetail.phone}"></td>
-            <!--<td><input th:value="${memberDetail.phone}"></td>-->
         </tr>
 
         <tr>
             <td>주소</td>
             <td th:text="${memberDetail.address}"></td>
-            <!--<td><input th:value="${memberDetail.phone}"></td>-->
         </tr>
 
         <tr>
             <td>이메일주소</td>
             <td th:text="${memberDetail.eMail}"></td>
-            <!--<td><input th:value="${memberDetail.eMail}"></td>-->
         </tr>
 
     </table>

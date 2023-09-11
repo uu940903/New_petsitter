@@ -19,7 +19,7 @@ public class PetsitterSpec {
                 predicates.add(builder.equal(root.get("category"), category));
             }
             if(!petCategory.equals("all") && (StringUtils.hasText(petCategory))) {
-                    predicates.add(builder.equal(root.get("petCategory"), petCategory));
+                predicates.add(builder.equal(root.get("petCategory"), petCategory));
             }
             if (StringUtils.hasText(petAddress)) {
                 predicates.add(builder.like(root.get("petAddress"),"%" + petAddress + "%"));
@@ -47,7 +47,7 @@ public class PetsitterSpec {
         });
     }
 
-    public static Specification<Petsitter> recommendWith(String category, String petCategory, String sitterAddress) {
+    public static Specification<Petsitter> recommendWith(String category, String petCategory, String sitterAddress, Long sitterNo) {
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.hasText(category)) {
@@ -58,6 +58,9 @@ public class PetsitterSpec {
             }
             if (StringUtils.hasText(sitterAddress)) {
                 predicates.add(builder.like(root.get("petAddress"),"%" + sitterAddress + "%"));
+            }
+            if(sitterNo!=0){
+                predicates.add(builder.notEqual(root.get("sitterNo"), sitterNo));
             }
             return builder.and(predicates.toArray(new Predicate[0]));
         });
