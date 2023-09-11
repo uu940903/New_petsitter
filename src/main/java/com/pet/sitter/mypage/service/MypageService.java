@@ -72,7 +72,9 @@ public class MypageService {
             dto.setRoomUUID(chatroom.getRoomUUID());
             dto.setCreateDate(chatroom.getCreateDate());
             dto.setPetSitterDTO(new PetSitterDTO(chatroom.getPetsitter()));
-
+            dto.setName(chatroom.getName());
+            dto.setHostId(chatroom.getHostId());
+            System.out.println("여기는 챗팅방가져오기 서비스 chatroom의 호스트아이디는"+dto.getHostId());
             return dto;
         });
         return chatroomDTOPage;

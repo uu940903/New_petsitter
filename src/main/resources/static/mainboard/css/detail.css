@@ -55,6 +55,24 @@ img {vertical-align: middle;}
     background-color: rgba(0,0,0,0.8);
 }
 
+.buttons {
+/*position: absolute;*/
+  position: auto;
+  top: 0;
+  width: 100%;
+  height: calc(100% - 1rem);
+}
+
+.buttons__prev,
+.buttons__next {
+  position: ;
+  top: 50%;
+  width: 36px;
+  height: 36px;
+  background: #fff;
+  border-radius: 50%;
+  transform: translateY(-50%);
+
 
 /* The dots/bullets/indicators */
 .dot {
@@ -70,6 +88,7 @@ img {vertical-align: middle;}
 
 .active, .dot:hover {
     background-color: #717171;
+
 }
 
 /* Fading animation */
@@ -185,6 +204,10 @@ button {
 }
 
 .temporary_item {
+  flex: 0 0 100%;
+  list-style: none;
+}
+
     flex: 0 0 100%;
     list-style: none;
 }
