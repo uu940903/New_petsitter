@@ -8,31 +8,36 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/webjars/bootstrap/5.2.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/chat/css/kakao.css" th:href="@{/chat/css/kakao.css}"/>
 </head>
-<body>
+<body class="wrap">
 <div class="container">
     <div>
         <h2 th:text="${roomName}"></h2>
     </div>
-    <div class="d-flex justify-content-top">
-        <form>
-            <input id="subBtn" class="btn btn-primary" type="button" value="매칭하기"/>
-        </form>
+
+
+
+
+    <div class="list-group" id="messageList">
+        <!-- Messages will be appended here using JavaScript -->
     </div>
-    <div class="input-group">
+    <footer class="input-group">
         <div class="input-group-prepend">
             <label class="input-group-text">내용</label>
         </div>
         <input type="text" id="messageInput" class="form-control">
         <div class="input-group-append">
             <!-- 수정: 클릭 이벤트 핸들러 추가 -->
-            <button class="btn btn-primary" type="button" onclick="sendMessage()">보내기</button>
+            <button class="btn btn-primary orange-btn" type="button" onclick="sendMessage()">보내기</button>
         </div>
-    </div>
-    <ul class="list-group" id="messageList">
-        <!-- Messages will be appended here using JavaScript -->
-    </ul>
-    <div></div>
+        &nbsp;
+        <div class="d-flex justify-content-top">
+            <div class="input-group-append" id="isBtn">
+                <button id="subBtn" class="btn btn-primary orange-btn chkMatch" type="button">매칭하기</button>
+            </div>
+        </div>
+    </footer>
 </div>
 <!-- JavaScript -->
 <script src="/webjars/sockjs-client/1.5.1/sockjs.min.js"></script>
@@ -114,15 +119,33 @@
 
     function recvMessage(recv) {
         var messageList = document.getElementById('messageList');
-        var listItem = document.createElement('li');
-        listItem.className = 'list-group-item';
 
-        listItem.innerText = recv.sender.nickname + " - " + recv.content;
+        var listItem = document.createElement('div');
+        listItem.className = 'chat';
 
-        // 메시지를 추가하고 스크롤을 아래로 이동
+        var icon = document.createElement('div');
+        icon.className = 'icon';
+
+        var user = document.createElement('i');
+        user.className = 'fa-solid fa-user';
+
+        var textbox = document.createElement('div');
+        textbox.className = 'textbox';
+        textbox.innerText = recv.content;
+
+        icon.appendChild(user);
+
+        listItem.appendChild(icon);
+        listItem.appendChild(textbox);
+
+        if (recv.sender.memberId === /*[[${#authentication.name}]]*/ '') {
+            listItem.classList.add('ch2');
+        } else {
+            listItem.classList.add('ch1');
+        }
+
+        // Append the constructed chat container to the message list
         messageList.appendChild(listItem);
-        // 수정: 스크롤을 아래로 이동하는 부분을 추가하여 실시간으로 스크롤되도록 함
-        messageList.scrollTop = messageList.scrollHeight;
     }
 
     $(document).ready(function () {
@@ -134,20 +157,20 @@
     var hostId = localStorage.getItem('sitter.hostId');
     var guestId = localStorage.getItem('sitter.guestId');
 
-   $("#subBtn").click(function(){
-        alert("hostId : "+hostId+", guestId : "+guestId+", roomId : "+roomId);
+    $("#subBtn").click(function () {
+        alert("hostId : " + hostId + ", guestId : " + guestId + ", roomId : " + roomId);
         $.ajax({
             url: '/chat/room/matching',
             method: 'GET',
-            data: { roomId : roomId, hostId : hostId, guestId : guestId, roomUUID : roomUUID },
+            data: {roomId: roomId, hostId: hostId, guestId: guestId, roomUUID: roomUUID},
             success: function (response) {
                 alert("매칭이 성공 되었습니다.");
             },
-             error: function(request, status, error){
-                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            error: function (request, status, error) {
+                alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error);
             }
         });
-   })
+    })
 </script>
 </body>
 </html>
