@@ -19,17 +19,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class ChatRoomDTO {
+
     private Long id;
     private String roomUUID;
     private String name;
     private LocalDateTime createDate;
     private PetSitterDTO petSitterDTO;
+    private String hostId;
+    private String guestId;
 
     public ChatRoomDTO(ChatRoom chatRoom) {
         this.id = chatRoom.getId();
         this.roomUUID = chatRoom.getRoomUUID();
         this.name = chatRoom.getName();
         this.createDate = chatRoom.getCreateDate();
+        this.hostId = chatRoom.getHostId();
+        this.guestId = chatRoom.getGuestId();
     }
 
     public ChatRoomDTO(ChatRoom chatRoom, PetSitterDTO petSitterDTO) {
@@ -46,6 +51,8 @@ public class ChatRoomDTO {
                 .roomUUID(this.roomUUID)
                 .name(this.name)
                 .createDate(this.createDate)
+                .hostId(this.hostId)
+                .guestId(this.guestId)
                 .build();
     }
 }
