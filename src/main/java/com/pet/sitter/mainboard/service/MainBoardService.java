@@ -61,7 +61,7 @@ public class MainBoardService {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("petViewCnt"));
         sorts.add(Sort.Order.desc("petRegdate"));
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Pageable pageable = PageRequest.of(page, 12, Sort.by(sorts));
         Page<Petsitter> petsitterPage = petsitterRepository.findAll(pageable);
 
         Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
@@ -89,7 +89,7 @@ public class MainBoardService {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("petViewCnt"));
         sorts.add(Sort.Order.desc("petRegdate"));
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Pageable pageable = PageRequest.of(page, 12, Sort.by(sorts));
         Page<Petsitter> petsitterPage = petsitterRepository.findAllByPetAddressContaining(pageable, memberAddress);
         System.out.println(petsitterPage.getTotalPages());
         Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
@@ -220,11 +220,12 @@ public class MainBoardService {
     }
 
     //recommend
-    public Page<PetSitterDTO> recommendList(String category, String petCategory, String sitterAddress) {
+    public Page<PetSitterDTO> recommendList(String category, String petCategory, String sitterAddress, Long sitterNo) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("petRegdate"));
         Pageable pageable = PageRequest.of(0, 4, Sort.by(sorts));
-        Page<Petsitter> petsitterPage = petsitterRepository.findAll(PetsitterSpec.recommendWith(category, petCategory, sitterAddress), pageable);
+        Page<Petsitter> petsitterPage = petsitterRepository.findAll
+                (PetsitterSpec.recommendWith(category, petCategory, sitterAddress, sitterNo), pageable);
         Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
             PetSitterDTO petSitterDTO = PetSitterDTO.builder().petsitter(petsitter).build();
             List<PetSitterFileDTO> petSitterFileDTOList = petsitter.getPetsitterFileList().stream()

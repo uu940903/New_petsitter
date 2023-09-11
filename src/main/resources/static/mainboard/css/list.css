@@ -1,4 +1,4 @@
-/* style.css */
+/*!* style.css *!*/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -18,14 +18,16 @@ time, mark, audio, video {
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
-    color: black;               /* 링크 텍스트 색상을 빨간색으로 설정 */
-    text-decoration: none;      /* 밑줄 제거 */
 }
-/* HTML5 display-role reset for older browsers */
+
+
+/*!* HTML5 display-role reset for older browsers *!*/
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
+
+
 body {
     line-height: 1;
     width: 100%;
@@ -33,17 +35,43 @@ body {
 ol, ul {
     list-style: none;
 }
+
 .wrap {
    max-width: 1280px;
    margin: 0 auto;
+   text-align: center;
 }
 
-.petSitterContainer {
-   display: grid;
-   place-items: center;
-   grid-template-columns: 600px 600px;
-   gap: 80px;
-   margin-left: 50px;
+.option {
+    width : 700px;
+}
+
+.petSitter-cover {
+    height: 340px;
+    padding: 0 16px 0 16px;
+    margin: 50px 0px;
+}
+
+.petSitter-cover {
+    background-color: #f0ae2c;
+}
+
+.cover-description {
+    line-height: 1.32;
+    font-size: 18px;
+    letter-spacing: -0.18px;
+    margin-top: 16px;
+    margin-right: 20px;
+    display: block;
+}
+
+.cover-image .petSitter-cover-image img {
+    position: absolute;
+    top: 130px;
+    right: 0px;
+    width: 40%;
+    overflow: hidden;
+    object-fit: cover;
 }
 
 .thumbnail-crop {
@@ -58,33 +86,68 @@ ol, ul {
     position: absolute;
     top: -72px;
     left: -35px;
-    width: 240px;
+    width: 300px;
 }
 
 .tem_thumbnail {
     width: 200px;
     height: 200px;
 }
+
 .item_name{
     margin-top: 10px;
-    font-weight: 400;
+    font-weight: bold;
+    font-size: 17px;
+    width: 200px;
+    height: 24px;
+    overflow: hidden;
+    margin-bottom: 7px;
+    text-align: left;
+    padding: 0px 5px;
+}
+
+.item-address {
+    width: 200px;
+    height: 24px;
+    overflow: hidden;
+    margin-bottom: 1px;
+    text-align: left;
+    padding: 0px 5px;
+    font-size: 15px;
 }
 
 .item_cost{
     margin-top: 10px;
-    font-weight: 700;
+    font-size: 15px;
+    color: #6c757d;
+    text-align: left;
+    padding: 0px 5px;
 }
+
 .item_place{
     font-weight: 400;
     font-size: smaller;
     margin-top: 10px;
+    text-align: left;
+    padding: 0px 5px;
 }
+
+.petSitterContainer {
+    display: grid;
+    place-items: center;
+    grid-template-columns: 600px 600px;
+    gap: 80px;
+    text-align: center;
+}
+
 .petSitterContainer{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     margin-bottom: 50px;
+    justify-content: center;
 }
+
 .petSitterItem{
     width: 200px;
     height: 300px;
@@ -93,9 +156,47 @@ ol, ul {
     margin: auto;
 }
 
-/*
-.petSitterItem {
-   box-shadow: 3px 3px 2px rgb(0, 0, 0, 0.1);
-   padding: 40px;
+.form_content {
+    display : inline;
+    margin : 50px;
 }
-*/
+
+.form {
+    margin: 50px;
+    width: 1280px;
+}
+
+.search_text{
+    font-weight: bold;
+    font-size: 15px;
+    margin: 0 5px 0 8px;
+}
+
+#category, #petCategory, #address, #day {
+    width : 100px;
+}
+
+#time, #search {
+    width: 155px;
+}
+
+.selectClass, .titleSearchInput {
+    height: 30px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 2px 8px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 16px;
+}
+
+.selectClass:focus {
+    border: 1px solid #fd7e14;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid #ffca2c;
+    border-radius: 10px;
+}

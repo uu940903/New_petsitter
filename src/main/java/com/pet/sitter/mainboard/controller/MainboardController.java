@@ -21,7 +21,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/mainboard")
@@ -95,7 +94,9 @@ public class MainBoardController {
         String petCategory = (String) map.get("petCategory");
         String address = (String) map.get("sitterAddress");
         String sitterAddress = address.substring(0,2);
-        Page<PetSitterDTO> petSitterDTOList = mainBoardService.recommendList(category, petCategory, sitterAddress);
+        String sitterNoValue = (String)map.get("sitterNoValue");
+        Long sitterNo = Long.parseLong(sitterNoValue);
+        Page<PetSitterDTO> petSitterDTOList = mainBoardService.recommendList(category, petCategory, sitterAddress, sitterNo);
         return petSitterDTOList;
     }
 

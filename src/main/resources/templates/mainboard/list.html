@@ -6,29 +6,43 @@
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>MainBoardList</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/mainboard/css/list.css" th:href="@{/mainboard/css/list.css}"/>
     <link rel="stylesheet" type="text/css" href="/mainboard/css/bootstrap.min.css" th:href="@{/mainboard/css/bootstrap.min.css}" />
 </head>
 <body>
+
+<!-- 글작성 버튼 임시로 여기 좀 둘게요 헤헤.......... -->
+<!--<button><a sec:authorize="isAuthenticated()" th:href="@{/mainboard/write}">메인게시판 글작성</a></button>-->
+<button><a th:href="@{/mainboard/write}">메인게시판 글작성</a></button>
+<button><a th:href="@{/main}">임시메인페이지</a></button>
+
+<section class="petSitter-cover">
+    <div class="cover-content">
+        <div class="cover-image">
+        <span class="petSitter-cover-image">
+          <img src="/mainboard/image/twitter_header_photo_1.png" alt="petPercent">
+        </span>
+        </div>
+    </div>
+</section>
+
 <div class="wrap">
-    <h2>PetSitter</h2>
-
-    <!-- 글작성 버튼 임시로 여기 좀 둘게요 헤헤.......... -->
-    <!--<button><a sec:authorize="isAuthenticated()" th:href="@{/mainboard/write}">메인게시판 글작성</a></button>-->
-    <button><a th:href="@{/mainboard/write}">메인게시판 글작성</a></button>
-    <button><a th:href="@{/main}">임시메인페이지</a></button>
-
-    <form id="searchForm">
-        <div class="option">
+    <div class="form">
+        <span class="search_text">Category</span>
+    <form id="searchForm" class="form_content">
+        <span class="option">
             <label>
-                <select id="category" name="category">
+                <select id="category" name="category" class="selectClass">
                     <option selected-value="none">선택</option>
                     <option value="offer">Pet Parent</option>
                     <option value="search">Pet Sitter</option>
                 </select>
             </label>
             <label>
-                <select id="petCategory" name="petCategory">
+                <select id="petCategory" name="petCategory" class="selectClass">
                     <option selected-value="none">선택</option>
                     <option value="dog">강아지</option>
                     <option value="cat">고양이</option>
@@ -36,7 +50,7 @@
                 </select>
             </label>
             <label>
-                <select id="address" name="address">
+                <select id="address" name="address" class="selectClass">
                     <option selected-value="none">선택</option>
                     <option value="서울">서울</option>
                     <option value="경기">경기</option>
@@ -57,7 +71,7 @@
                 </select>
             </label>
             <label>
-                <select id="day" name="day">
+                <select id="day" name="day" class="selectClass">
                     <option selected-value="none">선택</option>
                     <option value="weekday">평일</option>
                     <option value="weekend">주말</option>
@@ -65,7 +79,7 @@
                 </select>
             </label>
             <label>
-                <select id="time" name="time">
+                <select id="time" name="time" class="selectClass">
                     <option selected-value="none">선택</option>
                     <option value="dawn">새벽(00:00 ~ 06:00)</option>
                     <option value="morning">오전(06:00 ~ 12:00)</option>
@@ -77,21 +91,25 @@
             <label>
                 <input type="button" value="검색" id="subBtn" name="subBtn"/>
             </label>
-        </div>
+        </span>
     </form>
-    <form id="titleSearchForm" th:action="@{/mainboard/titleSearch}" method="post">
-        <input type="search" placeholder="제목을 검색하세요." th:name="keyword">
+    <span class="titleSearchForm">
+    <span class="search_text">Search</span>
+    <form id="titleSearchForm" th:action="@{/mainboard/titleSearch}" method="post" class="form_content">
+        <input type="search" placeholder="제목을 검색하세요." th:name="keyword" class="titleSearchInput">
         <input type="submit" value="검색">
     </form>
+    </span>
+    </div>
     <div id="noting"></div>
     <!-- 반복문 시작 -->
     <div class="petSitterContainer" id="petSitterContainer">
         <th:block th:each="petSitter, loop :${petSitterPage}" id="thBlock">
-            <a th:href="@{|/mainboard/detail/${petSitter.sitterNo}|}">
+            <a th:href="@{|/mainboard/detail/${petSitter.sitterNo}|}" style="text-decoration: none; color: black;">
                 <div class="petSitterItem">
                     <div class="thumbnail-crop">
                         <div th:if="${petSitter == null or (petSitter.fileDTOList == null or petSitter.fileDTOList.isEmpty())}">
-                            <img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/tem_img.png" />
+                            <img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/logo.png"  />
                         </div>
                         <div th:if="${petSitter != null and (petSitter.fileDTOList != null and !petSitter.fileDTOList.isEmpty())}">
                             <img class="thumbnail" alt="petSitter" id="user_thumbnail" th:src="@{|/image/mainboard/${petSitter.fileDTOList[0].newFileName}|}" />
@@ -99,8 +117,8 @@
                     </div>
                     <div class="item_name" th:text="${petSitter.petTitle}"></div>
                     <div th:data-sitterno="${petSitter.sitterNo}"></div>
-                    <div th:text="${petSitter.petAddress}"></div>
-                    <div class="item_cost" th:if="${petSitter.price!=0}" th:text="${petSitter.price}"></div>
+                    <div class="item-address" th:text="${petSitter.petAddress}"></div>
+                    <div class="item_cost" th:if="${petSitter.price!=0}" th:text="${petSitter.price}+원"></div>
                     <div class="item_place" th:if="${petSitter.price==0}" th:text="협의가능"></div>
                 </div>
             </a>
@@ -191,27 +209,27 @@
 
                 data.content.forEach(function (content){
                     if (data.content.length === 0 || data.content.length === null) {
-                        htmlList += `<div>등록된 게시글이 없습니다.</div>`;
+                        htmlList += `<h2>등록된 게시글이 없습니다.</h2>`;
                         $("#noting").html(htmlList);
                     } else {
-                        htmlList += `<a href="/mainboard/detail/`+content.sitterNo+`">
+                        htmlList += `<a href="/mainboard/detail/`+content.sitterNo+`" style="text-decoration: none; color: black;">
                                  <div class="petSitterItem">
                                  <div class="thumbnail-crop" >
                                  <div class="text-left">`;
                         if(content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
-                            htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/tem_img.png" />`;
+                            htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/logo.png" />`;
                         } else {
                             htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/`+content.fileDTOList[0].newFileName+`" />`;
                         }
                         htmlList += `</div>
                                      </div>
                                      </div>
-                                     <div>`+content.petTitle+`</div>`;
-                        htmlList += `<div>`+content.petAddress+`</div>`;
+                                     <div class="item_name">`+content.petTitle+`</div>`;
+                        htmlList += `<div class="item-address">`+content.petAddress+`</div>`;
                         if(content.price !== 0) {
-                            htmlList += `<div>`+content.price+`</div>`;
+                            htmlList += `<div class="item_cost">`+content.price+`원</div>`;
                         } else {
-                            htmlList += `<div>협의가능</div>`;
+                            htmlList += `<div class="item_place">협의가능</div>`;
                         }
                         htmlList += `</a>`;
                     }

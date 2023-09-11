@@ -39,7 +39,6 @@ public class PetsitterSpec {
             if (startTimeHour != 0 && endTimeHour != 0) {
                 Expression<Integer> startTimeExpression = builder.function("hour", Integer.class, root.get("startTime"));
                 Expression<Integer> endTimeExpression = builder.function("hour", Integer.class, root.get("endTime"));
-
                 predicates.add(builder.greaterThanOrEqualTo(startTimeExpression, startTimeHour));
                 predicates.add(builder.lessThanOrEqualTo(endTimeExpression, endTimeHour));
             }
@@ -47,7 +46,7 @@ public class PetsitterSpec {
         });
     }
 
-    public static Specification<Petsitter> recommendWith(String category, String petCategory, String sitterAddress) {
+    public static Specification<Petsitter> recommendWith(String category, String petCategory, String sitterAddress, Long sitterNo) {
         return ((root, query, builder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (StringUtils.hasText(category)) {
@@ -58,6 +57,9 @@ public class PetsitterSpec {
             }
             if (StringUtils.hasText(sitterAddress)) {
                 predicates.add(builder.like(root.get("petAddress"),"%" + sitterAddress + "%"));
+            }
+            if(sitterNo!=0){
+                predicates.add(builder.notEqual(root.get("sitterNo"), sitterNo));
             }
             return builder.and(predicates.toArray(new Predicate[0]));
         });
