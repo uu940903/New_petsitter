@@ -1,7 +1,6 @@
 package com.pet.sitter.admin.member.repository;
 
 import com.pet.sitter.common.entity.Member;
-import com.pet.sitter.common.entity.Petsitter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,8 +26,6 @@ public interface AdminMemberRepository extends JpaRepository<Member,Long> {
 
     List<Member> findByNameLike(String name);
     Page<Member> findAll(Pageable pageable);
-
-
 
 
 }

@@ -1,5 +1,6 @@
 <html layout:decorate="~{layout}" class="container my-3">
 <div layout:fragment="content">
+    <link rel="stylesheet" type="text/css" th:href="@{/qna/css/questionForm.css}">
 
     <form th:action="@{/question/update}"  enctype="multipart/form-data" method="post">
         <input type="hidden" name="qnaNo" th:value="${questionDTO.qnaNo}"/>
@@ -11,7 +12,7 @@
                     <tr>
                         <th class="text-right">제목</th>
                         <td>
-                            <input type="text" name="noTitle" size=50 class="input-sm"
+                            <input type="text" name="qnaTitle" size=50 class="input-sm"
                                    th:value="${questionDTO.qnaTitle}">
                         </td>
                     </tr>
@@ -37,12 +38,13 @@
                     <div class="btn-group">
                         <div class="col">
                             <form th:action="@{'/question/update/' + ${questionDTO.qnaNo}}" method="post" sec:authorize="isAuthenticated()"
-                                  th:if="${questionDTO.member.getNickname!=null and #authentication.getPrincipal().getNickname()==questionDTO.member.getNickname}">
-                                <button type="submit" class="btn btn-dark">수정</button>
+                                  th:if="${questionDTO.member.memberId!=null and #authentication.getPrincipal().getUsername()==questionDTO.member.memberId}">
+                                <button type="submit" class="btn btn-modify-custom btn-outline-secondary">수정</button>
+                            </form>
                         </div>
                         <div class="col">
                             <a th:href="@{'/question/list'}">
-                                <button class="btn btn-dark">취소</button>
+                                <button type="button" class="btn btn-modify-custom btn-outline-secondary">취소</button>
                             </a>
                         </div>
                     </div>

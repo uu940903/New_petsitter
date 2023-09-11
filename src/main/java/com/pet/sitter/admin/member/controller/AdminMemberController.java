@@ -1,13 +1,9 @@
 package com.pet.sitter.admin.member.controller;
 
-import com.pet.sitter.admin.mainboard.validation.AdminBoardForm;
 import com.pet.sitter.admin.member.service.AdminMemberService;
 import com.pet.sitter.admin.member.validation.AdminMemberForm;
 import com.pet.sitter.common.entity.Member;
-import com.pet.sitter.common.entity.Petsitter;
-import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.member.dto.MemberDTO;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +14,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.List;
 
 @RequestMapping("/admin")
 @RequiredArgsConstructor
@@ -28,7 +23,6 @@ public class AdminMemberController {
     private final AdminMemberService adminMemberService;
 
     //회원리스트
-    //@PreAuthorize("isAuthenticated()")//로그인인증=>로그인이 필요한 기능
     @GetMapping("/memberList")
     public String memberList(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
                              Pageable pageable) {
@@ -84,7 +78,7 @@ public class AdminMemberController {
         //2.비즈니스로직수행
         Member member = adminMemberService.getModify(id); //질문상세
         adminMemberService.modify(id,adminMemberForm.getMemberId(), adminMemberForm.getName(),adminMemberForm.getNickname(),
-                 adminMemberForm.getBirth(), adminMemberForm.getPhone(),
+                adminMemberForm.getBirth(), adminMemberForm.getPhone(),
                 adminMemberForm.getAddress(),adminMemberForm.getEMail());
         return String.format("redirect:/admin/memberDetail/%d", id); //수정 상세페이지로 이동
     }

@@ -8,7 +8,6 @@ import com.pet.sitter.member.validation.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -87,7 +86,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
             return new DefaultOAuth2User(null, oAuth2User.getAttributes(), userNameAttributeName);
         } else {
             User user1 = new User();
-            Member member1 = new Member();
 
             Map<String, Object> kakaoAccountMap =(Map<String, Object>) oAuth2User.getAttribute("kakao_account");
             String email =(String)kakaoAccountMap.get("email");

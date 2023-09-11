@@ -1,6 +1,6 @@
 <html layout:decorate="~{layout}" class="container my-3">
 <div layout:fragment="content">
-
+    <link rel="stylesheet" type="text/css" th:href="@{/qna/css/questionForm.css}">
     <form id="NoticeForm" th:action="@{/notice/write}" enctype="multipart/form-data" method="post">
         <div class="container">
             <h1>공지게시판</h1>
@@ -26,9 +26,9 @@
                     </tr>
                     <tr>
                         <td class="text-center border-0" colspan="2">
-                            <input class="btn btn-dark" type="submit" value="등록">
+                            <input class="btn btn-modify-custom btn-outline-secondary" type="submit" value="등록">
                             <a th:href="@{'/notice/list'}">
-                                <button class="btn btn-dark">취소</button>
+                                <button type="button" class="btn btn-modify-custom btn-outline-secondary">취소</button>
                             </a>
                         </td>
                     </tr>

@@ -1,7 +1,10 @@
-body{
-    position:relative;
-    width:1500px;
-    margin: 0 auto;
+a {
+    text-decoration: none;
+}
+
+.boardlist{
+    text-align: center;
+    text-valign: middle;
 }
 
 .nav-item a.active {
@@ -13,6 +16,12 @@ body{
 #h3AndSearch {
     display: flex;
     align-items: center;
+}
+
+.table-nav-tr{
+    background-color: #FF9100;
+    color: #ffffff;
+
 }
 /*검색바*/
 .search {
@@ -76,14 +85,37 @@ td {
     text-valign: middle;
 }
 
-/*게시판상세보기*/
-.name-date{
-border-bottom: 1px solid #E5E8EB;
-padding-bottom: 7px;
+/*----------상세보기-------------*/
+.boardDetail{
+    max-width: 900px;
 }
+
+.name-date{
+    border-bottom: 1px solid #E5E8EB;
+    padding-bottom: 7px;
+}
+
 .date{
     float: right;
 }
+
+.modifyAndDelete{
+    float: right;
+}
+
+.btn-modify-boardDetail {
+    background-color: #808080;
+    color: #ffffff;
+} /*게시판상세보기 수정버튼*/
+
+.btn-delete-boardDelete {
+    background-color: #ff0000;
+    color: #ffffff;
+} /*게시판상세보기 삭제버튼*/
+
+
+
+
 
 /*게시판 상세보기 이미지*/
 .slide_image{
@@ -96,5 +128,6 @@ padding-bottom: 7px;
     height: 40%;
     object-fit: cover; /* 이미지 비율 유지하면서 div 채우기 */
 }
+
 
 

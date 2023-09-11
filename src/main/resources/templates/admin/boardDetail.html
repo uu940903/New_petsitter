@@ -1,6 +1,6 @@
 <html layout:decorate="~{admin/layout}">
-<div layout:fragment="adminContent" class="container my-3">
-    <!-- 질문 -->
+<div layout:fragment="adminContent" class="boardDetail container my-3">
+
     <h2 class="border-bottom py-2" th:text="${boardDetail.petTitle}"></h2>
     <div class="name-date">
             <span>
@@ -17,7 +17,7 @@
             </span>
     </div>
     <div class="card my-3">
-        <div class="card-body"> <!-- white-space:pre-line; 줄바꿈 인식하고, 공백은 앞쪽만 인식 -->
+        <div class="card-body">
             <div class="slide">
                 <div class="slide_list" th:if="${boardDetail.fileDTOList!=null}">
                     <div class="img-size">
@@ -33,18 +33,12 @@
         </div>
     </div>
 
-    <div class="my-3">
-        <!--질문수정버튼 - 로그인해야지만 수정가능, 로그인한유저가 글쓴이와 동일해야만 한다-->
+    <div class="modifyAndDelete my-3">
         <a th:href="@{|/admin/modify/${boardDetail.sitterNo}|}"
-           class="btn btn-outline-secondary" th:text="수정"></a>
-        <!--sec:authorize="isAuthenticated()"
-        th:if="${ question.writer!=null and #authentication.getPrincipal().getUsername()==question.writer.username}"-->
+           class="btn btn-modify-boardDetail btn-outline-secondary" th:text="수정"></a>
 
-        <!--질문삭제버튼 - 로그인해야지만 삭제가능, 로그인한유저가 글쓴이와 동일해야만 한다-->
         <a href="javascript:void(0);" th:data-uri="@{|/admin/delete/${boardDetail.sitterNo}|}"
-           class="delete btn btn-outline-secondary" th:text="삭제"></a>
-        <!--sec:authorize="isAuthenticated()"-->
-        <!--th:if="${ question.writer!=null and #authentication.getPrincipal().getUsername()==question.writer.username}"-->
+           class="delete btn btn-delete-boardDelete btn-outline-secondary" th:text="삭제"></a>
 
     </div>
 

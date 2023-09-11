@@ -1,0 +1,128 @@
+<html layout:decorate="~{layout}" class="container my-4">
+<div layout:fragment="content">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 정보</title>
+
+<style>
+    /* .member-info 내부 요소 스타일링 */
+.member-info {
+    background-color: #fff; /* 배경색 지정 */
+    border: 1px solid #000000; /* 테두리 스타일과 색 지정 */
+    padding: 20px; /* 내부 여백 지정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    width: 800px; /* 원하는 너비로 조정하세요 */
+    margin: 0 auto; /* 페이지 중앙에 정렬 */
+}
+
+.member-info h1 {
+    font-size: 24px; /* 제목 폰트 크기 지정 */
+    margin-bottom: 20px; /* 아래 여백 지정 */
+}
+
+.info {
+    margin: 15px 0; /* 각 info 섹션 간격 조정 */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Arial", sans-serif;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.value {
+    font-weight: normal;
+}
+
+.button {
+    background-color: #FF9100;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: none; /* 링크 텍스트에 밑줄 제거 */
+    border-radius: 5px;
+}
+
+.button:hover {
+    background-color: pink; /* 호버 시 색상 변경 */
+    color: #fff;
+}
+.button-container {
+    display: inline-block; /* 컨테이너를 인라인 블록 요소로 설정하여 좌우로 나란히 배치 */
+    margin: 0 10px; /* 좌우 여백 조정 */
+}
+.btn-primary.custom-btn {
+         background-color: #FF9100; /* 원하는 배경색으로 변경 */
+         border-color: #FF9100; /* 테두리 색상을 배경색과 동일하게 설정 (선택 사항) */
+         color: white; /* 텍스트 색상을 흰색으로 설정 (선택 사항) */
+         font-size: 12px;
+     }
+
+     .btn-primary.custom-btn:hover {
+         background-color: pink; /* 마우스를 올렸을 때 배경색 변경 (선택 사항) */
+         border-color: pink;
+     }
+
+
+</style>
+
+</head>
+<body>
+<div class="member-info">
+    <h1>회원 정보</h1>
+    <div class="info">
+        <div>
+            <span class="label">아이디:</span>
+            <span class="value" th:text="${memberDTO.memberId}"></span>
+        </div>
+
+    </div>
+    <div class="info">
+        <div>
+            <span class="label">이름:</span>
+            <span class="value" th:text="${memberDTO.name}"></span>
+        </div>
+        <a href="/mypage/modifyInfo" class="button">수정</a>
+    </div>
+    <div class="info">
+        <div>
+            <span class="label">연락처:</span>
+            <span class="value" th:text="${memberDTO.phone}"></span>
+        </div>
+        <a href="/mypage/modifyInfo" class="button">수정</a>
+    </div>
+    <div class="info">
+        <div>
+            <span class="label">닉네임:</span>
+            <span class="value" th:text="${memberDTO.getNickname}"></span>
+        </div>
+        <a href="/mypage/modifyInfo" class="button">수정</a>
+    </div>
+    <div class="info">
+        <div>
+            <span class="label">회원 주소:</span>
+            <span class="value" th:text="${memberDTO.address}"> </span>
+        </div>
+        <a href="/mypage/modifyInfo" class="button">수정</a>
+    </div>
+    <div class="center-bottom">
+        <div class="button-container">
+            <a href="/mypage/myArticleList" class="btn btn-primary custom-btn">내 글 목록 보기</a>
+        </div>
+        <div class="button-container">
+            <a href="/mypage/machingResult" class="btn btn-primary custom-btn">매칭 내역 보기</a>
+        </div>
+        <div class="button-container">
+            <a href="/mypage/myQnAList" class="btn btn-primary custom-btn">나의 문의</a>
+        </div>
+        <div class="button-container">
+            <a href="/mypage/passmodify" class="btn btn-primary custom-btn">비번수정</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

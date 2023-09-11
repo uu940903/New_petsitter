@@ -1,11 +1,55 @@
-.h3-membermodify{
+.memberlist{
+    text-align: center;
+    text-valign: middle;
+}
+
+.table-nav-tr{
+    background-color: #FF9100;
+    color: #ffffff;
+}
+
+.h1-memberdetail {
     text-align: center;
     text-valign: middle;
 }
 
 .memberDetailTable {
-    width: 100%; /* 테이블의 너비를 100%로 설정 */
+    margin-top: 30px;
+}
+
+.btn-detail {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.btn-modify-memberDetail {
+    background-color: #808080;
+    color: #ffffff;
+} /*회원상세보기 수정버튼*/
+
+.btn-delete-memberDelete {
+    background-color: #ff0000;
+    color: #ffffff;
+} /*회원상세보기 삭제버튼*/
+
+
+/*-----------------adminMemberForm css---------------*/
+.h1-membermodify {
+    text-align: center;
+    text-valign: middle;
+}
+
+.memberDetailTable {
+    display: flex;
+    justify-content: center;
     border-collapse: collapse; /* 테두리 사이의 공간을 없애기 */
+}
+
+.memberDetailTable input {
+    width: 400px;
+    border: 1px solid #ffffff;
 }
 
 .memberDetailTable td {
@@ -13,33 +57,27 @@
     padding: 8px; /* 셀 안쪽 패딩 설정 */
 }
 
-.memberDetailTable tr:nth-child(even) {
-    background-color: #f2f2f2; /* 짝수 줄 배경색 설정 */
-}
+.memberDetailTable tr td:first-child {
+    background-color: #FF9100;
+    color: #ffffff;
+    font-weight: bold;
+    width: 60%;
+} /*회원번호 ~ 이메일 까지 색상변경 등등*/
 
-.memberDetailTable tr td {
-    background-color: #FF6F0F;
-}
+.memberDetailTable tr td:nth-child(2) {
+    font-weight: bold;
+    width: 50%;
+} /*회원번호 ~ 이메일 까지 글씨 굵게*/
+
 
 .btn-save-form {
-    position: relative;
-    float: right;
-    margin: 10px;
-}
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}/*저장버튼*/
 
-.btn-detail{
-    position: relative;
-    float: right;
-    margin: 10px;
-}
 
-.btn-modify-memberDetail{
-    background-color: #808080;
-    color: #ffffff;
-} /*회원상세보기 수정버튼*/
 
-.btn-modify-memberDelete{
-    background-color: #ff0000;
-    color: #ffffff;
-} /*회원상세보기 삭제버튼*/
+
 

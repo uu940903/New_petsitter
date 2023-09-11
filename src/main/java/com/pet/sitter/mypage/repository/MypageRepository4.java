@@ -10,17 +10,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface MypageRepository4 extends JpaRepository<Petsitter,Long> {
 
-
     @Query("SELECT m FROM Matching m WHERE m.member.id = :id OR m.member2.id = :id")
     Page<Matching> findByMatching(@Param("id") Long id, Pageable pageable);
-
-
-
-    //레포지토리2 정상실행
-    /*@Query("SELECT p FROM Petsitter p JOIN Matching m ON p.sitterNo = m.petsitter.sitterNo WHERE m.member.id = :id")
-    Page<Petsitter> findBytest(@Param("id") Long id,Pageable pageable);*/
-
-
 
 }
 

@@ -20,6 +20,6 @@ public class MainController {
     @GetMapping("/main")
     public String index() {
 
-        return "main"; // 사용자 정보를 포함한 메인 페이지로 이동
+        return "redirect:/mainboard/list"; // 사용자 정보를 포함한 메인 페이지로 이동
     }
 }

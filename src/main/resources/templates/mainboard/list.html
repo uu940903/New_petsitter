@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,10 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="/mainboard/css/list.css" th:href="@{/mainboard/css/list.css}"/>
-    <link rel="stylesheet" type="text/css" href="/mainboard/css/bootstrap.min.css" th:href="@{/mainboard/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.2/dist/css/bootstrap.min.css">
 </head>
 <body>
-
 <section class="petSitter-cover">
     <div class="cover-content">
         <div class="cover-image">
@@ -120,10 +119,7 @@
         </th:block>
     </div>
 </div>
-<!-- 글작성 버튼 임시로 여기 좀 둘게요 헤헤.......... -->
-<!--<button><a sec:authorize="isAuthenticated()" th:href="@{/mainboard/write}">메인게시판 글작성</a></button>-->
 <button class="writeBtn btn-light mb-5"><a th:href="@{/mainboard/write}" class="aTag"><img src="/mainboard/image/edit_icon.png"></a></button>
-
 <!-- 반복문 끝 -->
 <div class="pagenations" id="pagenations" name="pagenations">
     <div th:if="${!petSitterPage.isEmpty()}">

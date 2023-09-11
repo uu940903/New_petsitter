@@ -1,0 +1,115 @@
+/*목록 수정버튼*/
+.btn-modify-custom {
+    background-color: #ffb207;;
+    color: #ffffff;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 5px;
+    font-size: 15px;
+    width: 60px;
+    height: 35px;
+    border: none;
+}
+
+.container{
+    font-size: 18px;
+}
+
+.btn + .btn {
+    margin-left: 10px; /* 원하는 간격으로 조정 */
+    border: none; /* 버튼의 테두리를 없앰 */
+}
+.boardlist {
+    display: flex; /* 부모 요소를 Flex 컨테이너로 설정 */
+    justify-content: center; /* 버튼 사이에 공간을 나누어 배치 */
+}
+
+.boardlist .btn {
+    display: inline-block; /* 버튼을 인라인 블록 요소로 설정하여 가로 배치 */
+    margin-right: 10px; /* 원하는 간격으로 조정 */
+}
+
+.text-center{
+
+}
+
+th.custom-bg {
+    background: #ffb207;;
+    color: white;
+}
+
+.a{
+    border-radius: 16px;
+}
+
+#centerimg {
+    display: block;
+    margin: auto;
+}
+
+.br{
+    margin-bottom: 80px;
+    margin-top: 40px;
+}
+
+#text{
+    margin-top: 30px;
+}
+
+#submit{
+    text-align: right;
+    margin-top: 20px;
+}
+
+.answer{
+    border: #ced4da solid 1px;
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+hr {
+    background-color: #fff;
+    padding: 0;
+}
+
+hr.hr-2 {
+    border: 0;
+    border-bottom: 2px dashed #eee;
+    background: #b4b9c2;;
+}
+.content{
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 20px;
+}
+
+.btns{
+    text-align: right;
+    margin-right: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.btn.btn-modify-custom.btn-outline-secondary:hover {
+    background-color: #FFA500; /* 원하는 배경색으로 변경하세요 */
+    border-color: #FFA500; /* 원하는 테두리 색상으로 변경하세요 */
+}
+
+.center-content{
+    margin:auto;
+}
+
+.save{
+    text-align: right;
+}
+
+.content1{
+    margin-bottom: 10px;
+    margin-left: 12px;
+}
+
+.ml-2{
+    text-align: right;
+    margin-left: 30px;
+}

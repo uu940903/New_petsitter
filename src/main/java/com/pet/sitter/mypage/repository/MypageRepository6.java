@@ -11,11 +11,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MypageRepository6 extends JpaRepository<ChatMessage,Long> {
-
-   /* @Query("SELECT cm FROM ChatMessage cm JOIN ChatRoom cr ON cm.chatRoom.id = cr.id and cr.petsitter.sitterNo = :id")
-    List<ChatMessage> findByChatMessage(@Param("id") Long id);*/
-
     @Query("SELECT cm FROM ChatMessage cm WHERE cm.chatRoom.id = :id")
     List<ChatMessage> findByChatMessage(@Param("id") Long id);
-    /* select * from chat_message where chat_room_id = 6;*/
 }

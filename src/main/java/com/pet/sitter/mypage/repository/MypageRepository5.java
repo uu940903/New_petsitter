@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface MypageRepository5 extends JpaRepository<ChatRoom,Long> {
-
     @Query("SELECT cr FROM ChatRoom cr WHERE cr.petsitter.sitterNo = :id")
     Page<ChatRoom> findByChatRoom(@Param("id") Long id,Pageable pageable);
 }
