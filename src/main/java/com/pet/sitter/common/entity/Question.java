@@ -38,7 +38,6 @@ public class Question {
     private LocalDateTime qnaDate;
 
     @Column
-    @NotNull
     private String qnaPw;
 
     @Column
@@ -53,8 +52,7 @@ public class Question {
     @JoinColumn (name = "id", referencedColumnName = "id")
     private Member member;
 
-    @JsonIgnoreProperties({"question"}) //무한참조방지
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER,orphanRemoval = true)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<QuestionFile> questionList = new ArrayList<>();
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)

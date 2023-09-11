@@ -46,7 +46,6 @@ public class NoticeService {
         sorts.add(Sort.Order.desc("noDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return noticeRepository.findAll(pageable);
-
     }
 
     @Transactional
