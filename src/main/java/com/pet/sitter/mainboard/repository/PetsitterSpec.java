@@ -39,7 +39,6 @@ public class PetsitterSpec {
             if (startTimeHour != 0 && endTimeHour != 0) {
                 Expression<Integer> startTimeExpression = builder.function("hour", Integer.class, root.get("startTime"));
                 Expression<Integer> endTimeExpression = builder.function("hour", Integer.class, root.get("endTime"));
-
                 predicates.add(builder.greaterThanOrEqualTo(startTimeExpression, startTimeHour));
                 predicates.add(builder.lessThanOrEqualTo(endTimeExpression, endTimeHour));
             }

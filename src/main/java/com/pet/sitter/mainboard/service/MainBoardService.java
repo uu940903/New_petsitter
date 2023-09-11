@@ -221,7 +221,8 @@ public class MainBoardService {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("petRegdate"));
         Pageable pageable = PageRequest.of(0, 4, Sort.by(sorts));
-        Page<Petsitter> petsitterPage = petsitterRepository.findAll(PetsitterSpec.recommendWith(category, petCategory, sitterAddress, sitterNo), pageable);
+        Page<Petsitter> petsitterPage = petsitterRepository.findAll
+                (PetsitterSpec.recommendWith(category, petCategory, sitterAddress, sitterNo), pageable);
         Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
             PetSitterDTO petSitterDTO = PetSitterDTO.builder().petsitter(petsitter).build();
             List<PetSitterFileDTO> petSitterFileDTOList = petsitter.getPetsitterFileList().stream()
