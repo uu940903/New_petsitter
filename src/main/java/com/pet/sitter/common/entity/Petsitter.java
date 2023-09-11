@@ -56,12 +56,6 @@ public class Petsitter {
     @Column
     private LocalDateTime endTime;
 
-    @Transient
-    private int startTimeHour;
-
-    @Transient
-    private int endTimeHour;
-
     @Column
     private String petAddress;
 

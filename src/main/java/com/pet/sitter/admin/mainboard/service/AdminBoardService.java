@@ -101,10 +101,5 @@ public class AdminBoardService {
     public void delete(Long sitterNo) {
         adminBoardRepository.deleteById(sitterNo);
     }
-
-    //검색
-    public Page<Petsitter> boardSearchList(String searchKeyword, Pageable pageable) {
-        return adminBoardRepository.findByPetTitleContaining(searchKeyword, pageable);
-    }
-
+    
 }

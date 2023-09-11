@@ -1,5 +1,8 @@
 package com.pet.sitter.mypage.controller;
 
+import com.pet.sitter.chat.dto.ChatMessageDTO;
+import com.pet.sitter.chat.dto.ChatRoomDTO;
+import com.pet.sitter.common.entity.ChatMessage;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.member.dto.MemberDTO;
@@ -18,6 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequestMapping("/mypage")
 @Controller
 @RequiredArgsConstructor
@@ -32,6 +37,33 @@ public class MypageController {
         model.addAttribute("memberDTO",memberDTO);
         return "myInfo";
     }*/
+
+
+    //채팅내역가져오기
+    @GetMapping("/myChatMessage/{id}")
+    public String myChatMessage(@PathVariable("id") Long id,@RequestParam(value="page",defaultValue="0") int page, Model model){
+        List<ChatMessageDTO> chatMessageDTOList= this.mypageService.myChatMessage(id,page);
+        model.addAttribute("chatMessageDTO",chatMessageDTOList);
+        for(ChatMessageDTO chatMessageDTO:chatMessageDTOList){
+            System.out.println("content"+chatMessageDTO.getContent());
+        }
+        return "mypage/myChatMessageListCss";
+    }
+
+
+
+
+    //채팅방가져오기
+    @GetMapping("/myChatRoomList/{id}")
+    public String myChatList(@PathVariable("id") Long id,@RequestParam(value="page",defaultValue="0") int page, Model model){
+
+
+        Page<ChatRoomDTO> chatRoomDTO= this.mypageService.getMyChatRoomList(id,page);
+
+        model.addAttribute("chatRoomDTO",chatRoomDTO);
+        return "mypage/myChatList";
+    }
+
 
     //매칭가져오기
     @GetMapping("/machingResult")
@@ -52,11 +84,8 @@ public class MypageController {
     }
 
 
-
-
-
-
-    /*//jointest
+    /*
+    //jointest
     @GetMapping("/machingResult")
     public String machingResult(@RequestParam(value="page",defaultValue="0") int page, Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -70,7 +99,9 @@ public class MypageController {
 
         model.addAttribute("petsitterPage",petsitterPage);
         return "mypage/myMatchingList";
-    }*/
+    }
+
+     */
 
 
 
@@ -118,10 +149,6 @@ public class MypageController {
         model.addAttribute("questionPage",questionPage);
         return "mypage/myQnAList";
     }
-
-
-
-    //
 
 
     /*//나의 매칭내역보기
