@@ -3,7 +3,6 @@ package com.pet.sitter.qna.service;
 import com.pet.sitter.common.entity.Answer;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Question;
-import com.pet.sitter.exception.DataNotFoundException;
 import com.pet.sitter.qna.dto.AnswerDTO;
 import com.pet.sitter.qna.dto.QuestionDTO;
 import com.pet.sitter.qna.repository.AnswerRepository;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service

@@ -69,8 +69,8 @@ public class Petsitter {
     @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<Week> weekList;
 
-    @OneToOne(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
-    private Matching matching;
+    /*@OneToOne(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
+    private Matching matching;*/
 
     @OneToMany(mappedBy = "petsitter", cascade = CascadeType.REMOVE)
     private List<ChatRoom> chatRoomList;

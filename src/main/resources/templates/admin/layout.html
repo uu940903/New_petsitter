@@ -28,15 +28,12 @@
     const delElements = document.getElementsByClassName("delete");
     Array.from(delElements).forEach(function (element) {
 
-        //$(".delete").on("click",function(){ alert("정말삭제할거여?"); });
         element.addEventListener("click", function () {
-            if (confirm("정말 삭제할거?")) {//확인버튼을 클릭하면
+            if (confirm("정말 삭제하시겠습니까?")) {//확인버튼을 클릭하면
                 //click이벤트가 발생한 a요소의  data-uri속성의 값을 가져와
                 //location객체의 href속성의 값으로 적용해라
                 //=>현재 browser의 URL주소를 변경해라
                 location.href = this.dataset.uri;
-                //location.href="/question/delete/${question.id}";//질문삭제요청
-                //location.href="/answer/delete/${answer.id}";//답변삭제요청
             }
             ;
         });

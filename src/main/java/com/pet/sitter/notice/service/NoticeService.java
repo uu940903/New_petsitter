@@ -2,25 +2,15 @@ package com.pet.sitter.notice.service;
 
 import com.pet.sitter.common.entity.Notice;
 import com.pet.sitter.common.entity.NoticeFile;
-import com.pet.sitter.common.entity.Petsitter;
-import com.pet.sitter.exception.DataNotFoundException;
-import com.pet.sitter.mainboard.dto.PetSitterDTO;
-import com.pet.sitter.mainboard.dto.PetSitterFileDTO;
-import com.pet.sitter.mainboard.dto.WeekDTO;
-import com.pet.sitter.member.dto.MemberDTO;
 import com.pet.sitter.notice.dto.NoticeDTO;
-import com.pet.sitter.notice.dto.NoticeFileDTO;
 import com.pet.sitter.notice.repository.NoticeFileRepository;
 import com.pet.sitter.notice.repository.NoticeRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -56,7 +46,6 @@ public class NoticeService {
         sorts.add(Sort.Order.desc("noDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
         return noticeRepository.findAll(pageable);
-
     }
 
     @Transactional

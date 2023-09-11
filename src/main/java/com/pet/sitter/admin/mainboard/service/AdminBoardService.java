@@ -4,7 +4,6 @@ import com.pet.sitter.admin.exception.DataNotFoundException;
 import com.pet.sitter.admin.mainboard.repository.AdminBoardRepository;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Petsitter;
-import com.pet.sitter.common.entity.PetsitterFile;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.mainboard.dto.PetSitterFileDTO;
 import com.pet.sitter.member.dto.MemberDTO;
@@ -13,11 +12,9 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -101,5 +98,5 @@ public class AdminBoardService {
     public void delete(Long sitterNo) {
         adminBoardRepository.deleteById(sitterNo);
     }
-    
+
 }

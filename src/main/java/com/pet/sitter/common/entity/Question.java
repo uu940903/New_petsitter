@@ -38,7 +38,6 @@ public class Question {
     private LocalDateTime qnaDate;
 
     @Column
-    @NotNull
     private String qnaPw;
 
     @Column

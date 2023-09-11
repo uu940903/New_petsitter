@@ -61,7 +61,7 @@
     background-color: #FF9100;
     color: #ffffff;
     font-weight: bold;
-    width: 40%;
+    width: 60%;
 } /*회원번호 ~ 이메일 까지 색상변경 등등*/
 
 .memberDetailTable tr td:nth-child(2) {
@@ -72,7 +72,7 @@
 
 .btn-save-form {
     position: absolute;
-    top: 60%;
+    top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
 }/*저장버튼*/

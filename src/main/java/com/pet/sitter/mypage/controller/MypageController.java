@@ -2,7 +2,6 @@ package com.pet.sitter.mypage.controller;
 
 import com.pet.sitter.chat.dto.ChatMessageDTO;
 import com.pet.sitter.chat.dto.ChatRoomDTO;
-import com.pet.sitter.common.entity.ChatMessage;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.member.dto.MemberDTO;
@@ -30,15 +29,6 @@ public class MypageController {
 
     private final MypageService mypageService;
 
-//#authentication.getPrincipal().getMemberId
-/*    @GetMapping("/info/{nada}")
-    public String mypageinfo(@PathVariable("nada") String memberId, Model model){
-        MemberDTO memberDTO = mypageService.getMember(memberId);
-        model.addAttribute("memberDTO",memberDTO);
-        return "myInfo";
-    }*/
-
-
     //채팅내역가져오기
     @GetMapping("/myChatMessage/{id}")
     public String myChatMessage(@PathVariable("id") Long id,@RequestParam(value="page",defaultValue="0") int page, Model model){
@@ -50,20 +40,15 @@ public class MypageController {
         return "mypage/myChatMessageListCss";
     }
 
-
-
-
     //채팅방가져오기
     @GetMapping("/myChatRoomList/{id}")
     public String myChatList(@PathVariable("id") Long id,@RequestParam(value="page",defaultValue="0") int page, Model model){
-
 
         Page<ChatRoomDTO> chatRoomDTO= this.mypageService.getMyChatRoomList(id,page);
 
         model.addAttribute("chatRoomDTO",chatRoomDTO);
         return "mypage/myChatList";
     }
-
 
     //매칭가져오기
     @GetMapping("/machingResult")
@@ -74,7 +59,6 @@ public class MypageController {
         MemberDTO memberDTO = mypageService.getMember(memberId);//내정보 dto로가져오기
         long id = memberDTO.getId();//내정보의 pk값 id에저장
 
-
         Page<PetSitterDTO> petSitterDTOPage= this.mypageService.getMatchingArticleList(id,page);//매칭된 글가져오기
         Page<MatchingDTO> matchingDTO= this.mypageService.getMatchingList(id,page);//매칭내역가져오기
 
@@ -83,29 +67,6 @@ public class MypageController {
         return "mypage/myMatchingList";
     }
 
-
-    /*
-    //jointest
-    @GetMapping("/machingResult")
-    public String machingResult(@RequestParam(value="page",defaultValue="0") int page, Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String memberId = authentication.getName(); // 현재 로그인한 사용자의 ID 가져오기
-        System.out.println(memberId);
-        MemberDTO memberDTO = mypageService.getMember(memberId);//내정보 dto로가져오기
-        long id = memberDTO.getId();//내정보의 pk값 id에저장
-
-
-        Page<PetSitterDTO> petsitterPage= this.mypageService.getMatchingArticleList(id,page);
-
-        model.addAttribute("petsitterPage",petsitterPage);
-        return "mypage/myMatchingList";
-    }
-
-     */
-
-
-
-
     //내정보 보기
     @GetMapping("/info")
     public String mypageinfo(Model model) {
@@ -113,16 +74,8 @@ public class MypageController {
         String memberId = authentication.getName(); // 현재 로그인한 사용자의 ID 가져오기
         MemberDTO memberDTO = mypageService.getMember(memberId);
         model.addAttribute("memberDTO", memberDTO);
-        return "myInfo";
+        return "mypage/myInfo";
     }
-    /*@GetMapping("/myArticleList/{xiuxiu}")
-    public String myArticle(@PathVariable("xiuxiu") String id,
-                            @RequestParam(value="page",defaultValue="0") int page, Model model){
-        Page<PetSitterDTO> petsitterPage= this.mypageService.getMyArticleList(id,page);
-
-        model.addAttribute("petsitterPage",petsitterPage);
-        return "mypage/myArticleList";
-    }*/
 
     //나의 작성글 보기
     @GetMapping("/myArticleList")
@@ -142,30 +95,13 @@ public class MypageController {
     @GetMapping("/myQnAList")
     public String myQnA(@RequestParam(value="page",defaultValue="0") int page, Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String memberId = authentication.getName(); // 현재 로그인한 사용자의 ID 가져오기
+        String memberId = authentication.getName(); //현재 로그인한 사용자의 ID 가져오기
         System.out.println(memberId);
         Page<QuestionDTO> questionPage= this.mypageService.getMyQnAList(memberId,page);
 
         model.addAttribute("questionPage",questionPage);
         return "mypage/myQnAList";
     }
-
-
-    /*//나의 매칭내역보기
-    @GetMapping("/myMatchingList")
-    public String myMatching(@RequestParam(value="page",defaultValue="0") int page, Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String memberId = authentication.getName(); // 현재 로그인한 사용자의 ID 가져오기
-
-        MemberDTO memberDTO = mypageService.getMember(memberId);
-        System.out.println("접속중사용자의 id"+memberDTO.getId());
-        long id=memberDTO.getId();// 현재 사용자의 member의 id값저장
-        Page<PetSitterDTO> matchingPage= this.mypageService.getMyMatchingList(memberId,page);
-
-        model.addAttribute("matchingPage",matchingPage);
-        return "mypage/myMatchingList";
-    }*/
-
 
 
     //글 상세 보기
@@ -226,13 +162,11 @@ public class MypageController {
     public String modify(@Valid ModifyForm modifyForm,
                          BindingResult bindingResult){
         //1.파라미터받기
-
         System.out.println("여기는 PostmodifyInfo");
         if(bindingResult.hasErrors()){ //에러가 존재하면
             System.out.println("bindingResult.hasErrors()에러발생");
             return "mypage/modify_Form";//templates폴더하위의 signup_form.html문서를 보여줘
         }
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String id = authentication.getName();//접속자의 id받아와서 id 에 저장
         Member member = mypageService.getMemberEntity(id);// 접속자의 Member 엔티티 가져오기
@@ -242,24 +176,5 @@ public class MypageController {
 
         return "redirect:/mypage/info"; //수정상세페이지로 이동
     }
-
-
-    /*@PostMapping("/modify/{id}")
-    public String modify(@Valid QuestionForm questionForm,BindingResult bindingResult,
-                         @PathVariable("id") Integer id,Principal principal){
-        //1.파라미터받기
-        if(bindingResult.hasErrors()){  //유효성검사시 에러가 발생하면
-            return "question_form"; //question_form.html문서로 이동
-        }
-        //2.비즈니스로직수행
-        //로그인한 유저가 글쓴이와 일치해야지만 수정권한을 가지게 된다=>수정처리 진행됨
-        Question question = questionService.getQuestion(id); //질문상세
-        if ( !question.getWriter().getUsername().equals(principal.getName()) ) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정권한이 없습니다.");
-        }
-
-        questionService.modify(question,questionForm.getSubject(), questionForm.getContent());
-        return String.format("redirect:/question/detail/%d",id); //수정상세페이지로 이동
-    }*/
 
 }

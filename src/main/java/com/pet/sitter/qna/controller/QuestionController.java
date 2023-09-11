@@ -3,16 +3,16 @@ package com.pet.sitter.qna.controller;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Question;
 import com.pet.sitter.member.service.MemberService;
-import com.pet.sitter.qna.dto.AnswerDTO;
 import com.pet.sitter.qna.dto.QuestionDTO;
+import com.pet.sitter.qna.repository.QuestionRepository;
 import com.pet.sitter.qna.service.QuestionService;
 import com.pet.sitter.qna.validation.AnswerForm;
 import com.pet.sitter.qna.validation.QuestionForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -90,5 +90,26 @@ public class QuestionController {
         questionService.delete(qnaNo);
         return "redirect:/question/list";
     }
+
+
+    //비밀번호 폼
+    @GetMapping("/checkPassword/{qnaNo}")
+    public String checkPw(@PathVariable("qnaNo") Long qnaNo, QuestionDTO questionDTO,Model model){
+        model.addAttribute("qnaNo",qnaNo);
+        return "qna/PasswordCheck";
+    }
+
+
+    //비밀번호 확인 처리
+    @PostMapping("/checkPassword")
+    public String checkPassword(@RequestParam Long qnaNo, @RequestParam String inputPassword, Model model) {
+        String result = questionService.checkPassword(qnaNo, inputPassword);
+        if ("success".equals(result)) {
+            return String.format("redirect:detail/%d",qnaNo);
+        }
+        return String.format("redirect:qna/PasswordCheck/%d",qnaNo);
+    }
+
+
 
 }

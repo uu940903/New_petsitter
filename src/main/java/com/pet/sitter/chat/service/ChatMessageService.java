@@ -12,12 +12,10 @@ import com.pet.sitter.mainboard.repository.PetsitterRepository;
 import com.pet.sitter.member.dto.MemberDTO;
 import com.pet.sitter.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -99,7 +97,7 @@ public class ChatMessageService {
     }
 
     public List<ChatMessageDTO> getPreviousMessages(String roomUUID) {
-        return chatMessageRepository.findMessagesByChatRoomRoomUUID(roomUUID)
+        return chatMessageRepository.findChatMessagesByChatRoomRoomUUID(roomUUID)
                 .stream()
                 .map(entity -> new ChatMessageDTO(
                         entity.getId(),
@@ -115,12 +113,12 @@ public class ChatMessageService {
         Matching matching = new Matching();
         ChatRoom chatRoom = chatRoomRepository.findChatRoomById(roomId);
         Optional<Member> member = memberRepository.findBymemberId(hostId);
-        if(member.isEmpty()) {
+        if (member.isEmpty()) {
             throw new DataNotFoundException("회원이 없습니다.");
         }
         Member hostMember = member.get();
         Optional<Member> member2 = memberRepository.findBymemberId(guestId);
-        if(member2.isEmpty()) {
+        if (member2.isEmpty()) {
             throw new DataNotFoundException("회원이 없습니다.");
         }
         Member guestMember = member2.get();
@@ -130,6 +128,12 @@ public class ChatMessageService {
         matching.setCreatdateMatching(LocalDateTime.now());
         matching.setMember(hostMember);
         matching.setMember2(guestMember);
+        matching.setChatRoomNo(roomId);
         matchingRepository.save(matching);
+    }
+
+    public void delMatching(Long chatRoomNo) {
+        Matching matching = matchingRepository.findMatchingByChatRoomNo(chatRoomNo);
+        matchingRepository.delete(matching);
     }
 }

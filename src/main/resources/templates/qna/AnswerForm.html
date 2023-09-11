@@ -1,5 +1,6 @@
 <html layout:decorate="~{layout}" class="container my-3">
 <div layout:fragment="content">
+    <link rel="stylesheet" type="text/css" th:href="@{/qna/css/questionForm.css}">
     <h5 class="my-3 border-bottom pb-2">답변 등록</h5>
     <form id="answerForm" class="my-3" th:object="${answerForm}" method="post">
         <!--  CSRF토큰 전달방식 : CSRF 자동 생성을 하기 위해, th:action 속성 제거 / CSRF 값을 설정하기 위한 hidden 추가
@@ -8,9 +9,11 @@
               => 질문 등록 요청 시에는 action="/add" method="post"-->
         <div class="mb-3">
             <label for="content" class="form-label">내용</label>
-            <textarea th:field="*{content}" rows="8" class="form-control" id="content" ></textarea>
+            <input th:field="*{content}"  class="form-control" id="content" ></input>
         </div>
-        <input type="submit" value="저장" class="btn btn-dark" id="subBtn" />
+        <div class="save">
+        <input type="submit" value="저장" class="btn btn-modify-custom btn-outline-secondary" id="subBtn" />
+        </div>
     </form>
 </div>
 </html>

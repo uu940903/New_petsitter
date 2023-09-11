@@ -1,6 +1,5 @@
 package com.pet.sitter.qna.dto;
 
-import com.pet.sitter.common.entity.NoticeFile;
 import com.pet.sitter.common.entity.QuestionFile;
 import lombok.Builder;
 import lombok.Getter;
