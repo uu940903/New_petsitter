@@ -1,79 +1,118 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
-    <table class="table">
-        <thead class="table-dark">
+    <head>
+        <style>
+            a {
+            text-decoration: none;
+            }
+
+            .thead-orange {
+                background-color: orange;
+                color: white; /* 글자색을 흰색으로 설정 */
+            }
+
+            .pagination-orange .page-link {
+                color: #c8c8c8; /* 페이지 링크 텍스트 색상을 주황색으로 설정 */
+                border-color: #c8c8c8; /* 페이지 링크 테두리 색상을 주황색으로 설정 */
+            }
+
+            .pagination-orange .page-link:hover {
+                background-color: orange; /* 페이지 링크에 마우스를 올렸을 때 배경색을 주황색으로 설정 */
+                color: white; /* 페이지 링크 텍스트 색상을 흰색으로 설정 */
+            }
+
+            .pagination-orange .active .page-link {
+                background-color: orange; /* 활성 페이지 링크의 배경색을 주황색으로 설정 */
+                border-color: orange; /* 활성 페이지 링크 테두리 색상을 주황색으로 설정 */
+
+           }
+
+           /* 채팅 보기 버튼 배경색 변경 */
+         .btn-primary.custom-btn {
+             background-color: #FF7A85; /* 원하는 배경색으로 변경 */
+             border-color: #FF7A85; /* 테두리 색상을 배경색과 동일하게 설정 (선택 사항) */
+             color: white; /* 텍스트 색상을 흰색으로 설정 (선택 사항) */
+         }
+
+         .btn-primary.custom-btn:hover {
+             background-color: pink; /* 마우스를 올렸을 때 배경색 변경 (선택 사항) */
+             border-color: red;
+         }
+         .table {
+             background-color: #FFF; /* 원하는 배경색으로 변경 */
+         }
+
+         /*tbody의 a태그색상*/
+         .table tbody a {
+             color: black; /* 원하는 텍스트 색상으로 변경 */
+         }
+
+         /* 번호 텍스트 색상 변경 */
+         th.scope-number {
+             color: black; /* 원하는 텍스트 색상으로 변경 */
+         }
+
+             /* 글쓴이 텍스트 색상 변경 */
+         td.author {
+             color: black; /* 원하는 텍스트 색상으로 변경 */
+         }
+
+         /* 등록일 텍스트 색상 변경 */
+         td.registration-date {
+             color: black; /* 원하는 텍스트 색상으로 변경 */
+         }
+
+        /*페이지*/
+         .pagination.pagination-orange .page-item.active .page-link {
+        background-color: orange; /* 활성 페이지 링크의 배경색을 원하는 색상으로 변경 */
+        border-color: orange; /* 활성 페이지 링크 테두리 색상을 원하는 색상으로 변경 (선택 사항) */
+        color: white; /* 활성 페이지 링크 텍스트 색상을 흰색으로 변경 (선택 사항) */
+    }
+        </style>
+    </head>
+    <table class="table table-striped">
+        <thead class="thead-orange">
         <tr>
-            <th>번호</th>
-            <th>제목</th>
+            <th scope="col">번호</th>
+            <th scope="col">제목</th>
+            <th scope="col">등록일</th>
+
 
         </tr>
         </thead>
         <tbody>
-        <!--1페이지당 출력할 게시물수만큼 반복시작
-        *페이징처리에서 글번호 공식에 사용되는 개념
-           paging정보.getTotalElements:총게시물수
-           paging정보.number:현재 페이지 번호
-           paging정보.size:페이지당게시물개수
-           loop정보.index:나열 인덱스(0부터 시작.for반복문내부의 index)
-           여기에서는 한페이지당 게시글수를 10-> 0~9 =>0첫번째페이지 글번호12 11 10~3
-           여기에서는 한페이지당 게시글수를 2-> 0~1=>1 두번째페이지 글번호 2 1
-        -->
-        <tr th:each="question, loop : ${questionPage}">
-            <!-- 글번호=총게시물수-(현재페이지번호*페이지당게시물개수)-나열 인덱스 -->
-            <!--12? =12-(0*10)-0 -->
-            <!-- =12-(0*10)-1 -->
-            <!-- =12-(0*10)-2 -->
-            <!--3? =12-(0*10)-9 -->
 
-            <!--2? =12-(1*10)-0 -->
-            <!--1? =12-(1*10)-1 -->
-            <td th:text="${questionPage.getTotalElements - (questionPage.number * questionPage.size) - loop.index}"></td>
-            <!--요청주소 http://localhost:포트/question/detail?id=1001
-               <td th:text="${question.subject}"><a href="/question/detail?id=${question.id}"></a></td>-->
+        <tr th:each="question, loop : ${questionPage}">
+
+            <th class="scope-number" scope="row" th:text="${questionPage.totalElements - (questionPage.number * questionPage.size) - loop.index}"></th>
+
             <td>
-                <!--요청주소 http://localhost:포트/question/detail/1001
-                 th:href속성에서  주소를 나타낼때에는 반드시  @{}을 이용해야한다
-                  @{URL}
-                  주의:URL이  조합되어질때에는  @{| |} 작성해야한다-->
-                <a href="/question/detail/${question.qnaNo}"
-                   th:href="@{|/question/detail/${question.qnaNo}|}"
-                   th:text="${question.qnaTitle}"></a>
-                <!-- 답변갯수출력 : 답변갯수가 0개 초과시 출력 -->
-                <!-- <span class="text-danger small ms-1"
-                       th:if="${#lists.size(question.answerList)>0}"
-                       th:text="${#lists.size(question.answerList)}"></span>-->
+
+                <a th:href="@{|/question/detail/${question.qnaNo}|}" th:text="${question.qnaTitle}"></a>
+
             </td>
-            <!--<td  th:if="${question.member!=null}" th:text="${question.member.memberId}"></td>-->
-            <!-- temporals.format(날짜대상,"date포맷") -->
-            <!--<td th:text="${#temporals.format(question.petRegdate,'yyyy-MM-dd HH:mm')}"></td>-->
+            <td class="registration-date" th:text="${#temporals.format(question.qnaDate,'yyyy-MM-dd HH:mm')}"></td>
         </tr><!--1페이지당 출력할 게시물수만큼 반복끝-->
         </tbody>
     </table>
-    <!--<a th:href="@{/question/add}" class="btn btn-primary">질문등록하기</a>-->
+
 
     <!-- Pagenation 부분 영역 시작-->
-    <div th:if="${ !questionPage.isEmpty() }">
-        <ul class="pagination justify-content-center">
+    <div th:if="${ !questionPage.isEmpty() }" class="text-center">
+        <ul class="pagination pagination-orange justify-content-center">
             <!-- 이전버튼:조건  -->
-            <li class="page-item"
-                th:classappend="${!questionPage.hasPrevious} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{|?page=${questionPage.number-1}|}"><span>이전</span></a>
+            <li class="page-item" th:classappend="${!questionPage.hasPrevious} ? 'disabled'">
+                <a class="page-link" th:href="@{|?page=${questionPage.number-1}|}">이전</a>
             </li>
             <!-- 페이지번호:반복+연결+bootstrap [0] [1] [2] [3~]  [4] [5] [6] [7]~~[9] [10] [11]  -->
-            <li class="page-item"
-                th:each="page : ${#numbers.sequence(0,questionPage.totalPages-1)}"
+            <li class="page-item" th:each="page : ${#numbers.sequence(0,questionPage.totalPages-1)}"
                 th:if="${  page>=questionPage.number-3 and  page<=questionPage.number+3 }"
                 th:classappend="${page==questionPage.number} ? 'active'">
-                <a class="page-link"
-                   th:href="@{|?page=${page}|}"
-                   th:text="${page+1}"></a>
+                <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page+1}"></a>
             </li>
             <!-- 다음버튼:조건  -->
-            <li class="page-item"
-                th:classappend="${!questionPage.hasNext} ? 'disabled'">
-                <a class="page-link"
-                   th:href="@{|?page=${questionPage.number+1}|}"><span>다음</span></a>
+            <li class="page-item" th:classappend="${!questionPage.hasNext} ? 'disabled'">
+                <a class="page-link" th:href="@{|?page=${questionPage.number+1}|}">다음</a>
             </li>
         </ul>
     </div><!-- Pagenation 부분 영역 끝-->
