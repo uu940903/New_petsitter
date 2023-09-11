@@ -1,8 +1,6 @@
 package com.pet.sitter.qna.controller;
 
-import com.pet.sitter.common.entity.Answer;
 import com.pet.sitter.common.entity.Member;
-import com.pet.sitter.common.entity.Question;
 import com.pet.sitter.member.service.MemberService;
 import com.pet.sitter.qna.dto.AnswerDTO;
 import com.pet.sitter.qna.dto.QuestionDTO;
@@ -11,7 +9,6 @@ import com.pet.sitter.qna.service.QuestionService;
 import com.pet.sitter.qna.validation.AnswerForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
-import java.util.List;
 
 
 @Controller

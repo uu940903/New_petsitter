@@ -1,26 +1,16 @@
 package com.pet.sitter.notice.controller;
 
 import com.pet.sitter.common.entity.Notice;
-import com.pet.sitter.common.entity.NoticeFile;
 import com.pet.sitter.notice.dto.NoticeDTO;
 import com.pet.sitter.notice.service.NoticeService;
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.awt.print.Pageable;
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/notice")
@@ -70,7 +60,7 @@ public class NoticeController {
     public String detail(@PathVariable("noNo") Long noNo, Model model) {
         NoticeDTO noticeDTO = noticeService.getDetail(noNo);
         model.addAttribute("noticeDTO", noticeDTO);
-        System.out.println("요ㅗ로로로롤"+noticeDTO);
+
 
         return "notice/NoticeDetail";
     }
@@ -81,6 +71,7 @@ public class NoticeController {
 
     public String edit(@PathVariable("noNo") Long noNo, Model model) {
         NoticeDTO noticeDTO = noticeService.getDetail(noNo);
+        System.out.println("수정"+noticeDTO);
         model.addAttribute("noticeDTO", noticeDTO);
         return "notice/NoticeUpdate";
     }
@@ -88,7 +79,6 @@ public class NoticeController {
     //공지게시판 수정하기
     @PostMapping("/update")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-
     public String getUpdate(Long noNo, @ModelAttribute NoticeDTO noticeDTO, @RequestParam("file") MultipartFile[] newImageFiles) throws IOException {
         noticeService.getUpdate(noNo, noticeDTO, newImageFiles);
 
@@ -99,7 +89,6 @@ public class NoticeController {
     //공지게시판 삭제처리
     @GetMapping("/delete/{noNo}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-
     public String getDelete(@PathVariable Long noNo){
         noticeService.getDelete(noNo);
         return "redirect:/notice/list";

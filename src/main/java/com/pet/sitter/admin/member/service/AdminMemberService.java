@@ -79,7 +79,6 @@ public class AdminMemberService {
         member.setEMail(eMail);
         adminMemberRepository.save(member);
     }
-
     public Member getModify(Long id) {
         Optional<Member> member = adminMemberRepository.findById(id);
         if (!member.isPresent()) {

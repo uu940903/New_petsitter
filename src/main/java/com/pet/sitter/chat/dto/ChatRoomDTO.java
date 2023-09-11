@@ -1,9 +1,6 @@
 package com.pet.sitter.chat.dto;
 
-import com.pet.sitter.chat.controller.ChatRoomController;
-import com.pet.sitter.chat.service.ChatRoomService;
 import com.pet.sitter.common.entity.ChatRoom;
-import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

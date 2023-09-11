@@ -1,38 +1,34 @@
-
-<html layout:decorate="~{layout}" class="container-lg my-3">
-<div layout:fragment="content">
+<html layout:decorate="~{layout}">
+<div layout:fragment="content" class="container my-4">
     <head>
         <meta charset="UTF-8">
         <title>Title</title>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <link rel="stylesheet" type="text/css" th:href="@{/qna/css/questionList.css}">
     </head>
     <body>
-    <div class="d-flex justify-content-between align-items-center">
-        <h2>Q&A게시판</h2>
-        <a th:href="@{/question/write}" class="btn btn-dark text-white">글쓰기</a>
-    </div>
-
+        <h2 class="boardlist">Q&A게시판</h2>
+        <div class="writebtn"><a th:href="@{/question/write}" class="btn btn-modify-custom btn-outline-secondary">글쓰기</a></div>
     <div>
-        <table class="text-center w-100 table table-hover">
-            <thead>
+        <table class="table container my-4 table table-hover">
+            <thead class="table-nav-tr">
             <tr>
                 <th>번호</th>
-                <!--            <th>(loop)번호</th>-->
-                <th>글제목</th>
+                <th>제목</th>
                 <th>작성자</th>
                 <th>작성일</th>
                 <th>조회수</th>
             </tr>
             </thead>
-
             <tbody>
             <!-- CONTENTS !-->
             <tr th:each="question, loop: ${questionPage}" style="height: 40px;">
-                <!--            <td th:text="${loop.count}"></td>-->
                 <td th:text="${questionPage.getTotalElements() - (questionPage.number * questionPage.size) - loop.index}"></td>
+
                 <td>
-                    <a th:href="@{'/question/detail/' + ${question.qnaNo}}" style="color: black;">
-                        <span class="col-5" th:text="${question.qnaTitle}"></span>
-                    </a>
+                    <a th:href="@{|/question/checkPassword/${question.qnaNo}|}" class="col-5" th:text="${question.qnaTitle}"></a>
+                </td>
+
                 <td class="col-3" th:text="${question.member.getNickname}"></td>
                 <td>
                     <span class="col-2" th:text="${#temporals.format(question.qnaDate, 'yyyy-MM-dd HH:mm')}"></span>
@@ -41,6 +37,7 @@
                     <span class="col-1" th:text="${question.qnaViewCnt}"></span>
                 </td>
             </tr>
+
             </tbody>
         </table>
 
@@ -51,19 +48,23 @@
                 <!-- 삼항 연산자 => 조건 ? true false -->
                 <li class="page-item" th:classappend="${!questionPage.hasPrevious} ? 'disabled'">
                     <!-- Page class의 hasPrevious() : 이전 페이지의 여부 / getNumber : 현재 페이지 번호-->
-                    <a class="page-link" th:href="@{|?page=${questionPage.number-1}|}"><span>이전</span></a>
+                    <a class="page-link" th:href="@{|?page=${questionPage.number-1}|}"><span> << </span></a>
                 </li>
                 <!-- 페이지번호 : 반복& <a>태그 연결 & 부트스트랩 [1] [2] [3] ~ [10] -->
                 <!-- page : 반복변수명  / '?page=' : localhost:8090/question/list?page=페이지전호-->
                 <li class="page-item" th:each="page : ${#numbers.sequence(0,questionPage.totalPages-1)}"
                     th:if="${page>=questionPage.number-5 and page<=questionPage.number+5}"
                     th:classappend="${page==questionPage.number} ? 'active'">
-                    <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page+1}"></a>
+                    <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page+1}" th:classappend="${page==questionPage.number} ? 'active'">
+                         <span th:if="${page==questionPage.number}" class="current-page">
+                             [th:text="${page+1}"]
+                        </span>
+                    </a>
                 </li>
                 <!-- 다음 버튼 : 조건 충족시 노출 -->
                 <li class="page-item" th:classappend="${!questionPage.hasNext} ? 'disabled'">
                     <!-- Page class의 hasPrevious() : 이전 페이지의 여부 / getNumber : 현재 페이지 번호-->
-                    <a class="page-link" th:href="@{|?page=${questionPage.number+1}|}"><span>다음</span></a>
+                    <a class="page-link" th:href="@{|?page=${questionPage.number+1}|}"><span> >> </span></a>
                 </li>
             </ul>
         </div>
@@ -75,3 +76,6 @@
 </div>
 
 </html>
+
+
+

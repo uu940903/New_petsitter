@@ -49,7 +49,7 @@ ol, ul {
 .petSitter-cover {
     height: 340px;
     padding: 0 16px 0 16px;
-    margin: 50px 0px;
+    margin: -17px 0px;
 }
 
 .petSitter-cover {
@@ -66,8 +66,8 @@ ol, ul {
 }
 
 .cover-image .petSitter-cover-image img {
-    position: absolute;
-    top: 130px;
+    position: relative;
+    top: 53px;
     right: 0px;
     width: 40%;
     overflow: hidden;
@@ -202,6 +202,8 @@ ol, ul {
 }
 
 .writeBtn {
+    left: 89rem;
+    position: relative;
     border-radius: 30px 30px 30px 30px;
     width: 60px;
     height: 60px;

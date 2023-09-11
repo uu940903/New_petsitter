@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +55,6 @@ public class MypageService {
         System.out.println(chatMessageDTOList.size());
         return chatMessageDTOList;
     }
-
 
     //채팅방가져오기
     public Page<ChatRoomDTO> getMyChatRoomList(Long id, int page) {
@@ -118,39 +116,6 @@ public class MypageService {
 
     }
 
-
-
-
-
-
-
-
-
-    /*//jointest
-    public Page<PetSitterDTO> jointest(long id , int page){
-        List<Sort.Order> sorts = new ArrayList();
-        sorts.add(Sort.Order.desc("petRegdate")); //내림차순기준
-        Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
-        Page<Petsitter> petsitterPage = mypageRepository2.findBytest(id,pageable);//page<Petsitter>를 page<PetSitterDTO>로 변환
-        System.out.printf("여기는 레파지토리 에서 가져온 펫시터 엔티티갯수%d",petsitterPage.getTotalElements());
-
-        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
-            PetSitterDTO dto = new PetSitterDTO(petsitter);
-            dto.setMember(new MemberDTO(petsitter.getMember())); // Member 설정
-            return dto;
-        });
-
-        *//*return petSitterDTOPage;
-
-        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> new PetSitterDTO(petsitter));*//*
-
-        return petSitterDTOPage;
-
-
-    }*/
-
-
-
     //내정보보기
     public MemberDTO getMember(String memberId) {
         Optional<Member> member = mypageRepository.findByMemberId(memberId);
@@ -173,19 +138,6 @@ public class MypageService {
         }
     }
 
-    /*public Page<Petsitter> getMyArticleList(String id , int page){
-        List<Sort.Order> sorts = new ArrayList();
-        sorts.add(Sort.Order.desc("petRegdate"));
-        Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
-        Page<Petsitter> petsitterPage = mypageRepository2.findByMemberMemberId(id,pageable);
-        Page<PetSitterDTO> petSitterDTOPage;
-        for(int i=0;i<=petsitterPage.getTotalElements();i++){
-
-        }
-
-        return mypageRepository2.findByMemberMemberId(id,pageable);
-    }*/
-
     //내가쓴글보기
     public Page<PetSitterDTO> getMyArticleList(String id , int page){
         List<Sort.Order> sorts = new ArrayList();
@@ -201,10 +153,6 @@ public class MypageService {
 
         return petSitterDTOPage;
 
-        /*Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> new PetSitterDTO(petsitter));
-
-        return petSitterDTOPage;
-*/
 
     }
 
@@ -225,43 +173,8 @@ public class MypageService {
             System.out.println("여기는 service의 getMyQnaList 현재 아이디"+question.getQnaDate());
             return dto;
         });
-
         return questionDTOPage;
-
-        /*Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> new PetSitterDTO(petsitter));
-
-        return petSitterDTOPage;
-*/
-
     }
-
-
-
-
-
-
-/*    //나의 매칭내역보기
-    public Page<PetSitterDTO> getMyMatchingList(String id , int page){
-        List<Sort.Order> sorts = new ArrayList();
-        sorts.add(Sort.Order.desc("petRegdate")); //내림차순기준
-        Pageable pageable = PageRequest.of(page,10,Sort.by(sorts));
-        Page<Petsitter> petsitterPage = mypageRepository2.findByMatchingMemberId(id,pageable);//page<Petsitter>를 page<PetSitterDTO>로 변환
-        Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
-            PetSitterDTO dto = new PetSitterDTO(petsitter);
-            dto.setMember(petsitter.getMember()); // Member 초기화
-            return dto;
-        });
-
-        return petSitterDTOPage;
-
-        *//*Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> new PetSitterDTO(petsitter));
-
-        return petSitterDTOPage;
-*//*
-
-    }*/
-
-
 
     //상세보기
 
@@ -275,7 +188,6 @@ public class MypageService {
             throw new DataNotFoundException("Question not Found");
         }
     }
-
     //비번수정
     public void passModify(Member member,String password1){
         member.setPw(passwordEncoder.encode(password1));
@@ -291,17 +203,4 @@ public class MypageService {
         mypageRepository.save(member);
     }
 
-
-
 }
-
- /*Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
-            PetSitterDTO dto = new PetSitterDTO();
-            dto.setMember(petsitter.getMember());
-
-            return dto;
-        });*/
-
-//return petSitterDTOPage;
-
-//return mypageRepository2.findByMemberMemberId(id,pageable);

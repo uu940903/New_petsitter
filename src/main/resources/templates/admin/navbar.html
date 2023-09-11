@@ -7,8 +7,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <!--sec:authorize="isAnonymous()"-로그인 되지 않은 경우에만 해당 엘리먼트가 표시되게 한다.
-                    sec:authorize="isAuthenticated()"-로그인 된 경우에만 해당 엘리먼트가 표시되게 한다.-->
                 <li class="nav-item">
                     <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
                 </li>
@@ -19,22 +17,9 @@
                        th:text="${#authentication.name +'님 로그아웃'}"></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/qna/QuestionList}">Q&A</a>
+                    <a class="nav-link" th:href="@{/qna/QuestionList}">Q&A게시판</a>
                 </li>
 
-                <!--<li class="nav-item nav-item-board-list">
-                    <a class="nav-link" th:href="@{/admin/boardList}">게시판</a>
-                </li>
-
-                <li class="nav-item nav-item-member-list">
-                    <a class="nav-link" th:href="@{/admin/memberList}">회원목록</a>
-                </li>-->
-                <!--<li class="nav-item nav-item-board-list" th:classappend="${currentUrl.endsWith('/admin/boardList')} ? 'active' : ''">
-                    <a class="nav-link" th:href="@{/admin/boardList}">게시판</a>
-                </li>
-                <li class="nav-item nav-item-member-list" th:classappend="${currentUrl.endsWith('/admin/memberList')} ? 'active' : ''">
-                    <a class="nav-link" th:href="@{/admin/memberList}">회원목록</a>
-                </li>-->
                 <li class="nav-item nav-item-board-list">
                     <a class="nav-link" th:href="@{/admin/boardList}">게시판</a>
                 </li>

@@ -136,46 +136,37 @@ public class QuestionService {
 
     //Question게시판 수정
     @Transactional
-    public void update(Long qnaNo, QuestionDTO questionDTO,MultipartFile[] newImageFiles) throws IOException {
+    public void update(Long qnaNo, QuestionDTO questionDTO, MultipartFile[] newImageFiles) throws IOException {
         Optional<Question> questionOptional = questionRepository.findById(qnaNo);
 
-        if(questionOptional.isPresent()){
+        if (questionOptional.isPresent()) {
             Question question = questionOptional.get();
-            question.setQnaNo(questionDTO.getQnaNo());
             question.setQnaDate(questionDTO.getQnaDate());
             question.setQnaTitle(questionDTO.getQnaTitle());
             question.setQnaContent(questionDTO.getQnaContent());
-            questionRepository.save(question);
 
             // 기존 파일 삭제
             List<QuestionFile> filesToDelete = question.getQuestionList();
             for (QuestionFile delete : filesToDelete) {
                 String filePath = delete.getQSavedPath();
                 File fileToDelete = new File(filePath);
-                System.out.println("ㅍㅍㅍㅍㅍㅍㅍㅍㅍㅍㅍ file: " + filePath);
                 if (fileToDelete.exists()) {
                     fileToDelete.delete();
                 }
             }
-
             // 기존 파일 정보 삭제
             question.getQuestionList().clear();
 
             // 새로운 파일 업로드 및 정보 저장
-            if (newImageFiles[0].isEmpty()) {
-                questionRepository.save(question);
-            } else {
-                Long boardNo = questionRepository.save(question).getQnaNo();
-                Question question1 = questionRepository.findById(boardNo).get();
-
-                QuestionFile questionFile = new QuestionFile();
-
+            if (newImageFiles != null && newImageFiles.length > 0) {
                 String path = "C:/uploadfile/question_img/";
 
                 File directory = new File(path);
                 if (!directory.exists()) {
                     directory.mkdirs();
                 }
+
+                List<QuestionFile> newQuestionFiles = new ArrayList<>(); // 새로운 파일 정보를 저장할 리스트
 
                 for (MultipartFile qnaFile : newImageFiles) {
                     String originalFilename = qnaFile.getOriginalFilename();
@@ -185,21 +176,22 @@ public class QuestionService {
                     File saveFile = new File(path, newFileName);
                     qnaFile.transferTo(saveFile);
 
-                    questionFile = QuestionFile.builder()
+                    QuestionFile questionFile = QuestionFile.builder()
                             .QOrgNm(originalFilename)
                             .QSavedNm(newFileName)
                             .QSavedPath(noSavedPath)
+                            .question(question) // Question 엔터티와 연관 설정
                             .build();
 
-                    questionFile.setQuestion(question1);
-                    questionFileRepository.save(questionFile);
+                    newQuestionFiles.add(questionFile); // 새로운 파일 정보를 리스트에 추가
                 }
 
-                questionRepository.save(question);
+                question.getQuestionList().addAll(newQuestionFiles); // 새로운 파일 정보를 추가
             }
+
+            questionRepository.save(question); // 수정된 엔터티 저장
         }
     }
-
     //Question게시판 삭제
     @Transactional
     public void delete(Long qnaNo) {
@@ -208,6 +200,25 @@ public class QuestionService {
             Question question = questionOptional.get();
             questionRepository.delete(question);
         }
+    }
+
+    //비밀번호 확인
+    @Transactional
+    public String checkPassword(Long qnaNo, String inputPassword) {
+        Optional<Question> questionOptional = questionRepository.findById(qnaNo);
+
+        if (questionOptional.isPresent()) {
+            Question question = questionOptional.get();
+            String storedPassword = question.getQnaPw(); // DB에 저장된 비밀번호
+
+            if (storedPassword.equals(inputPassword)) {
+                return "success"; // 비밀번호 일치
+            } else {
+                return "failure"; // 비밀번호 불일치
+            }
+        }
+
+        return "notfound"; // 해당 글이 없음
     }
 
 }
