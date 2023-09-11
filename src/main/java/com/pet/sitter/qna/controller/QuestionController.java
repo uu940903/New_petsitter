@@ -11,6 +11,8 @@ import com.pet.sitter.qna.validation.QuestionForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -26,7 +28,6 @@ import java.security.Principal;
 public class QuestionController {
     private final QuestionService questionService;
     private final MemberService memberService;
-    private final QuestionRepository questionRepository;
 
     //question 글 작성 폼 보여주기
     @GetMapping("/write")
@@ -90,6 +91,7 @@ public class QuestionController {
         return "redirect:/question/list";
     }
 
+
     //비밀번호 폼
     @GetMapping("/checkPassword/{qnaNo}")
     public String checkPw(@PathVariable("qnaNo") Long qnaNo, QuestionDTO questionDTO,Model model){
@@ -101,9 +103,7 @@ public class QuestionController {
     //비밀번호 확인 처리
     @PostMapping("/checkPassword")
     public String checkPassword(@RequestParam Long qnaNo, @RequestParam String inputPassword, Model model) {
-        System.out.println("요기요="+qnaNo);
         String result = questionService.checkPassword(qnaNo, inputPassword);
-        System.out.println("저기요="+result);
         if ("success".equals(result)) {
             return String.format("redirect:detail/%d",qnaNo);
         }
