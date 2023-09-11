@@ -124,8 +124,8 @@ button {
 }
 
 .title {
-    font-size : 24px;
-    margin : 10px;
+   font-size : 24px;
+   margin : 10px;
 }
 
 .nickname {
@@ -157,36 +157,41 @@ button {
     margin-top: 100px;
     margin-bottom: 10px;
     font-size : 20px;
+    font-weight: bolder;
+}
+
+#map{
+    margin : 0 auto;
 }
 
 .chatBtn {
-    display:inline-block;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    padding-top: 1rem;
+  display:inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1rem;
 }
 
 .temporary {
-    position: relative;
-    overflow: hidden;
+  position: relative;
+  overflow: hidden;
 }
 
 .temporary_image {
-    display: block;
-    width: 70%;
-    height: 70%;
-    object-fit: cover;
+  display: block;
+  width: 70%;
+  height: 70%;
+  object-fit: cover;
 }
 
 .temporary_list {
-    display: flex;
-    transform: translate(0, 0);
+  display: flex;
+  transform: translate(0, 0);
 }
 
 .temporary_item {
-    flex: 0 0 100%;
-    list-style: none;
+  flex: 0 0 100%;
+  list-style: none;
 }
 
 .recommendContainer {
@@ -250,11 +255,7 @@ div.content.recommendContainer.recommend.thumbnail-crop.thumbnail {
     margin: 50px 150px;
 }
 
-<<<<<<< HEAD
- .petSitterItem {
-=======
 .petSitterItem {
->>>>>>> ca93218287ce941303fb4ffe2088c09d2ce5461f
     display: inline-flex;
     margin: 18px;
     width: 424px;
@@ -268,24 +269,107 @@ div.content.recommendContainer.recommend.thumbnail-crop.thumbnail {
     right: 3rem;
 }
 
+.recommendBtn {
+    left: 2rem;
+}
+
 a {
     text-decoration: none;
     color : black;
 }
 
 a:visited {
-<<<<<<< HEAD
-  color : black;
-}
-
-=======
     color : black;
 }
+
 .text-center {
     margin-top: 15px;
     margin-bottom: 22px;
 }
->>>>>>> ca93218287ce941303fb4ffe2088c09d2ce5461f
+
+.title, .recommendDiv {
+    display: inline-block;
+    width 635px;
+    justify-content: space-between;
+}
+
+.title {
+    width: 1200px;
+}
+
+
+.thumbnail-crop {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.thumbnail {
+    position: absolute;
+    top: -72px;
+    left: -35px;
+    width: 300px;
+}
+
+.tem_thumbnail {
+    width: 200px;
+    height: 200px;
+}
+
+.item_name{
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 17px;
+    width: 200px;
+    height: 19px;
+    overflow: hidden;
+    margin-bottom: 7px;
+    text-align: left;
+    padding: 0px 5px;
+}
+
+.item-address {
+    width: 200px;
+    height: 15px;
+    overflow: hidden;
+    margin-bottom: 1px;
+    text-align: left;
+    padding: 0px 5px;
+    font-size: 15px;
+}
+
+.item_cost{
+    margin-top: 10px;
+    font-size: 15px;
+    color: #6c757d;
+    text-align: left;
+    padding: 0px 5px;
+}
+
+.item_place{
+    font-weight: 400;
+    font-size: smaller;
+    margin-top: 10px;
+    text-align: left;
+    padding: 0px 5px;
+}
+
+.petSitterItem{
+    width: 400px;
+    height: 300px;
+    flex-grow: 0;
+    flex-basis: auto;
+    margin: auto;
+}
+
+.text-left {
+  height : 200px;
+  margin-top: 50px;
+
+}
+
 
 /*
 .item_name{
@@ -302,12 +386,14 @@ a:visited {
     font-size: smaller;
     margin-top: 10px;
 }
+
 .recommendContainer{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     margin-bottom: 50px;
 }
+
 .recommend{
     width: 200px;
     height: 300px;

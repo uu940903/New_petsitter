@@ -69,14 +69,6 @@
             <span class="dot" th:attr="onclick='currentSlide(' + ${i.index + 1} + ')'"></span>
             </span>
     </div>
-        <a th:if="${petSitter.fileDTOList!=null}" class="prev" onclick="plusSlides(-1)">&#10094;</a>
-        <a th:if="${petSitter.fileDTOList!=null}" class="next" onclick="plusSlides(1)">&#10095;</a>
-        <br>
-        <div style="text-align:center" >
-            <span style="text-align:center" th:each="petSitterFile, i : ${petSitter.fileDTOList}">
-            <span class="dot" th:attr="onclick='currentSlide(' + ${i.index + 1} + ')'"></span>
-            </span>
-        </div>
     <div class="temporary" th:if="${petSitter.fileDTOList==null}">
         <ul class="temporary_list" >
             <li class="temporary_item" >
@@ -90,9 +82,9 @@
         <div class="nickname" th:text="${petSitter.member.nickname}"></div>
         <div class="titleRecommend">
             <div class="title" th:text="${petSitter.petTitle}"></div>
-            <div class="recommendBtn">
-                <a href="javascript:void(0);" th:data-uri="@{|/mainboard/incrementLikes/${petSitter.sitterNo}|}" class="recommend btn btn-sm btn-outline-secondary">
-                    <img src="/mainboard/image/thumb_up.png" th:text="${petSitter.likeCnt}">
+            <div class="recommendDiv">
+                <a href="javascript:void(0);" th:data-uri="@{|/mainboard/incrementLikes/${petSitter.sitterNo}|}" class="recommendBtn" id="recommendBtn">
+                    <img src="/mainboard/image/thumb_up.png" th:text="${petSitter.likeCnt}" class="recommendImg">
                 </a>
             </div>
         </div>
@@ -149,6 +141,13 @@
             });
             /*]]>*/
         </script>
+        <div class="buttonSection">
+        <span class="buttons">
+        <button class="button" type="button" th:onclick="'createAndEnterRoom(\'' + ${petSitter.sitterNo} + '\');'">연락하기</button>
+        <a sec:authorize="isAuthenticated()" th:if="${petSitter.member!=null and #authentication.getPrincipal().getUsername()==petSitter.member.memberId}" th:href="@{|/mainboard/modify/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2"><button type="button" class="button">수정하기</button></a>
+        <a sec:authorize="isAuthenticated()" th:if="${petSitter.member!=null and #authentication.getPrincipal().getUsername()==petSitter.member.memberId}" th:href="@{|/mainboard/delete/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2"><button type="button" class="button">삭제하기</button></a>
+        </span>
+        </div>
         <section class="recommendContainer" id="recommendContainer">
             <h3 class="content_title">추천</h3>
             <div class="cards-wrap">
@@ -157,13 +156,6 @@
             </div>
             </div>
         </section>
-        <div class="buttonSection">
-        <span class="buttons">
-        <button class="button" type="button" th:onclick="'createAndEnterRoom(\'' + ${petSitter.sitterNo} + '\');'">연락하기</button>
-        <a sec:authorize="isAuthenticated()" th:if="${petSitter.member!=null and #authentication.getPrincipal().getUsername()==petSitter.member.memberId}" th:href="@{|/mainboard/modify/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2"><button type="button" class="button">수정하기</button></a>
-        <a sec:authorize="isAuthenticated()" th:if="${petSitter.member!=null and #authentication.getPrincipal().getUsername()==petSitter.member.memberId}" th:href="@{|/mainboard/delete/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2"><button type="button" class="button">삭제하기</button></a>
-        </span>
-        </div>
     </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -205,63 +197,80 @@
     });
 </script>
 <script src="/mainboard/js/slider.js"></script>
-<!--<link rel="stylesheet" type="text/css" href="/mainboard/css/bootstrap.min.css" th:href="@{/mainboard/css/bootstrap.min.css}" />-->
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script>
-window.addEventListener('load', function(){
-    const token = $("meta[name='_csrf']").attr("content");
-    const header = $("meta[name='_csrf_header']").attr("content");
-    let category = $("#category").text();
-    let petCategory = $("#petCategory").text();
-    let sitterAddress = $("#petAddress").text();
-    let sitterNoValue = $("#no").attr("data-sitterno");
+    window.addEventListener('load', function(){
+        const token = $("meta[name='_csrf']").attr("content");
+        const header = $("meta[name='_csrf_header']").attr("content");
+        let category = $("#category").text();
+        let petCategory = $("#petCategory").text();
+        let sitterAddress = $("#petAddress").text();
+        let sitterNoValue = $("#no").attr("data-sitterno");
 
-    $.ajax({
-        url: "/mainboard/recommend",
-        type: "POST",
-        data: {
-            category : category,
-            petCategory : petCategory,
-            sitterAddress : sitterAddress,
-            sitterNoValue : sitterNoValue
-        },
-        dataType: "json",
-        beforeSend : function(xhr) {
-            xhr.setRequestHeader(header, token);
-        },
-        success: function(data) {
-            console.log(data);
-            let recommendRes = $("#recommend");
-            recommendRes.empty();
-            var htmlList = "";
-            data.content.forEach(function (content){
-            if (data.content.length === 0 || data.content.length === null) {
-                htmlList += `<div>관련 게시글이 없습니다.</div>`;
-                $("#noting").html(htmlList);
-            } else {
-                htmlList += `<a href="/mainboard/detail/`+content.sitterNo+`">
-                             <div class="petSitterItem">
-                             <div class="thumbnail-crop" >`;
-                        if(content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
-                            htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/tem_img.png" />`;
-                        } else {
-                            htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/`+content.fileDTOList[0].newFileName+`" />`;
-                        }
-                        htmlList += `</div>
-                                 <div class="text-left">
-                                 <div class="item_name">`+content.petTitle+`</div>`;
-                    htmlList += `<div class="item_place">`+content.petAddress+`</div>`;
-                if(content.price !== 0) {
-                    htmlList += `<div class="item_cost">`+content.price+`</div>`;
+        $.ajax({
+            url: "/mainboard/recommend",
+            type: "POST",
+            data: {
+                category : category,
+                petCategory : petCategory,
+                sitterAddress : sitterAddress,
+                sitterNoValue : sitterNoValue
+            },
+            dataType: "json",
+            beforeSend : function(xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+            success: function(data) {
+                console.log(data);
+                let recommendRes = $("#recommend");
+                recommendRes.empty();
+                var htmlList = "";
+                data.content.forEach(function (content){
+                if (data.content.length === 0 || data.content.length === null) {
+                    htmlList += `<div>관련 게시글이 없습니다.</div>`;
+                    $("#noting").html(htmlList);
                 } else {
-                    htmlList += `<div class="item_cost">협의가능</div>`;
+                    htmlList += `<a href="/mainboard/detail/`+content.sitterNo+`">
+                                 <div class="petSitterItem">
+                                 <div class="thumbnail-crop" >`;
+                    if(content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
+                        htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/logo.png" />`;
+                    } else {
+                        htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/`+content.fileDTOList[0].newFileName+`" />`;
+                    }
+                        htmlList += `</div>
+                                     <div class="text-left">
+                                     <div class="item_name">`+content.petTitle+`</div>`;
+                        htmlList += `<div class="item-address">`+content.petAddress+`</div>`;
+                    if(content.price !== 0) {
+                        htmlList += `<div class="item_cost">`+content.price+`</div>`;
+                    } else {
+                        htmlList += `<div class="item_place">협의가능</div>`;
+                    }
+                        htmlList += `</div></div></a>`;
                 }
-                    htmlList += `</div></div></a>`;
+                });
+                $("#recommend").html(htmlList);
+            },
+            error: function(error) {
+                console.error(error);
             }
         });
     });
 </script>
+<script>
+    //추천 버튼 클릭시 호출
+    const recElements = document.getElementsByClassName("recommendBtn"); //클래스 이름
+    Array.from(recElements).forEach(function (element) {
 
+        element.addEventListener("click", function () {
+            if (confirm("추천하시겠습니까?")) { //confirm에서 확인 버튼을 누르면 true 값이 들어감
+                location.href = this.dataset.uri; //click 이벤트가 발생한 a요소의 data-uri 속성의 값을 가져와
+                                                  //location 객체의 href 속성의 값으로 적용해라 => 현재 browser의 주소를 변경해라
+            }
+        });
+    });
+</script>
 <footer>
     <ul class="nav justify-content-center border-bottom pb-3 mb-3"></ul>
     <div class="container">
