@@ -34,8 +34,6 @@ button {
 }
 
 .buttons {
-/*position: absolute;*/
-  position: auto;
   top: 0;
   width: 100%;
   height: calc(100% - 1rem);
@@ -43,7 +41,6 @@ button {
 
 .buttons__prev,
 .buttons__next {
-  position: ;
   top: 50%;
   width: 36px;
   height: 36px;

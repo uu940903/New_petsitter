@@ -12,12 +12,10 @@ import com.pet.sitter.mainboard.repository.PetsitterRepository;
 import com.pet.sitter.member.dto.MemberDTO;
 import com.pet.sitter.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -99,7 +97,7 @@ public class ChatMessageService {
     }
 
     public List<ChatMessageDTO> getPreviousMessages(String roomUUID) {
-        return chatMessageRepository.findMessagesByChatRoomRoomUUID(roomUUID)
+        return chatMessageRepository.findChatMessagesByChatRoomRoomUUID(roomUUID)
                 .stream()
                 .map(entity -> new ChatMessageDTO(
                         entity.getId(),
