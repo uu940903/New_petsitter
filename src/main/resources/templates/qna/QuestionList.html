@@ -26,7 +26,10 @@
                 <td th:text="${questionPage.getTotalElements() - (questionPage.number * questionPage.size) - loop.index}"></td>
 
                 <td>
-                    <a th:href="@{|/question/checkPassword/${question.qnaNo}|}" class="col-5" th:text="${question.qnaTitle}"></a>
+                    <a style="color:black" th:href="${#authentication.getPrincipal().getUsername() == 'admin' ?
+                    '/question/detail/' + question.qnaNo : '/question/checkPassword/' + question.qnaNo}"
+                       th:text="${question.qnaTitle}">
+                    </a>
                 </td>
 
                 <td class="col-3" th:text="${question.member.getNickname}"></td>
@@ -76,6 +79,7 @@
 </div>
 
 </html>
+
 
 
 
