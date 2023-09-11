@@ -75,18 +75,31 @@ public class MainBoardService {
     }
 
     //게시글 목록 조회 - 회원
-    public Page<PetSitterDTO> getListByMember(String name, int page) {
-        Optional<Member> memberOptional = memberRepository.findBymemberId(name);
-        if(memberOptional.isEmpty()){
-            throw new DataNotFoundException("없는 회원이에요.");
-        }
-        Member member = memberOptional.get();
-        String memberAddress = member.getAddress().substring(0, 2);
-        System.out.println("memberAddress(회원 지역) = "+memberAddress);
+    public Page<PetSitterDTO> getListByMember(String name, String kakao, int page) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("petViewCnt"));
         sorts.add(Sort.Order.desc("petRegdate"));
         Pageable pageable = PageRequest.of(page, 12, Sort.by(sorts));
+        Optional<Member> memberOptional = memberRepository.findBymemberId(name);
+        if(kakao!=null){
+            if(memberOptional.isEmpty()){
+                Page<Petsitter> petsitterPage = petsitterRepository.findAll(pageable);
+                Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
+                    PetSitterDTO petSitterDTO = PetSitterDTO.builder().petsitter(petsitter).build();
+                    List<PetSitterFileDTO> petSitterFileDTOList = petsitter.getPetsitterFileList().stream()
+                            .map(petsitterFile -> PetSitterFileDTO.builder()
+                                    .petsitterFile(petsitterFile)
+                                    .build())
+                            .collect(Collectors.toList());
+                    petSitterDTO.setFileDTOList(petSitterFileDTOList);
+                    return petSitterDTO;
+                });
+                return petSitterDTOPage;
+            }
+        }
+        Member member = memberOptional.get();
+        String memberAddress = member.getAddress().substring(0, 2);
+        System.out.println("memberAddress(회원 지역) = "+memberAddress);
         Page<Petsitter> petsitterPage = petsitterRepository.findAllByPetAddressContaining(pageable, memberAddress);
         System.out.println(petsitterPage.getTotalPages());
         Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
@@ -221,7 +234,8 @@ public class MainBoardService {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("petRegdate"));
         Pageable pageable = PageRequest.of(0, 4, Sort.by(sorts));
-        Page<Petsitter> petsitterPage = petsitterRepository.findAll(PetsitterSpec.recommendWith(category, petCategory, sitterAddress, sitterNo), pageable);
+        Page<Petsitter> petsitterPage = petsitterRepository.findAll
+                (PetsitterSpec.recommendWith(category, petCategory, sitterAddress, sitterNo), pageable);
         Page<PetSitterDTO> petSitterDTOPage = petsitterPage.map(petsitter -> {
             PetSitterDTO petSitterDTO = PetSitterDTO.builder().petsitter(petsitter).build();
             List<PetSitterFileDTO> petSitterFileDTOList = petsitter.getPetsitterFileList().stream()

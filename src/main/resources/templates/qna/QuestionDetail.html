@@ -3,7 +3,7 @@
 <div layout:fragment="content">
     <link rel="stylesheet" type="text/css" th:href="@{/qna/css/questionForm.css}">
     <div class="container">
-        <h2>Q&A게시판</h2>
+        <div class="h2">Q&A게시판</div>
         <div class="row row1 ">
             <table class="table ">
                 <tr>
@@ -75,24 +75,6 @@
                 <div class="right-content">
                     <div th:text="${#temporals.format(answer.createdDate,'yyyy-MM-dd HH:mm')}"></div>
                 </div>
-            </div>
-            <div class="btns" >
-                <!-- 답변 수정 - 로그인 해야지 수정 가능, 로그인한 유저가 글쓴이와 동일해야 함 -->
-                <a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-modify-custom btn-outline-secondary"
-                   sec:authorize="isAuthenticated()"
-                   th:if="${answer.member.memberId != null and #authentication.getPrincipal().getUsername() == answer.member.memberId}"
-                   th:text="수정">
-                </a>
-                <!-- 답변 삭제 -->
-                <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}"
-                   class="btn btn-modify-custom btn-outline-secondary " sec:authorize="isAuthenticated()"
-                   th:if="${answer.member.memberId != null and #authentication.getPrincipal().getUsername == answer.member.memberId}"
-                   th:text="삭제">
-                </a>
-                <hr class="hr-2"/>
-            </div>
-        </div>
-    </div>
             </div>
             <div class="btns" >
                 <!-- 답변 수정 - 로그인 해야지 수정 가능, 로그인한 유저가 글쓴이와 동일해야 함 -->

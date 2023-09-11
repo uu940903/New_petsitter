@@ -15,6 +15,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +27,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -45,30 +46,25 @@ public class MainBoardController {
 
     //페이지네이션
     @GetMapping("/list")
-    public String getList(Model model, @RequestParam(value = "page", defaultValue = "0") int page, Principal principal) {
+    public String getList(Model model, @RequestParam(value = "page", defaultValue = "0") int page, Principal principal, @AuthenticationPrincipal OAuth2User user) {
         Page<PetSitterDTO> petSitterPage = null;
+        String kakao = "";
+        if(user==null){
+            kakao = "kakao";
+        }
         if (principal!=null) {
-            petSitterPage = mainBoardService.getListByMember(principal.getName(), page);
+                System.out.println("회원 인데 카카오?");
+                petSitterPage = mainBoardService.getListByMember(principal.getName(), kakao, page);
+                System.out.println("회원 인데 카카오 아님");
         } else {
+            System.out.println("회원 아님");
             petSitterPage = mainBoardService.getList(page);
+            System.out.println("회원 아님");
         }
         petSitterPage.stream().toList();
         model.addAttribute("petSitterPage", petSitterPage);
         return "mainboard/list";
     }
-
-    /*
-    무한 스크롤
-    @GetMapping("/api/list")
-    public String getListInfinite(Model model, @RequestParam("sitterNo") Long lastSitterNo, @RequestParam int size) {
-        if(lastSitterNo==0) {
-            lastSitterNo= 6L;
-        }
-        List<PetSitterDTO> petsitterList = mainBoardService.getListInfinite(lastSitterNo, size);
-        model.addAttribute("petsitterList", petsitterList);
-        return "mainboard/list";
-    }
-    */
 
     @GetMapping("/detail/{sitterNo}")
     public String getDetail(Model model, @PathVariable("sitterNo") Long no) {

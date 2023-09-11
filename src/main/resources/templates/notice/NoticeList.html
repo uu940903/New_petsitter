@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/qna/css/questionList.css}">
 </head>
 <body>
-        <h2 class="boardlist">공지게시판</h2>
+<div class="h2">공지게시판</div>
         <div class="writebtn"><a th:href="@{/notice/write}" class="btn btn-modify-custom btn-outline-secondary" sec:authorize="hasRole('ROLE_ADMIN')">글쓰기</a></div>
     <div >
     <table class="table container my-4 table table-hover">

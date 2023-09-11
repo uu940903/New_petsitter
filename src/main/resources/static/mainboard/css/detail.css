@@ -2,13 +2,13 @@
 * {box-sizing: border-box}
 body {font-family: Verdana, sans-serif; margin:0}
 .mySlides {display: none}
-/*img {vertical-align: middle;}*/
+img {vertical-align: middle;}
 
 /* Slideshow container */
 .slideshow-container {
-    max-width: 1000px;
-    position: relative;
-    margin: auto;
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
 }
 
 .slides {
@@ -31,80 +31,80 @@ body {font-family: Verdana, sans-serif; margin:0}
 
 /* Next & previous buttons */
 .prev, .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    width: auto;
-    padding: 16px;
-    margin-top: -22px;
-    color: #ffc066;
-    font-weight: bold;
-    font-size: 18px;
-    transition: 0.6s ease;
-    border-radius: 0 3px 3px 0;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: #ffc066;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
 }
 
 /* Position the "next button" to the right */
 .next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
+  right: 0;
+  border-radius: 3px 0 0 3px;
 }
 
 /* On hover, add a black background color with a little bit see-through */
 .prev:hover, .next:hover {
-    background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0,0,0,0.8);
 }
 
 
 /* The dots/bullets/indicators */
 .dot {
-    cursor: pointer;
-    height: 15px;
-    width: 15px;
-    margin: 0 2px;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
-    transition: background-color 0.6s ease;
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
 }
 
 .active, .dot:hover {
-    background-color: #717171;
+  background-color: #717171;
 }
 
 /* Fading animation */
 .fade {
-    -webkit-animation-name: fade;
-    -webkit-animation-duration: 1.5s;
-    animation-name: fade;
-    animation-duration: 1.5s;
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
 }
 
 @-webkit-keyframes fade {
-    from {opacity: .4}
-    to {opacity: 1}
+  from {opacity: .4}
+  to {opacity: 1}
 }
 
 @keyframes fade {
-    from {opacity: .4}
-    to {opacity: 1}
+  from {opacity: .4}
+  to {opacity: 1}
 }
 
 /* On smaller screens, decrease text size */
 @media only screen and (max-width: 300px) {
-    .prev, .next,.text {font-size: 11px}
+  .prev, .next,.text {font-size: 11px}
 }
 
 * {
-    margin: auto;
-    padding: 0;
+  margin: auto;
+  padding: 0;
 }
 
 button {
-    border: 0;
-    outline: 0;
-    background: transparent;
-    cursor: pointer;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  cursor: pointer;
 }
 
 .container {
@@ -124,8 +124,8 @@ button {
 }
 
 .title {
-    font-size : 24px;
-    margin : 10px;
+   font-size : 24px;
+   margin : 10px;
 }
 
 .nickname {
@@ -157,36 +157,41 @@ button {
     margin-top: 100px;
     margin-bottom: 10px;
     font-size : 20px;
+    font-weight: bolder;
+}
+
+#map{
+    margin : 0 auto;
 }
 
 .chatBtn {
-    display:inline-block;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    padding-top: 1rem;
+  display:inline-block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 1rem;
 }
 
 .temporary {
-    position: relative;
-    overflow: hidden;
+  position: relative;
+  overflow: hidden;
 }
 
 .temporary_image {
-    display: block;
-    width: 70%;
-    height: 70%;
-    object-fit: cover;
+  display: block;
+  width: 70%;
+  height: 70%;
+  object-fit: cover;
 }
 
 .temporary_list {
-    display: flex;
-    transform: translate(0, 0);
+  display: flex;
+  transform: translate(0, 0);
 }
 
 .temporary_item {
-    flex: 0 0 100%;
-    list-style: none;
+  flex: 0 0 100%;
+  list-style: none;
 }
 
 .recommendContainer {
@@ -264,6 +269,10 @@ div.content.recommendContainer.recommend.thumbnail-crop.thumbnail {
     right: 3rem;
 }
 
+.recommendBtn {
+    left: 2rem;
+}
+
 a {
     text-decoration: none;
     color : black;
@@ -272,10 +281,95 @@ a {
 a:visited {
     color : black;
 }
+
 .text-center {
     margin-top: 15px;
     margin-bottom: 22px;
 }
+
+.title, .recommendDiv {
+    display: inline-block;
+    width 635px;
+    justify-content: space-between;
+}
+
+.title {
+    width: 1200px;
+}
+
+
+.thumbnail-crop {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.thumbnail {
+    position: absolute;
+    top: -72px;
+    left: -35px;
+    width: 300px;
+}
+
+.tem_thumbnail {
+    width: 200px;
+    height: 200px;
+}
+
+.item_name{
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 17px;
+    width: 200px;
+    height: 19px;
+    overflow: hidden;
+    margin-bottom: 7px;
+    text-align: left;
+    padding: 0px 5px;
+}
+
+.item-address {
+    width: 200px;
+    height: 15px;
+    overflow: hidden;
+    margin-bottom: 1px;
+    text-align: left;
+    padding: 0px 5px;
+    font-size: 15px;
+}
+
+.item_cost{
+    margin-top: 10px;
+    font-size: 15px;
+    color: #6c757d;
+    text-align: left;
+    padding: 0px 5px;
+}
+
+.item_place{
+    font-weight: 400;
+    font-size: smaller;
+    margin-top: 10px;
+    text-align: left;
+    padding: 0px 5px;
+}
+
+.petSitterItem{
+    width: 400px;
+    height: 300px;
+    flex-grow: 0;
+    flex-basis: auto;
+    margin: auto;
+}
+
+.text-left {
+  height : 200px;
+  margin-top: 50px;
+
+}
+
 
 /*
 .item_name{
@@ -292,12 +386,14 @@ a:visited {
     font-size: smaller;
     margin-top: 10px;
 }
+
 .recommendContainer{
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     margin-bottom: 50px;
 }
+
 .recommend{
     width: 200px;
     height: 300px;

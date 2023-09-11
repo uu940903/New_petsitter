@@ -46,7 +46,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
 
             // memberid "admin"인 경우 "ROLE_ADMIN" 권한을 추가
             if ("admin".equals(member.getMemberId())) {
-                authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
+                    authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
                 System.out.println("UserRole.ADMIN.getValue(): " + UserRole.ADMIN.getValue());
             } else {
                 authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
