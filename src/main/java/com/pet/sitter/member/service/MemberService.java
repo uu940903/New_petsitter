@@ -11,17 +11,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
 @RequiredArgsConstructor
 @Service
 public class MemberService {
+
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-
     public Member create(UserCreateForm userCreateForm) {
         //SiteUser Entity로 UserRepository 연동하지만
-
         //여기에서는 컨트롤러부터는 DTO로 받아서 작업할 예정
         Member member = new Member();
         member.setMemberId(userCreateForm.getMemberId());
@@ -37,15 +35,17 @@ public class MemberService {
         member.setIsshow("Y");
         //암호는 스프링시큐리티를 이용해서 암호화하여 비번을 저장할 예정
         memberRepository.save(member);
+
         return member;
     }
+
     //email 중복 검사
     @Transactional
-    public boolean existsByMemberId(String memberId){
+    public boolean existsByMemberId(String memberId) {
         return memberRepository.existsByMemberId(memberId);
     }
 
-//    //user정보조회
+    //user정보조회
 //    public MemberDTO getUser(MemberDTO memberDTO) {
 //        Optional<Member> member2 = memberRepository.findBymemberId(memberDTO.getMemberId());
 //        if(member2.isPresent()) {
@@ -55,27 +55,31 @@ public class MemberService {
 //            throw new DataNotFoundException("member NOT FOUND");
 //        }
 //    }
-//
-public Member getUser(String username){
-    Optional<Member> optionalSiteUser = memberRepository.findBymemberId(username);
-    if(optionalSiteUser.isPresent()){
-        Member user = optionalSiteUser.get();
-        return user;
-    } else {
-        throw new DataNotFoundException("회원이 존재하지 않습니다.");
+
+    public Member getUser(String username) {
+        Optional<Member> optionalSiteUser = memberRepository.findBymemberId(username);
+        if (optionalSiteUser.isPresent()) {
+            Member user = optionalSiteUser.get();
+
+            return user;
+        } else {
+            throw new DataNotFoundException("회원이 존재하지 않습니다.");
+        }
     }
-}
-    public Member findByMemberId(String memberId){
-    Optional<Member> optionalMember = memberRepository.findBymemberId(memberId);
-    if(optionalMember.isPresent()) {
-        return optionalMember.get();
+
+    public Member findByMemberId(String memberId) {
+        Optional<Member> optionalMember = memberRepository.findBymemberId(memberId);
+        if (optionalMember.isPresent()) {
+            return optionalMember.get();
+        }
+
+        return memberRepository.findBymemberId(memberId).orElse(null);
     }
-    return memberRepository.findBymemberId(memberId).orElse(null);
-}
 
     public void saveOrUpdate(Member member) {
         memberRepository.save(member);
     }
+
     public boolean updatePassword(String memberId, String newPassword1) {
         Optional<Member> userOptional = memberRepository.findBymemberId(memberId);
 
@@ -94,5 +98,4 @@ public Member getUser(String username){
 
         return false; // 사용자를 찾을 수 없는 경우 또는 업데이트 실패
     }
-
 }

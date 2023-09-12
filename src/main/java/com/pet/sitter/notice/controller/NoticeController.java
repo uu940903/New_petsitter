@@ -7,7 +7,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,8 +20,8 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/notice")
 public class NoticeController {
-    private final NoticeService noticeService;
 
+    private final NoticeService noticeService;
 
     public NoticeController(NoticeService noticeService) {
         this.noticeService = noticeService;
@@ -27,9 +32,9 @@ public class NoticeController {
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
         Page<Notice> noticePage = noticeService.getNoticeList(page);
         model.addAttribute("noticePage", noticePage);
+
         return "notice/NoticeList";
     }
-
 
     //공지게시판 글작성폼보여주기
     @GetMapping("/write")
@@ -37,7 +42,6 @@ public class NoticeController {
     public String write() {
         return "notice/NoticeForm";
     }
-
 
     //공지게시판 글 작성하기
     @PostMapping("/write")
@@ -50,17 +54,16 @@ public class NoticeController {
             // 파일 업로드 중 오류가 발생한 경우에 대한 예외 처리
             e.printStackTrace();
             model.addAttribute("errorMessage", "글 작성 중 오류가 발생했습니다: " + e.getMessage());
+
             return "error";
         }
     }
 
     //공지게시판 상세내용 조회
-
     @GetMapping("/detail/{noNo}")
     public String detail(@PathVariable("noNo") Long noNo, Model model) {
         NoticeDTO noticeDTO = noticeService.getDetail(noNo);
         model.addAttribute("noticeDTO", noticeDTO);
-
 
         return "notice/NoticeDetail";
     }
@@ -68,11 +71,11 @@ public class NoticeController {
     //공지게시판 수정폼
     @GetMapping("/edit/{noNo}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-
     public String edit(@PathVariable("noNo") Long noNo, Model model) {
         NoticeDTO noticeDTO = noticeService.getDetail(noNo);
-        System.out.println("수정"+noticeDTO);
+        System.out.println("수정" + noticeDTO);
         model.addAttribute("noticeDTO", noticeDTO);
+
         return "notice/NoticeUpdate";
     }
 
@@ -85,13 +88,12 @@ public class NoticeController {
         return "redirect:/notice/list";
     }
 
-
     //공지게시판 삭제처리
     @GetMapping("/delete/{noNo}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public String getDelete(@PathVariable Long noNo){
+    public String getDelete(@PathVariable Long noNo) {
         noticeService.getDelete(noNo);
+
         return "redirect:/notice/list";
     }
-
 }

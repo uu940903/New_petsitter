@@ -2,80 +2,94 @@ body {
     font-family: "Montserrat", sans-serif;
     background: white;
 }
+
 .danger {
     position: relative;
     left: 191px;
     top: 353px;
     color: red;
 }
+
 .err01 {
     position: relative;
     left: 139px;
     top: -69px;
     color: red;
 }
+
 .err02 {
     position: relative;
     left: 139px;
     top: 8px;
     color: red;
 }
+
 .err03 {
     position: relative;
     left: 139px;
     top: 7px;
     color: red;
 }
-.err04{
+
+.err04 {
     position: relative;
     left: 139px;
     top: 10px;
     color: red;
 }
-.err05{
+
+.err05 {
     position: relative;
     left: 139px;
     top: 13px;
     color: red;
 }
-.err06{
+
+.err06 {
     position: relative;
     left: 139px;
     top: 10px;
     color: red;
 }
-.err07{
-     position: relative;
-     left: 139px;
-     top: -168px;
-     color: red;
- }
-.err08{
+
+.err07 {
+    position: relative;
+    left: 139px;
+    top: -168px;
+    color: red;
+}
+
+.err08 {
     position: relative;
     left: 139px;
     top: 10px;
     color: red;
 }
-.err09{
+
+.err09 {
     position: relative;
     left: 139px;
     top: 10px;
     color: red;
 }
-.err10{
+
+.err10 {
     position: relative;
     left: 139px;
     top: 10px;
     color: red;
 }
+
 .last {
     position: relative;
     top: -11rem;
 }
+
 .up {
     position: relative;
     top: -5rem;
 }
+
 .form-control {
     font-size: 20px;
     border-radius: 8px;
@@ -91,6 +105,7 @@ body {
     align-items: center;
     justify-content: space-evenly;
 }
+
 .zipbtn {
     top: -10rem;
     left: 19rem;
@@ -109,6 +124,7 @@ body {
     font-family: "Montserrat", sans-serif;
     cursor: pointer;
 }
+
 .btnidCheck {
     cursor: pointer;
     text-align: center;
@@ -128,6 +144,7 @@ body {
     font-size: 15px;
     font-family: "Montserrat", sans-serif;
 }
+
 .container {
     display: block;
     max-width: 680px;
@@ -147,24 +164,30 @@ h1 {
 .links {
     list-style-type: none;
 }
+
 .links li {
     display: inline-block;
     margin: 0 20px 0 0;
     transition: 0.2s linear;
 }
+
 .links li:nth-child(2) {
     opacity: 0.6;
 }
+
 .links li:nth-child(2):hover {
     opacity: 1;
 }
+
 .links li:nth-child(3) {
     opacity: 0.6;
     float: right;
 }
+
 .links li:nth-child(3):hover {
     opacity: 1;
 }
+
 .links li a {
     text-decoration: none;
     color: #0f132a;
@@ -178,11 +201,13 @@ form {
     max-width: 680px;
     margin: 40px auto 10px;
 }
+
 form .input__block {
     margin: 28px auto;
     display: block;
     position: relative;
 }
+
 form .input__block.first-input__block::before {
     content: "";
     position: absolute;
@@ -197,6 +222,7 @@ form .input__block.first-input__block::before {
     border-bottom: 15px solid rgba(15, 19, 42, 0.1);
     transition: 0.2s linear;
 }
+
 form .input__block.signup-input__block::before {
     content: "";
     position: absolute;
@@ -211,6 +237,7 @@ form .input__block.signup-input__block::before {
     border-bottom: 15px solid rgba(15, 19, 42, 0.1);
     transition: 0.2s linear;
 }
+
 form .input__block input {
     display: block;
     width: 59%;
@@ -225,16 +252,19 @@ form .input__block input {
     font-size: 14px;
     font-family: "Montserrat", sans-serif;
 }
+
 form .input__block input:focus, form .input__block input:active {
     outline: none;
     border: none;
     color: #0f132a;
 }
+
 form .input__block input.repeat__password {
     opacity: 0;
     display: none;
     transition: 0.2s linear;
 }
+
 form .signin__btn {
     background: #000000;
     color: white;
@@ -251,6 +281,7 @@ form .signin__btn {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.36);
     transition: 0.2s linear;
 }
+
 form .signup__btn {
     position: relative;
     bottom: 5rem;
@@ -269,9 +300,11 @@ form .signup__btn {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.36);
     transition: 0.2s linear;
 }
+
 form .signin__btn:hover {
     box-shadow: 0 0 0 rgba(233, 30, 99, 0);
 }
+
 form .kakao_btn {
     top: 0rem;
     position: relative;
@@ -287,6 +320,7 @@ form .kakao_btn {
     /* box-shadow: 0 15px 30px rgba(233, 30, 99, 0.36); */
     transition: 0.2s linear;
 }
+
 .separator {
     display: block;
     margin: 30px auto 10px;
@@ -299,6 +333,7 @@ form .kakao_btn {
     width: 90%;
     max-width: 680px;
 }
+
 .separator::before {
     content: "";
     position: absolute;
@@ -308,6 +343,7 @@ form .kakao_btn {
     height: 1px;
     width: 45%;
 }
+
 .separator::after {
     content: "";
     position: absolute;
@@ -317,6 +353,7 @@ form .kakao_btn {
     height: 1px;
     width: 45%;
 }
+
 .id_find_btn {
     position: relative;
     right: 105px;
@@ -325,6 +362,7 @@ form .kakao_btn {
     margin: 45px auto;
     height: 50px;
 }
+
 .pw_find_btn {
     bottom: 95px;
     position: relative;
@@ -334,6 +372,7 @@ form .kakao_btn {
     margin: 45px auto;
     height: 50px;
 }
+
 .google__btn {
     display: block;
     width: 100%;
@@ -347,6 +386,7 @@ form .kakao_btn {
     border: none;
     line-height: 40px;
 }
+
 .google__btn.google__btn,
 .github__btn.google__btn {
     background: rgba(15, 19, 42, 0.3);
@@ -354,15 +394,18 @@ form .kakao_btn {
     box-shadow: 0 15px 30px rgba(91, 144, 240, 0.36);
     transition: 0.2s linear;
 }
+
 .google__btn.google__btn .fa,
 .github__btn.google__btn .fa {
     font-size: 20px;
     padding: 0 5px 0 0;
 }
+
 .google__btn.google__btn:hover,
 .github__btn.google__btn:hover {
     box-shadow: 0 0 0 rgba(91, 144, 240, 0);
 }
+
 .google__btn.github__btn,
 .github__btn.github__btn {
     background: #25282d;
@@ -370,11 +413,13 @@ form .kakao_btn {
     box-shadow: 0 15px 30px rgba(37, 40, 45, 0.36);
     transition: 0.2s linear;
 }
+
 .google__btn.github__btn .fa,
 .github__btn.github__btn .fa {
     font-size: 20px;
     padding: 0 5px 0 0;
 }
+
 .google__btn.github__btn:hover,
 .github__btn.github__btn:hover {
     box-shadow: 0 0 0 rgba(37, 40, 45, 0);
@@ -384,26 +429,33 @@ footer p {
 
     text-align: center;
 }
+
 footer p .fa {
     color: #e91e63;
 }
+
 footer p a {
     text-decoration: none;
     font-size: 17px;
     margin: 0 5px;
 }
+
 footer p a .fa-facebook {
     color: #3b5998;
 }
+
 footer p a .fa-twitter {
     color: #1da1f2;
 }
+
 footer p a .fa-instagram {
     color: #f77737;
 }
+
 footer p a .fa-linkedin {
     color: #0077b5;
 }
+
 footer p a .fa-behance {
     color: #1769ff;
 }

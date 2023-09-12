@@ -29,14 +29,15 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService implements UserDetailsService {
+
     private final UserRepository userRepository;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-            // User 테이블에서 username을 이용하여 사용자 정보를 가져옴
-            // Member 테이블에서 username을 이용하여 사용자 정보를 가져옴
+        // User 테이블에서 username을 이용하여 사용자 정보를 가져옴
+        // Member 테이블에서 username을 이용하여 사용자 정보를 가져옴
         Optional<Member> memberOptional = memberRepository.findBymemberId(username);
 
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -46,7 +47,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
 
             // memberid "admin"인 경우 "ROLE_ADMIN" 권한을 추가
             if ("admin".equals(member.getMemberId())) {
-                    authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
+                authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
                 System.out.println("UserRole.ADMIN.getValue(): " + UserRole.ADMIN.getValue());
             } else {
                 authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
@@ -62,6 +63,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
             throw new UsernameNotFoundException("Invalid username or password");
         }
     }
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
@@ -87,11 +89,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
         } else {
             User user1 = new User();
 
-            Map<String, Object> kakaoAccountMap =(Map<String, Object>) oAuth2User.getAttribute("kakao_account");
-            String email =(String)kakaoAccountMap.get("email");
+            Map<String, Object> kakaoAccountMap = (Map<String, Object>) oAuth2User.getAttribute("kakao_account");
+            String email = (String) kakaoAccountMap.get("email");
 
-            Map<String, Object> propertiesMap=(Map<String,Object>)oAuth2User.getAttribute("properties");
-            String nickname=(String)propertiesMap.get("nickname");
+            Map<String, Object> propertiesMap = (Map<String, Object>) oAuth2User.getAttribute("properties");
+            String nickname = (String) propertiesMap.get("nickname");
 
             user1.setMemberId(email);
             user1.setPassword(passwordEncoder.encode("defaultPassword"));
@@ -99,8 +101,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService implements
 
             userRepository.save(user1);
 
-
-            return new DefaultOAuth2User(null,oAuth2User.getAttributes(),userNameAttributeName);
+            return new DefaultOAuth2User(null, oAuth2User.getAttributes(), userNameAttributeName);
         }
     }
 }

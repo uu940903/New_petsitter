@@ -21,8 +21,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 //로그인 요청 주소는 "/user/login"이며, 로그인 성공 시 "/"로 이동해라
 @EnableMethodSecurity(prePostEnabled = true)//@PreAuthorize("isAuthenticated()")//로그인 증가 동작할 수 있기 위함
 public class SecurityConfig {
-    private final CustomOAuth2UserService oAuth2UserService;
 
+    private final CustomOAuth2UserService oAuth2UserService;
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -42,9 +42,9 @@ public class SecurityConfig {
                 .successHandler(successHandler())
                 .userInfoEndpoint()
                 .userService(oAuth2UserService));
+
         return http.build();
     }
-
 
     @Bean
     AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -55,7 +55,7 @@ public class SecurityConfig {
     public AuthenticationSuccessHandler successHandler() {
         return ((request, response, authentication) -> {
 
-            String redirectUrl= "/main";
+            String redirectUrl = "/main";
             response.sendRedirect(redirectUrl);
         });
     }

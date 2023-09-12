@@ -1,11 +1,22 @@
 package com.pet.sitter.common.entity;
 
-import com.pet.sitter.mainboard.dto.PetSitterDTO;
-import com.pet.sitter.mainboard.dto.PetSitterFileDTO;
-import com.pet.sitter.mainboard.dto.WeekDTO;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -92,17 +103,15 @@ public class Petsitter {
         this.petAddress = petAddress;
     }
 
-    public boolean isPetsitterFileListEmpty () {
+    public boolean isPetsitterFileListEmpty() {
         return petsitterFileList == null || petsitterFileList.isEmpty();
     }
 
-
-   /*
+/*
     @PostLoad
     public void calculateHour() {
         this.startTimeHour = this.startTime.getHour();
         this.endTimeHour = this.endTime.getHour();
     }
-    */
-
+*/
 }

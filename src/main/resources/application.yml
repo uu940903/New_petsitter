@@ -8,6 +8,9 @@ server:
 
 #DataBase
 spring:
+  thymeleaf:
+    suffix: .html
+    prefix: /classpath/templates/
   h2:
     console:
       enabled: true

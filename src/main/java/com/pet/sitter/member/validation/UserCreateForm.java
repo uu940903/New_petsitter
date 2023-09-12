@@ -1,7 +1,9 @@
 package com.pet.sitter.member.validation;
 
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +12,7 @@ import lombok.Setter;
 //SiteUser Entity관련 유효성검사용 클래스
 //회원가입폼 페이지에서 입력.선택사항에 적용되는 유효성검사 클래스
 public class UserCreateForm {
+
     @Size(min = 3, max = 255)
     @NotEmpty(message = "ID는 필수입력입니다.")
     private String memberId;//회원명
@@ -47,6 +50,4 @@ public class UserCreateForm {
     @NotEmpty(message = "별칭은 필수입력입니다.")
     @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
     private String nickname;
-
-
 }

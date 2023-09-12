@@ -2,7 +2,12 @@ package com.pet.sitter.mainboard.repository;
 
 import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.common.entity.Week;
-import jakarta.persistence.criteria.*;
+import jakarta.persistence.criteria.Expression;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
@@ -11,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PetsitterSpec {
+
     @Transactional
     public static Specification<Petsitter> searchWith(final String category, final String petCategory, final String petAddress, final List<String> dayList, final int startTimeHour, int endTimeHour) {
         return ((root, query, builder) -> {
@@ -18,11 +24,11 @@ public class PetsitterSpec {
             if (StringUtils.hasText(category)) {
                 predicates.add(builder.equal(root.get("category"), category));
             }
-            if(!petCategory.equals("all") && (StringUtils.hasText(petCategory))) {
+            if (!petCategory.equals("all") && (StringUtils.hasText(petCategory))) {
                 predicates.add(builder.equal(root.get("petCategory"), petCategory));
             }
             if (StringUtils.hasText(petAddress)) {
-                predicates.add(builder.like(root.get("petAddress"),"%" + petAddress + "%"));
+                predicates.add(builder.like(root.get("petAddress"), "%" + petAddress + "%"));
             }
             if (dayList != null && !dayList.isEmpty()) {
                 Subquery<Week> subquery = query.subquery(Week.class);
@@ -56,9 +62,9 @@ public class PetsitterSpec {
                 predicates.add(builder.equal(root.get("petCategory"), petCategory));
             }
             if (StringUtils.hasText(sitterAddress)) {
-                predicates.add(builder.like(root.get("petAddress"),"%" + sitterAddress + "%"));
+                predicates.add(builder.like(root.get("petAddress"), "%" + sitterAddress + "%"));
             }
-            if(sitterNo!=0){
+            if (sitterNo != 0) {
                 predicates.add(builder.notEqual(root.get("sitterNo"), sitterNo));
             }
             return builder.and(predicates.toArray(new Predicate[0]));

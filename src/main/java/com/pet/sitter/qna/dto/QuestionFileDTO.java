@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-
 public class QuestionFileDTO {
+
     private Long Qfile;
     private Long QnaNo;
     private String QOrgNm;

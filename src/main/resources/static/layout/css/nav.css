@@ -18,40 +18,46 @@ time, mark, audio, video {
     font: inherit;
     vertical-align: baseline;
     text-decoration: none; /* 밑줄 제거 */
-
-
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
     display: block;
 }
+
 body {
     line-height: 1;
 }
+
 ol, ul {
     list-style: none;
 }
+
 blockquote, q {
     quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
     content: '';
     content: none;
 }
+
 table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
 /*시작*/
 
-#header{
+#header {
 
     height: 6.4rem
 }
-#header_wrap{
-    height : 100%;
+
+#header_wrap {
+    height: 100%;
     width: 1297px;
     margin: auto;
     display: flex;
@@ -69,49 +75,49 @@ table {
 #header_content form {
     display: flex;
     flex-direction: row;
-    justify-content:space-evenly;
+    justify-content: space-evenly;
     align-items: center;
 }
 
-.nav-img{
+.nav-img {
     display: block;
     margin: 0 auto;
 }
 
-.header_menu_selected{
+.header_menu_selected {
     color: #ff6f0f;
     font-style: normal;
     font-weight: 700;
-    font-size:large;
+    font-size: large;
     background-color: white;
     border: none;
 }
 
-.header_menu{
+.header_menu {
     color: #4d5159;
     font-style: normal;
     font-weight: 700;
-    font-size:large;
+    font-size: large;
     background-color: white;
     border: none;
 }
 
 
-
-.chat_button{
+.chat_button {
     border: 0.5px solid #b8bcc3;
     border-radius: 0.3rem;
     font-size: 1.0rem;
     font-weight: 600;
-    margin:auto;
+    margin: auto;
     width: 80px;
     height: 40px;
     display: flex;
-    justify-content: center;/*수평 가운데 정렬*/
+    justify-content: center; /*수평 가운데 정렬*/
     align-items: center; /*수직 가운데 정렬*/
     background-color: white;
 }
-.search_input{
+
+.search_input {
     width: 250px;
     padding: 10px;
     margin-left: 70px;

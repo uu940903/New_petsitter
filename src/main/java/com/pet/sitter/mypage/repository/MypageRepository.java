@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface MypageRepository extends JpaRepository<Member,Long> {
-    Optional<Member> findByMemberId(String memberid);
+public interface MypageRepository extends JpaRepository<Member, Long> {
 
+    Optional<Member> findByMemberId(String memberid);
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-    
+
     //Question게시판 전체목록 조회
     List<Question> findAllByOrderByQnaNoDesc();
 
@@ -18,6 +18,5 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     //페이징 기능이 있는 질문 목록 조회
     Page<Question> findAll(Pageable pageable);
-
 }
 

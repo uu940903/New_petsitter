@@ -19,18 +19,21 @@
                 <a class="header_menu hem2" style="text-decoration: none;" th:href="@{/admin/memberList}">회원 목록</a>
             </div>
             <div id="header_content">
-                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
+                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAnonymous()"
+                   th:href="@{/member/login}">로그인</a>
             </div>
             <div id="header_content">
-                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
+                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAuthenticated()"
+                   th:href="@{/member/logout}">로그아웃</a>
             </div>
             <div id="header_content">
-                <a class="header_menu" style="text-decoration: none;"sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/memberList}">관리자 메뉴</a>
+                <a class="header_menu" style="text-decoration: none;" sec:authorize="hasRole('ROLE_ADMIN')"
+                   th:href="@{/admin/memberList}">관리자 메뉴</a>
             </div>
             <div id="header_content">
                 <form id="titleSearchForm" th:action="@{/mainboard/titleSearch}" method="post">
                     <div id="header_content">
-                        <input  class="search_input" placeholder="애완동물을 검색해주세요." th:name="keyword">
+                        <input class="search_input" placeholder="애완동물을 검색해주세요." th:name="keyword">
                     </div>
                     <div id="header_content">
                         <input type="submit" class="chat_button" value="검색">
