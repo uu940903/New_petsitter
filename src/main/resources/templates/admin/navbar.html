@@ -1,4 +1,4 @@
-<nav th:fragment="adminNavbarFragment" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+<nav th:fragment="adminNavbarFragment">
     <div id="header">
         <div id="header_wrap">
             <div id="header_content">
@@ -10,7 +10,8 @@
                 <a class="header_menu_selected" style="text-decoration: none;" href="/notice/list">공지게시판</a>
             </div>
             <div id="header_content">
-                <a class="header_menu" style="text-decoration: none;" href="/question/list">Q&A게시판</a>
+                <a class="header_menu" style="text-decoration: none;" th:href="${#authentication.getPrincipal().getUsername() == null ?
+                    '/member/login/' : '/question/list'}">Q&A게시판</a>
             </div>
             <div id="header_content">
                 <a class="header_menu hem1" style="text-decoration: none;" th:href="@{/admin/boardList}">관리자 게시판</a>

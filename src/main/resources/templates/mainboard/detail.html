@@ -33,18 +33,21 @@
                 <a class="header_menu" style="text-decoration: none;" href="/mypage/info">마이페이지</a>
             </div>
             <div id="header_content">
-                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
+                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAnonymous()"
+                   th:href="@{/member/login}">로그인</a>
             </div>
             <div id="header_content">
-                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
+                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAuthenticated()"
+                   th:href="@{/member/logout}">로그아웃</a>
             </div>
             <div id="header_content">
-                <a class="header_menu" style="text-decoration: none;"sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/memberList}">관리자 메뉴</a>
+                <a class="header_menu" style="text-decoration: none;" sec:authorize="hasRole('ROLE_ADMIN')"
+                   th:href="@{/admin/memberList}">관리자 메뉴</a>
             </div>
             <div id="header_content">
                 <form id="titleSearchForm" th:action="@{/mainboard/titleSearch}" method="post">
                     <div id="header_content">
-                        <input  class="search_input" placeholder="애완동물을 검색해주세요." th:name="keyword">
+                        <input class="search_input" placeholder="애완동물을 검색해주세요." th:name="keyword">
                     </div>
                     <div id="header_content">
                         <input type="submit" class="chat_button" value="검색">
@@ -58,55 +61,83 @@
 <div class="slideshow-container">
     <div class="slides" th:if="${petSitter.fileDTOList!=null}">
         <div class="mySlides fade" th:each="petSitterFile, loop : ${petSitter.fileDTOList}">
-            <img class="slide_image" th:src="@{|/image/mainboard/${petSitterFile.newFileName}|}" th:alt="${petSitterFile.originFileName}"/>
+            <img class="slide_image" th:src="@{|/image/mainboard/${petSitterFile.newFileName}|}"
+                 th:alt="${petSitterFile.originFileName}"/>
         </div>
     </div>
     <a th:if="${petSitter.fileDTOList!=null}" class="prev" onclick="plusSlides(-1)">&#10094;</a>
     <a th:if="${petSitter.fileDTOList!=null}" class="next" onclick="plusSlides(1)">&#10095;</a>
     <br>
-    <div style="text-align:center" >
+    <div style="text-align:center">
             <span style="text-align:center" th:each="petSitterFile, i : ${petSitter.fileDTOList}">
             <span class="dot" th:attr="onclick='currentSlide(' + ${i.index + 1} + ')'"></span>
             </span>
     </div>
     <div class="temporary" th:if="${petSitter.fileDTOList==null}">
-        <ul class="temporary_list" >
-            <li class="temporary_item" >
+        <ul class="temporary_list">
+            <li class="temporary_item">
                 <img class="temporary_image" src="/mainboard/image/temporary_image01.jpg" alt="petSitter"/>
             </li>
         </ul>
     </div>
 </div>
 <div class="container">
-    <div class="content" th:each="petSitter, loop : ${petSitter}" >
-        <div class="nickname" th:text="${petSitter.member.nickname}"></div>
+    <div class="content" th:each="petSitter, loop : ${petSitter}">
+        <div class="nickname">
+            <div class="icon_nickname"><span class="material-symbols-outlined"
+                                             th:if="${petSitter.petCategory eq 'cat'}"><img
+                    src="/mainboard/image/cat.png" class="petsIcon"/></span><span class="material-symbols-outlined"
+                                                                                  th:if="${petSitter.petCategory eq 'dog'}"><img
+                    src="/mainboard/image/dog.png" class="petsIcon"/></span><span class="nicknameStr"
+                                                                                  th:text="${petSitter.member.nickname}"></span>
+            </div>
+        </div>
         <div class="titleRecommend">
             <div class="title" th:text="${petSitter.petTitle}"></div>
             <div class="recommendDiv">
-                <a href="javascript:void(0);" th:data-uri="@{|/mainboard/incrementLikes/${petSitter.sitterNo}|}" class="recommendBtn" id="recommendBtn">
+                <a href="javascript:void(0);" th:data-uri="@{|/mainboard/incrementLikes/${petSitter.sitterNo}|}"
+                   class="recommendBtn" id="recommendBtn">
                     <img src="/mainboard/image/thumb_up.png" th:text="${petSitter.likeCnt}" class="recommendImg">
                 </a>
             </div>
         </div>
         <div class="category_regDate">
-            <span class="category" id="category" th:text="${petSitter.category}"></span>&nbsp/&nbsp<span class="petCategory" id="petCategory" th:text="${petSitter.petCategory}"></span>&nbsp/&nbsp<span class="regDate" th:text="${#temporals.format(petSitter.petRegdate, 'yyyy-MM-dd HH:mm')}"></span>
+            <span class="category" id="category" th:text="${petSitter.category}"></span>&nbsp/&nbsp<span
+                class="petCategory" id="petCategory" th:text="${petSitter.petCategory}"></span>&nbsp/&nbsp<span
+                class="regDate" th:text="${#temporals.format(petSitter.petRegdate, 'yyyy-MM-dd HH:mm')}"></span>
         </div>
+        <h3 class="content_title">정보</h3>
         <div class="icon_content">
-            <h3 class="content_title">정보</h3>
             <div id="no" th:data-sitterno="${petSitter.sitterNo}"></div>
-            <div class="icon" id="price"><img src="/mainboard/image/pay.png" /><span class="petPrice" th:if="${petSitter.price!=0}" th:text="${petSitter.price}"></span> <span class="petPrice" th:if="${petSitter.price==0}" th:text="협의"></span> </div>
-            <div class="icon" id="address"><img src="/mainboard/image/address.png"/><span id="petAddress" class="petAddress" th:text="${petSitter.petAddress}" data-value="${petSitter.petAddress}"></span></div>
-            <div class="icon" id="calendar"><img src="/mainboard/image/calendar.png" /><span class="week" th:if="${petSitter.weekDTOList==null}" th:text="협의"></span> <span class="week" th:if="${petSitter.weekDTOList!=null}"  th:each="week, loop : ${petSitter.weekDTOList}"><span class="week" th:text="${week.day}"></span></span></div>
-            <div class="icon" id="time"><img src="/mainboard/image/time.png" />
-                <span class="startTime" th:if="${petSitter.startTime==null}" th:text="협의" ></span> <span class="startTime" th:if="${petSitter.startTime!=null}" th:text="${#temporals.format(petSitter.startTime, 'HH:00')+' ~ '}"></span>
-                <span class="endTime" th:if="${petSitter.endTime==null}" ></span> <span class="endTime" th:if="${petSitter.endTime!=null}" th:text="${#temporals.format(petSitter.endTime, 'HH:00')}"></span>
+            <div class="icon" id="price"><img src="/mainboard/image/pay.png"/><span class="petPrice"
+                                                                                    th:if="${petSitter.price!=0}"
+                                                                                    th:text="${petSitter.price}"></span>
+                <span class="petPrice" th:if="${petSitter.price==0}" th:text="협의"></span></div>
+            <div class="icon" id="address"><img src="/mainboard/image/address.png"/><span id="petAddress"
+                                                                                          class="petAddress"
+                                                                                          th:text="${petSitter.petAddress}"
+                                                                                          data-value="${petSitter.petAddress}"></span>
+            </div>
+            <div class="icon" id="calendar"><img src="/mainboard/image/calendar.png"/><span class="week"
+                                                                                            th:if="${petSitter.weekDTOList==null}"
+                                                                                            th:text="협의"></span> <span
+                    class="week" th:if="${petSitter.weekDTOList!=null}" th:each="week, loop : ${petSitter.weekDTOList}"><span
+                    class="week" th:text="${week.day}"></span></span></div>
+            <div class="icon" id="time"><img src="/mainboard/image/time.png"/>
+                <span class="startTime" th:if="${petSitter.startTime==null}" th:text="협의"></span> <span
+                        class="startTime" th:if="${petSitter.startTime!=null}"
+                        th:text="${#temporals.format(petSitter.startTime, 'HH:00')+' ~ '}"></span>
+                <span class="endTime" th:if="${petSitter.endTime==null}"></span> <span class="endTime"
+                                                                                       th:if="${petSitter.endTime!=null}"
+                                                                                       th:text="${#temporals.format(petSitter.endTime, 'HH:00')}"></span>
             </div>
         </div>
         <h3 class="content_title">상세내용</h3>
         <div class="petContent" th:text="${petSitter.petContent}"></div>
         <h3 class="content_title">지도</h3>
         <div id="map" style="width:760px;height:400px;"></div>
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eef7a49c730887c01531cc1df9621aae&libraries=services"></script>
+        <script type="text/javascript"
+                src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eef7a49c730887c01531cc1df9621aae&libraries=services"></script>
         <script th:inline="javascript">
             /*<![CDATA[*/
             let sitterAddress =  /*[[${petSitter.petAddress}]]*/;
@@ -121,7 +152,7 @@
             // 주소-좌표 변환 객체를 생성합니다
             var geocoder = new kakao.maps.services.Geocoder();
             // 주소로 좌표를 검색합니다
-            geocoder.addressSearch(sitterAddress, function(result, status) {
+            geocoder.addressSearch(sitterAddress, function (result, status) {
                 // 정상적으로 검색이 완료됐으면
                 if (status === kakao.maps.services.Status.OK) {
                     var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -142,18 +173,26 @@
             /*]]>*/
         </script>
         <div class="buttonSection">
-        <span class="buttons">
-        <button class="button" type="button" th:onclick="'createAndEnterRoom(\'' + ${petSitter.sitterNo} + '\');'">연락하기</button>
-        <a sec:authorize="isAuthenticated()" th:if="${petSitter.member!=null and #authentication.getPrincipal().getUsername()==petSitter.member.memberId}" th:href="@{|/mainboard/modify/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2"><button type="button" class="button">수정하기</button></a>
-        <a sec:authorize="isAuthenticated()" th:if="${petSitter.member!=null and #authentication.getPrincipal().getUsername()==petSitter.member.memberId}" th:href="@{|/mainboard/delete/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2"><button type="button" class="button">삭제하기</button></a>
+            <span class="buttons">
+            <button class="btn btn-outline-dark btn-lg my-2 button" type="button"
+                    th:onclick="'createAndEnterRoom(\'' + ${petSitter.sitterNo} + '\');'">연락하기
+            </button>
+        <a sec:authorize="isAuthenticated()"
+           th:if="${petSitter.member!=null and #authentication.getPrincipal().getUsername()==petSitter.member.memberId}"
+           th:href="@{|/mainboard/modify/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2"><button type="button"
+                                                                                                         class="button">수정하기</button></a>
+        <a sec:authorize="isAuthenticated()"
+           th:if="${petSitter.member!=null and #authentication.getPrincipal().getUsername()==petSitter.member.memberId}"
+           th:href="@{|/mainboard/delete/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2"><button type="button"
+                                                                                                         class="button">삭제하기</button></a>
         </span>
         </div>
         <section class="recommendContainer" id="recommendContainer">
             <h3 class="content_title">추천</h3>
             <div class="cards-wrap">
-            <div class="recommend" id="recommend">
-                <!-- 추천 -->
-            </div>
+                <div class="recommend" id="recommend">
+                    <!-- 추천 -->
+                </div>
             </div>
         </section>
     </div>
@@ -174,13 +213,13 @@
             $.ajax({
                 url: '/chat/room',
                 type: 'POST',
-                data: { petsitterNo: petsitterId, host: host, guest: guest },
+                data: {petsitterNo: petsitterId, host: host, guest: guest},
                 beforeSend: function (xhr) {
                     // 요청 헤더에 CSRF 토큰 추가
                     xhr.setRequestHeader(header, token);
                 },
                 success: function (response) {
-                    alert(response.roomUUID + "방 개설에 성공하였습니다.");
+                    alert("채팅방에 입장합니다");
                     if (guest !== "" && host !== guest) {
                         localStorage.setItem('sitter.hostId', host);
                         localStorage.setItem('sitter.guestId', guest);
@@ -190,7 +229,8 @@
                     }
                 },
                 error: function () {
-                    alert("채팅방 개설에 실패하였습니다.");
+                    alert("채팅방 개설에 실패하였습니다. 로그인이 필요한 서비스 입니다");
+                    window.location.href = "/member/login";
                 }
             });
         }
@@ -199,7 +239,7 @@
 <script src="/mainboard/js/slider.js"></script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 <script>
-    window.addEventListener('load', function(){
+    window.addEventListener('load', function () {
         const token = $("meta[name='_csrf']").attr("content");
         const header = $("meta[name='_csrf_header']").attr("content");
         let category = $("#category").text();
@@ -211,48 +251,47 @@
             url: "/mainboard/recommend",
             type: "POST",
             data: {
-                category : category,
-                petCategory : petCategory,
-                sitterAddress : sitterAddress,
-                sitterNoValue : sitterNoValue
+                category: category,
+                petCategory: petCategory,
+                sitterAddress: sitterAddress,
+                sitterNoValue: sitterNoValue
             },
             dataType: "json",
-            beforeSend : function(xhr) {
+            beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
-            success: function(data) {
+            success: function (data) {
                 console.log(data);
                 let recommendRes = $("#recommend");
                 recommendRes.empty();
                 var htmlList = "";
-                data.content.forEach(function (content){
-                if (data.content.length === 0 || data.content.length === null) {
-                    htmlList += `<div>관련 게시글이 없습니다.</div>`;
-                    $("#noting").html(htmlList);
+                if (!data.content || data.content.length === 0) {
+                    htmlList += `<div class="content_nothing">관련 게시글이 없습니다.</div>`;
                 } else {
-                    htmlList += `<a href="/mainboard/detail/`+content.sitterNo+`">
-                                 <div class="petSitterItem">
-                                 <div class="thumbnail-crop" >`;
-                    if(content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
-                        htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/logo.png" />`;
-                    } else {
-                        htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/`+content.fileDTOList[0].newFileName+`" />`;
-                    }
+                    data.content.forEach(function (content) {
+                        htmlList += `<a href="/mainboard/detail/` + content.sitterNo + `">
+                                     <div class="petSitterItem">
+                                     <div class="thumbnail-crop" >`;
+                        if (content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
+                            htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/logo.png" />`;
+                        } else {
+                            htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/` + content.fileDTOList[0].newFileName + `" />`;
+                        }
                         htmlList += `</div>
-                                     <div class="text-left">
-                                     <div class="item_name">`+content.petTitle+`</div>`;
-                        htmlList += `<div class="item-address">`+content.petAddress+`</div>`;
-                    if(content.price !== 0) {
-                        htmlList += `<div class="item_cost">`+content.price+`</div>`;
-                    } else {
-                        htmlList += `<div class="item_place">협의가능</div>`;
-                    }
+                                         <div class="text-left">
+                                         <div class="item_name">` + content.petTitle + `</div>`;
+                        htmlList += `<div class="item-address">` + content.petAddress + `</div>`;
+                        if (content.price !== 0) {
+                            htmlList += `<div class="item_cost">` + content.price + `원</div>`;
+                        } else {
+                            htmlList += `<div class="item_place">협의가능</div>`;
+                        }
                         htmlList += `</div></div></a>`;
+                    });
                 }
-                });
                 $("#recommend").html(htmlList);
             },
-            error: function(error) {
+            error: function (error) {
                 console.error(error);
             }
         });

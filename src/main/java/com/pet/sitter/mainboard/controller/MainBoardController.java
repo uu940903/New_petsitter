@@ -206,25 +206,14 @@ public class MainBoardController {
         return String.format("redirect:/mainboard/detail/{sitterNo}", sitterNo);
     }
 
-
     //제목으로 검색
-    @GetMapping("/titleSearch")
-    public String titleSearch () {
-        return "mainboard/titleSearch";
-    }
-
-    //제목으로 검색
-    @RequestMapping(value = "/titleSearch", method = {RequestMethod.GET, RequestMethod.POST})
-    public String titleSearch (@RequestParam String keyword,
-                               @RequestParam(value = "page", defaultValue = "0") int page,
-                               Model model) {
+    @RequestMapping(value = "/titleSearch", method = RequestMethod.GET)
+    public String titleSearch(@RequestParam String keyword,
+                              @RequestParam(value = "page", defaultValue = "0") int page,
+                              Model model) {
         Page<PetSitterDTO> petSitterDTOPage = mainBoardService.titleSearch(keyword, page);
-        //List<PetSitterDTO> petSitterDTOList = petSitterDTOPage.getContent();
-
-        model.addAttribute("petSitterPage",petSitterDTOPage);
-        model.addAttribute(keyword);
-        //model.addAttribute("",petSitterDTOList);
-
-        return "mainboard/list";
+        model.addAttribute("petSitterPage", petSitterDTOPage);
+        model.addAttribute("keyword", keyword);
+        return "mainboard/titleSearchList";
     }
 }

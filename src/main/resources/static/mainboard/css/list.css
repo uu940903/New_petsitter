@@ -132,6 +132,20 @@ ol, ul {
     padding: 0px 5px;
 }
 
+.item_like {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #868e96;
+    text-align: right;
+    padding: 0px 5px;
+}
+
+.content_nothing {
+    font-size: 25px;
+    width: 700px;
+    margin-top: 60px;
+}
+
 .petSitterContainer {
     display: grid;
     place-items: center;

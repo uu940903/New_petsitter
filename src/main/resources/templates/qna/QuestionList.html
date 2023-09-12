@@ -7,8 +7,8 @@
         <link rel="stylesheet" type="text/css" th:href="@{/qna/css/questionList.css}">
     </head>
     <body>
-        <div class="h2">Q&A게시판</div>
-        <div class="writebtn"><a th:href="@{/question/write}" class="btn btn-modify-custom btn-outline-secondary">글쓰기</a></div>
+    <div class="h2">Q&A게시판</div>
+    <div class="writebtn"><a th:href="@{/question/write}" class="btn btn-modify-custom btn-outline-secondary">글쓰기</a></div>
     <div>
         <table class="table container my-4 table table-hover">
             <thead class="table-nav-tr">
@@ -22,7 +22,7 @@
             </thead>
             <tbody>
             <!-- CONTENTS !-->
-            <tr th:each="question, loop: ${questionPage}" style="height: 40px;">
+            <tr class="tableLine" th:each="question, loop: ${questionPage}" style="height: 40px;">
                 <td th:text="${questionPage.getTotalElements() - (questionPage.number * questionPage.size) - loop.index}"></td>
 
                 <td>
@@ -30,8 +30,8 @@
                     '/question/detail/' + question.qnaNo : '/question/checkPassword/' + question.qnaNo}"
                        th:text="${question.qnaTitle}">
                     </a>
+                    <span class="text-danger small ms-1" th:if="${#lists.size(question.answerList)>0}" th:text="${#lists.size(question.answerList)}"></span>
                 </td>
-
                 <td class="col-3" th:text="${question.member.getNickname}"></td>
                 <td>
                     <span class="col-2" th:text="${#temporals.format(question.qnaDate, 'yyyy-MM-dd HH:mm')}"></span>
@@ -79,7 +79,6 @@
 </div>
 
 </html>
-
 
 
 
