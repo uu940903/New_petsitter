@@ -12,5 +12,6 @@ public interface MypageRepository4 extends JpaRepository<Petsitter,Long> {
 
     @Query("SELECT m FROM Matching m WHERE m.member.id = :id OR m.member2.id = :id")
     Page<Matching> findByMatching(@Param("id") Long id, Pageable pageable);
+
 }
 

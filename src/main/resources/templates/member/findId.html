@@ -13,14 +13,14 @@
     <div>
         <h2 style="text-align: center;">아이디 찾기</h2>
     </div>
-    <form id="searchForm" method="post">
-        <div class="mb-3" style="width: 50%;">
-            <label for="phone" class="form-label fw-bold">Phone Number</label>
-            <input type="text" id="phone" name="phone" required="required" class="form-control">
-        </div>
-        <div class="mb-3">
-            <button class="btn btn-secondary my-2" type="submit">아이디 찾기</button>
-        </div>
+<form id="searchForm" method="post">
+    <div class="mb-3" style="width: 50%;">
+        <label for="phone" class="form-label fw-bold">Phone Number</label>
+        <input type="text"  id="phone" name="phone"  required="required" class="form-control">
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-secondary my-2" type="submit">아이디 찾기</button>
+    </div>
 
     </form>
 
@@ -28,28 +28,28 @@
         <!-- 검색된 id 여기에 표시-->
     </div>
 </div>
-<script>
+    <script>
 
-    document.getElementById("searchForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-        const phoneNumber = document.getElementById("phone").value;
+        document.getElementById("searchForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const phoneNumber = document.getElementById("phone").value;
 
-        // 서버로 전화번호를 전송하고 이메일을 가져오는 AJAX 요청
-        fetch(`/member/memberid?phone=${phoneNumber}`)
-            .then(response => {
-                if (response.ok) {
-                    return response.text();
-                }
-                throw new Error('아이디를 찾을 수 없습니다.');
-            })
-            .then(memberId => {
-                document.getElementById("result").textContent = `사용자 아이디 : ${memberId}`;
-            })
-            .catch(error => {
-                document.getElementById("result").textContent = error.message;
-            });
-    });
-</script>
+            // 서버로 전화번호를 전송하고 이메일을 가져오는 AJAX 요청
+            fetch(`/member/memberid?phone=${phoneNumber}`)
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error('아이디를 찾을 수 없습니다.');
+                })
+                .then(memberId => {
+                    document.getElementById("result").textContent = `사용자 아이디 : ${memberId}`;
+                })
+                .catch(error => {
+                    document.getElementById("result").textContent = error.message;
+                });
+        });
+    </script>
 </body>
 
 </html>

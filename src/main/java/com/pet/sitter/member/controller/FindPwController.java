@@ -15,26 +15,27 @@ import java.util.Optional;
 
 @Controller
 public class FindPwController {
-
     @Autowired
     private MemberRepository memberRepository;
 
+
+
     @PostMapping("/member/password")
     public ResponseEntity<?> processPasswordResetForm(@RequestParam String memberId, Model model) {
-        Optional<Member> memberOptional = memberRepository.findBymemberId(memberId);
 
+        Optional<Member> memberOptional = memberRepository.findBymemberId(memberId);
         if (memberOptional.isPresent()) {
             // 사용자를 찾았을 때, 사용자 정보를 모델에 추가하여 updatePw 폼으로 이동
             Member member = memberOptional.get();
             model.addAttribute("member", member);
             System.out.println("사용자를 찾았습니다: " + member.getMemberId());
-
             return ResponseEntity.ok("사용자를 찾았습니다: " + member.getMemberId()); // 사용자를 찾은 경우 updatePw 폼으로 직접 이동
         } else {
             model.addAttribute("error", "일치하는 사용자를 찾을 수 없습니다.");
             System.out.println("사용자를 찾지 못했습니다.");
-
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("일치하는 사용자를 찾을 수 없습니다.");
         }
     }
+
+
 }

@@ -1,8 +1,11 @@
 package com.pet.sitter.chat.service;
 
+import com.pet.sitter.chat.controller.ChatMessageController;
 import com.pet.sitter.chat.dto.ChatRoomDTO;
+import com.pet.sitter.chat.repository.ChatMessageRepository;
 import com.pet.sitter.chat.repository.ChatRoomRepository;
 import com.pet.sitter.chat.repository.MatchingRepository;
+import com.pet.sitter.common.entity.ChatMessage;
 import com.pet.sitter.common.entity.ChatRoom;
 import com.pet.sitter.common.entity.Matching;
 import com.pet.sitter.common.entity.Petsitter;

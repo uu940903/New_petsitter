@@ -1,18 +1,8 @@
 package com.pet.sitter.common.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -22,7 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -76,6 +65,9 @@ public class Member {
     @OneToMany(mappedBy = "sender", cascade = CascadeType.REMOVE)
     private List<ChatMessage> chatMessagesList;
 
+    /*@OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Matching> matchingList;*/
+
     @Builder
     public Member(Long id, String memberId, String pw, String name, String phone, String eMail, String birth, String address, String detailaddress, String zipcode, String nickname, String isshow, List<Petsitter> petsitterList) {
         this.id = id;
@@ -92,4 +84,5 @@ public class Member {
         this.isshow = isshow;
         this.petsitterList = petsitterList;
     }
+
 }

@@ -1,5 +1,6 @@
 package com.pet.sitter.chat.repository;
 
+import com.pet.sitter.chat.dto.ChatRoomDTO;
 import com.pet.sitter.common.entity.ChatRoom;
 import com.pet.sitter.common.entity.Petsitter;
 import org.springframework.data.jpa.repository.JpaRepository;

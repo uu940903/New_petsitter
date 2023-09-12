@@ -1,5 +1,6 @@
 package com.pet.sitter.member.dto;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,7 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserDTO {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //기본키
@@ -23,7 +23,7 @@ public class UserDTO {
 
     @Builder
     public UserDTO(String memberId, String name, String password, String nickname, String role) {
-        this.memberId = memberId;
+        this.memberId=memberId;
         this.name = name;
         this.password = password;
         this.nickname = nickname;
@@ -31,5 +31,6 @@ public class UserDTO {
     }
 
     public UserDTO() {
+
     }
 }

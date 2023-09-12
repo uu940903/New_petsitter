@@ -11,7 +11,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -34,8 +38,10 @@ public class QuestionService {
         this.questionFileRepository = questionFileRepository;
     }
 
+
     //Entity --> DTO 변환
     //Question 글 등록
+
     @Transactional
     public void savePost(QuestionDTO questionDTO, QuestionForm questionForm, MultipartFile[] file, Member member) throws IOException {
 
@@ -61,11 +67,9 @@ public class QuestionService {
 
             String path = "C:/uploadfile/question_img/";
             File directory = new File(path);
-
             if (!directory.exists()) {
                 directory.mkdirs();
             }
-
             for (MultipartFile qFile : file) {
                 String originalFilename = qFile.getOriginalFilename();
                 String fileExtension = originalFilename.substring(originalFilename.lastIndexOf("."));
@@ -84,32 +88,33 @@ public class QuestionService {
                 questionFile.setQuestion(Question1);
                 questionFileRepository.save(questionFile);
             }
+
             questionRepository.save(question);
         }
     }
 
+
     //Question게시판 목록 전체조회
     @Transactional
-    public Page<Question> questionList(int page) {
-        List<Sort.Order> sorts = new ArrayList();
+    public Page<Question> questionList(int page){
+        List <Sort.Order> sorts = new ArrayList();
         sorts.add(Sort.Order.desc("qnaDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-
         return questionRepository.findAll(pageable);
+
     }
 
     //Question게시판 상세내용
     @Transactional
-    public QuestionDTO detail(Long qnaNo) {
+    public QuestionDTO detail(Long qnaNo){
         Optional<Question> questionOptional = questionRepository.findById(qnaNo);
-
-        if (questionOptional.isPresent()) {
+        if(questionOptional.isPresent()) {
             Question question = questionOptional.get();
             question.increaseViewCount();
             questionRepository.save(question);
 
             List<Answer> answerList = new ArrayList<>();
-            for (Answer answer : question.getAnswerList()) {
+            for(Answer answer : question.getAnswerList()){
                 answerList.add(answer);
             }
 
@@ -128,7 +133,6 @@ public class QuestionService {
                     .questionList(fileList)
                     .answerList(answerList)
                     .build();
-
             return questionDTO;
         }
         return null;
@@ -139,7 +143,7 @@ public class QuestionService {
     public void update(Long qnaNo, QuestionDTO questionDTO, MultipartFile[] newImageFiles) throws IOException {
         Optional<Question> questionOptional = questionRepository.findById(qnaNo);
 
-        if (questionOptional.isPresent()) {
+        if(questionOptional.isPresent()){
             Question question = questionOptional.get();
             question.setQnaTitle(questionDTO.getQnaTitle());
             question.setQnaContent(questionDTO.getQnaContent());
@@ -193,12 +197,10 @@ public class QuestionService {
             questionRepository.save(question);
         }
     }
-
     //Question게시판 삭제
     @Transactional
     public void delete(Long qnaNo) {
         Optional<Question> questionOptional = questionRepository.findById(qnaNo);
-
         if (questionOptional.isPresent()) {
             Question question = questionOptional.get();
             questionRepository.delete(question);
@@ -220,8 +222,10 @@ public class QuestionService {
                 return "failure"; // 비밀번호 불일치
             }
         }
+
         return "notfound"; // 해당 글이 없음
     }
+
 }
 
 

@@ -1,10 +1,6 @@
 package com.pet.sitter.common.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //기본키
@@ -30,7 +25,7 @@ public class User {
 
     @Builder
     public User(String memberId, String nickname, String password, String name, String role) {
-        this.memberId = memberId;
+        this.memberId=memberId;
         this.nickname = nickname;
         this.password = password;
         this.name = name;

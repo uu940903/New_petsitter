@@ -64,8 +64,8 @@ public class AdminMemberController {
                          @PathVariable("id") Long id, Model model, Principal principal) {
         System.out.println("수정 modify 진입");
         MemberDTO memberDTO = adminMemberService.getMemberDetail(id);
-        System.out.println("에러 =" + bindingResult.hasErrors());
-        System.out.println("에러 =" + bindingResult.getErrorCount());
+        System.out.println("에러 ="+bindingResult.hasErrors());
+        System.out.println("에러 ="+bindingResult.getErrorCount());
         //1.파라미터받기
 
         if (bindingResult.hasErrors()) {
@@ -73,13 +73,13 @@ public class AdminMemberController {
             return "admin/memberForm";
         }
 
-        System.out.println("전화 = " + adminMemberForm.getPhone());
-        System.out.println("닉네임 = " + adminMemberForm.getNickname());
+        System.out.println("전화 = "+adminMemberForm.getPhone());
+        System.out.println("닉네임 = "+adminMemberForm.getNickname());
         //2.비즈니스로직수행
         Member member = adminMemberService.getModify(id); //질문상세
-        adminMemberService.modify(id, adminMemberForm.getMemberId(), adminMemberForm.getName(), adminMemberForm.getNickname(),
+        adminMemberService.modify(id,adminMemberForm.getMemberId(), adminMemberForm.getName(),adminMemberForm.getNickname(),
                 adminMemberForm.getBirth(), adminMemberForm.getPhone(),
-                adminMemberForm.getAddress(), adminMemberForm.getEMail());
+                adminMemberForm.getAddress(),adminMemberForm.getEMail());
         return String.format("redirect:/admin/memberDetail/%d", id); //수정 상세페이지로 이동
     }
 
@@ -89,6 +89,7 @@ public class AdminMemberController {
         adminMemberService.delete(id);
         return "redirect:/admin/memberList";
     }
+
 
 
 }

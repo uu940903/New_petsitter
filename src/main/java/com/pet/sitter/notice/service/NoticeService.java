@@ -21,12 +21,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+
 @Service
 @Transactional
 public class NoticeService {
-
     private final NoticeRepository noticeRepository;
     private final NoticeFileRepository noticeFileRepository;
+
 
     public NoticeService(NoticeRepository noticeRepository, NoticeFileRepository noticeFileRepository) {
         this.noticeRepository = noticeRepository;
@@ -44,7 +45,6 @@ public class NoticeService {
         List<Sort.Order> sorts = new ArrayList();
         sorts.add(Sort.Order.desc("noDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-
         return noticeRepository.findAll(pageable);
     }
 
@@ -58,7 +58,6 @@ public class NoticeService {
                 .noDate(noticeDTO.getNoDate())
                 .noViewCnt(0) // 조회수 초기값 설정
                 .build();
-
         if (file[0].isEmpty()) {
             noticeRepository.save(notice);
         } else {
@@ -69,7 +68,6 @@ public class NoticeService {
 
             String path = "C:/uploadfile/notice_img/";
             File directory = new File(path);
-
             if (!directory.exists()) {
                 directory.mkdirs();
             }
@@ -92,10 +90,10 @@ public class NoticeService {
                 noticeFile.setNotice(notice1);
                 noticeFileRepository.save(noticeFile);
             }
+
             noticeRepository.save(notice);
         }
     }
-
     //공지게시판 상세내용
     @Transactional
     public NoticeDTO getDetail(Long noNo) {
@@ -120,13 +118,12 @@ public class NoticeService {
 
             return noticeDTO;
         }
-
         return null;
     }
 
     //공지게시판 수정
     @Transactional
-    public void getUpdate(Long noNo, NoticeDTO noticeDTO, MultipartFile[] newImageFiles) throws IOException {
+    public void getUpdate(Long noNo, NoticeDTO noticeDTO,MultipartFile[] newImageFiles) throws IOException {
         Optional<Notice> noticeOptional = noticeRepository.findById(noNo);
 
         if (noticeOptional.isPresent()) {
@@ -136,17 +133,16 @@ public class NoticeService {
             notice.setNoContent(noticeDTO.getNoContent());
             noticeRepository.save(notice);
 
+
             // 기존 파일 삭제
             List<NoticeFile> filesToDelete = notice.getNoticeFiles();
             for (NoticeFile delete : filesToDelete) {
                 String filePath = delete.getNoSavedPath();
                 File fileToDelete = new File(filePath);
-
                 if (fileToDelete.exists()) {
                     fileToDelete.delete();
                 }
             }
-
             // 기존 파일 정보 삭제
             notice.getNoticeFiles().clear();
 
@@ -158,6 +154,7 @@ public class NoticeService {
                 Notice notice1 = noticeRepository.findById(boardNo).get();
 
                 NoticeFile noticeFile = new NoticeFile();
+
                 String path = "C:/uploadfile/notice_img/";
 
                 File directory = new File(path);
@@ -183,20 +180,22 @@ public class NoticeService {
                     noticeFile.setNotice(notice1);
                     noticeFileRepository.save(noticeFile);
                 }
+
                 noticeRepository.save(notice);
             }
         }
     }
 
-    //공지게시판 삭제
-    @Transactional
-    public void getDelete(Long noNo) {
-        Optional<Notice> noticeOptional = noticeRepository.findById(noNo);
-        if (noticeOptional.isPresent()) {
-            Notice notice = noticeOptional.get();
-            noticeRepository.delete(notice);
+        //공지게시판 삭제
+        @Transactional
+        public void getDelete (Long noNo){
+            Optional<Notice> noticeOptional = noticeRepository.findById(noNo);
+            if (noticeOptional.isPresent()) {
+                Notice notice = noticeOptional.get();
+                noticeRepository.delete(notice);
+            }
         }
+
     }
-}
 
 

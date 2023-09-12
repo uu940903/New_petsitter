@@ -7,9 +7,8 @@
         <link rel="stylesheet" type="text/css" th:href="@{/qna/css/questionList.css}">
     </head>
     <body>
-    <div class="h2">Q&A게시판</div>
-    <div class="writebtn"><a th:href="@{/question/write}" class="btn btn-modify-custom btn-outline-secondary">글쓰기</a>
-    </div>
+        <div class="h2">Q&A게시판</div>
+        <div class="writebtn"><a th:href="@{/question/write}" class="btn btn-modify-custom btn-outline-secondary">글쓰기</a></div>
     <div>
         <table class="table container my-4 table table-hover">
             <thead class="table-nav-tr">
@@ -59,8 +58,7 @@
                 <li class="page-item" th:each="page : ${#numbers.sequence(0,questionPage.totalPages-1)}"
                     th:if="${page>=questionPage.number-5 and page<=questionPage.number+5}"
                     th:classappend="${page==questionPage.number} ? 'active'">
-                    <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page+1}"
-                       th:classappend="${page==questionPage.number} ? 'active'">
+                    <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page+1}" th:classappend="${page==questionPage.number} ? 'active'">
                          <span th:if="${page==questionPage.number}" class="current-page">
                              [th:text="${page+1}"]
                         </span>
@@ -74,6 +72,7 @@
             </ul>
         </div>
     </div>
+
 
 
     </body>

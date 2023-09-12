@@ -1,18 +1,7 @@
 package com.pet.sitter.common.entity;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -25,10 +14,9 @@ import java.util.List;
 @Entity
 @Setter
 @DynamicUpdate
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor (access = AccessLevel.PUBLIC)
 @EntityListeners(AuditingEntityListener.class)
 public class Notice {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noNo;
@@ -40,7 +28,7 @@ public class Notice {
     private String noContent;
 
     @Column
-    private LocalDateTime noDate = LocalDateTime.now();
+    private LocalDateTime noDate =LocalDateTime.now();
 
     @Column
     @ColumnDefault("0")
@@ -73,7 +61,7 @@ public class Notice {
     }
 
     @Builder
-    public Notice(Long noNo, String noTitle, String noContent, LocalDateTime noDate, Integer noViewCnt, List<NoticeFile> noticeFiles) {
+    public Notice(Long noNo, String noTitle, String noContent, LocalDateTime noDate, Integer noViewCnt,List<NoticeFile> noticeFiles  ) {
         this.noNo = noNo;
         this.noTitle = noTitle;
         this.noContent = noContent;
@@ -82,4 +70,8 @@ public class Notice {
         this.noticeFiles = noticeFiles;
 
     }
+
+
+
+
 }

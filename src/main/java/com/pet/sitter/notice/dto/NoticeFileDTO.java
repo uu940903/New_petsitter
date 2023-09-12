@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 
     public class NoticeFileDTO {
-
         private Long noFile;
         private Long noNo;
         private String noOrgNm;

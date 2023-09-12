@@ -1,5 +1,8 @@
 package com.pet.sitter.mainboard.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
 import com.pet.sitter.mainboard.service.MainBoardService;
 import com.pet.sitter.mainboard.validation.WriteForm;
@@ -10,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -24,6 +28,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequestMapping("/mainboard")
 @Controller
@@ -34,21 +39,23 @@ public class MainBoardController {
     @Autowired
     public MainBoardService mainBoardService;
 
+
     @Autowired
     public MemberService memberService;
+
 
     //페이지네이션
     @GetMapping("/list")
     public String getList(Model model, @RequestParam(value = "page", defaultValue = "0") int page, Principal principal, @AuthenticationPrincipal OAuth2User user) {
         Page<PetSitterDTO> petSitterPage = null;
         String kakao = "";
-        if (user == null) {
+        if(user==null){
             kakao = "kakao";
         }
-        if (principal != null) {
-            System.out.println("회원 인데 카카오?");
-            petSitterPage = mainBoardService.getListByMember(principal.getName(), kakao, page);
-            System.out.println("회원 인데 카카오 아님");
+        if (principal!=null) {
+                System.out.println("회원 인데 카카오?");
+                petSitterPage = mainBoardService.getListByMember(principal.getName(), kakao, page);
+                System.out.println("회원 인데 카카오 아님");
         } else {
             System.out.println("회원 아님");
             petSitterPage = mainBoardService.getList(page);
@@ -66,6 +73,7 @@ public class MainBoardController {
         return "mainboard/detail";
     }
 
+
     //search
     @GetMapping("/search")
     @ResponseBody
@@ -80,19 +88,21 @@ public class MainBoardController {
         return petSitterDTOPage;
     }
 
+
     //recommend
     @PostMapping("/recommend")
     @ResponseBody
-    public Page<PetSitterDTO> recommendList(@RequestParam Map<String, Object> map) {
+    public Page<PetSitterDTO> recommendList(@RequestParam Map<String, Object> map){
         String category = (String) map.get("category");
         String petCategory = (String) map.get("petCategory");
         String address = (String) map.get("sitterAddress");
-        String sitterAddress = address.substring(0, 2);
-        String sitterNoValue = (String) map.get("sitterNoValue");
+        String sitterAddress = address.substring(0,2);
+        String sitterNoValue = (String)map.get("sitterNoValue");
         Long sitterNo = Long.parseLong(sitterNoValue);
         Page<PetSitterDTO> petSitterDTOList = mainBoardService.recommendList(category, petCategory, sitterAddress, sitterNo);
         return petSitterDTOList;
     }
+
 
     //********************************혜지시작
     //글등록 폼 요청
@@ -127,6 +137,7 @@ public class MainBoardController {
         return "redirect:/mainboard/list";
     }
 
+
     //게시글 수정 폼 요청
     @GetMapping("/modify/{sitterNo}")
     public String updateForm(@PathVariable Long sitterNo, Principal principal,
@@ -153,10 +164,11 @@ public class MainBoardController {
         return "mainboard/updateForm";
     }
 
+
     //게시글 수정 처리
-    @PostMapping("/modify/{sitterNo}")
-    public String update(@PathVariable Long sitterNo, @Valid WriteForm writeForm, BindingResult bindingResult,
-                         Principal principal, MultipartFile[] boardFile, String id) throws IOException {
+    @PostMapping ("/modify/{sitterNo}")
+    public String update (@PathVariable Long sitterNo, @Valid WriteForm writeForm, BindingResult bindingResult,
+                          Principal principal, MultipartFile[] boardFile, String id) throws IOException {
         logger.info("MainBoardController-update() 진입");
 
         id = principal.getName();
@@ -165,10 +177,12 @@ public class MainBoardController {
             return "mainboard/editForm";
         }
 
-        mainBoardService.update(writeForm, sitterNo, boardFile, id);
+        mainBoardService.update(writeForm, sitterNo,boardFile, id);
 
-        return String.format("redirect:/mainboard/detail/%s", +sitterNo);
+        return String.format("redirect:/mainboard/detail/%s", + sitterNo);
+
     }
+
 
     //게시글 삭제
     @PreAuthorize("isAuthenticated()")
@@ -186,27 +200,28 @@ public class MainBoardController {
     //추천
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/incrementLikes/{sitterNo}")
-    public String incrementLikes(@PathVariable Long sitterNo,
-                                 Principal principal) {
+    public String incrementLikes (@PathVariable Long sitterNo,
+                                  Principal principal) {
         mainBoardService.incrementLikes(sitterNo);
         return String.format("redirect:/mainboard/detail/{sitterNo}", sitterNo);
     }
 
+
     //제목으로 검색
     @GetMapping("/titleSearch")
-    public String titleSearch() {
+    public String titleSearch () {
         return "mainboard/titleSearch";
     }
 
     //제목으로 검색
     @RequestMapping(value = "/titleSearch", method = {RequestMethod.GET, RequestMethod.POST})
-    public String titleSearch(@RequestParam String keyword,
-                              @RequestParam(value = "page", defaultValue = "0") int page,
-                              Model model) {
+    public String titleSearch (@RequestParam String keyword,
+                               @RequestParam(value = "page", defaultValue = "0") int page,
+                               Model model) {
         Page<PetSitterDTO> petSitterDTOPage = mainBoardService.titleSearch(keyword, page);
         //List<PetSitterDTO> petSitterDTOList = petSitterDTOPage.getContent();
 
-        model.addAttribute("petSitterPage", petSitterDTOPage);
+        model.addAttribute("petSitterPage",petSitterDTOPage);
         model.addAttribute(keyword);
         //model.addAttribute("",petSitterDTOList);
 

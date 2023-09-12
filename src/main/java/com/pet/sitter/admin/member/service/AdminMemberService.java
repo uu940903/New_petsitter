@@ -38,13 +38,13 @@ public class AdminMemberService {
             return memberDTO;
         }).getContent();
 
-        return new PageImpl<>(memberDTOList, pageable, memberPage.getTotalElements());
+        return new PageImpl<>(memberDTOList,pageable,memberPage.getTotalElements());
     }
 
     //회원 상세 조회
-    public MemberDTO getMemberDetail(Long id) {
-        Optional<Member> optionalMember = adminMemberRepository.findById(id);
-        if (!optionalMember.isPresent()) {
+    public MemberDTO getMemberDetail(Long id){
+        Optional<Member> optionalMember=adminMemberRepository.findById(id);
+        if(!optionalMember.isPresent()){
             return null;
         }
 
@@ -63,12 +63,12 @@ public class AdminMemberService {
 
     //수정처리
     public void modify(Long id, String memberId, String name,
-                       String nickname, String birth, String phone, String address, String eMail) {
+                       String nickname,String birth,String phone,String address,String eMail) {
         Optional<Member> memberOptional = adminMemberRepository.findById(id);
-        if (memberOptional.isEmpty()) {
+        if(memberOptional.isEmpty()){
             throw new DataNotFoundException("No Member");
         }
-        Member member = memberOptional.get();
+        Member member =memberOptional.get();
         member.setId(id);
         member.setMemberId(memberId);
         member.setName(name);
@@ -79,7 +79,6 @@ public class AdminMemberService {
         member.setEMail(eMail);
         adminMemberRepository.save(member);
     }
-
     public Member getModify(Long id) {
         Optional<Member> member = adminMemberRepository.findById(id);
         if (!member.isPresent()) {
@@ -90,9 +89,10 @@ public class AdminMemberService {
 
     //삭제처리
     @Transactional
-    public void delete(Long id) {
-        adminMemberRepository.deleteById(id);
+    public void delete(Long id) {adminMemberRepository.deleteById(id);
     }
+
+
 
 
 }

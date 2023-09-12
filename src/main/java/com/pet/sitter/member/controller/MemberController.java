@@ -22,19 +22,17 @@ import java.util.Map;
 public class MemberController {
 
     private final MemberService memberService;
-
     @GetMapping("/findPassword")
     public String showFindPasswordPage() {
         return "findPassword";
     }
-
     @GetMapping("/findId")
-    public String findId() {
+    public String findId(){
         return "/member/findId";
     }
 
     @GetMapping("/findPw")
-    public String findPw() {
+    public String findPw(){
         return "/member/findPw";
     }
 
@@ -48,7 +46,6 @@ public class MemberController {
     public String signup(UserCreateForm userCreateForm) {
         return "/member/join";
     }
-
     @GetMapping("/check")
     public ResponseEntity<Map<String, String>> checkIdDuplication(@RequestParam(value = "memberId") String memberId) {
         System.out.println(memberId);
@@ -66,39 +63,33 @@ public class MemberController {
 
         return ResponseEntity.ok(response);
     }
-
     @PostMapping("/join")
     public String signup(@Valid UserCreateForm userCreateForm, BindingResult bindingResult) {
-        System.out.println("id : " + userCreateForm.getMemberId());
-        System.out.println("에러 = " + bindingResult.hasErrors());
-
-        if (bindingResult.hasErrors()) { //에러가 존재하면 signup을 보여줘
+        System.out.println("id : "+userCreateForm.getMemberId());
+        System.out.println("에러 = "+bindingResult.hasErrors());
+        if(bindingResult.hasErrors()) { //에러가 존재하면 signup을 보여줘
             return "/member/join";
         }
         //2.비즈니스로직처리
         //비밀번호와 비밀번호 확인을 서로 비교하여 불일치하면 join.html문서로 이동
-        if (!userCreateForm.getPw1().equals(userCreateForm.getPw2())) {
-            bindingResult.rejectValue("password2", "passwordInCorrect", "비밀번호 입력이 일치하지 않습니다.");
-
+        if(!userCreateForm.getPw1().equals(userCreateForm.getPw2())) {
+            bindingResult.rejectValue("password2","passwordInCorrect","비밀번호 입력이 일치하지 않습니다.");
             return "/member/join";
         }
-
         try {
             memberService.create(userCreateForm);
 
-        } catch (DataIntegrityViolationException e) { // 여기에서는 username(회원id은 uk, email은 uk)->제약조건에 걸리면 발생
+        }catch (DataIntegrityViolationException e) { // 여기에서는 username(회원id은 uk, email은 uk)->제약조건에 걸리면 발생
             e.printStackTrace();
-            bindingResult.reject("signupFailed", "이미 등록된 회원이 있습니다.");
+            bindingResult.reject("signupFailed","이미 등록된 회원이 있습니다.");
             return "/member/join";
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", e.getMessage());
             return "/member/join";
         }
-
         //3.Model
         //4.View
-
         return "redirect:/main"; //회원가입 성공 시 메인화면으로 이동
     }
 }
