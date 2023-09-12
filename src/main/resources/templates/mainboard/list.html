@@ -1,32 +1,32 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <title>MainBoardList</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/mainboard/css/list.css" th:href="@{/mainboard/css/list.css}"/>
-    <link rel="stylesheet" href="/webjars/bootstrap/5.2.2/dist/css/bootstrap.min.css">
-</head>
-<body>
-<section class="petSitter-cover">
-    <div class="cover-content">
-        <div class="cover-image">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+        <title>MainBoardList</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;200&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="/mainboard/css/list.css" th:href="@{/mainboard/css/list.css}"/>
+        <link rel="stylesheet" href="/webjars/bootstrap/5.2.2/dist/css/bootstrap.min.css">
+    </head>
+    <body>
+    <section class="petSitter-cover">
+        <div class="cover-content">
+            <div class="cover-image">
         <span class="petSitter-cover-image">
           <img src="/mainboard/image/twitter_header_photo_1.png" alt="petPercent">
         </span>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<div class="wrap">
-    <div class="form">
-        <span class="search_text">Category</span>
-        <form id="searchForm" class="form_content">
+    <div class="wrap">
+        <div class="form">
+            <span class="search_text">Category</span>
+            <form id="searchForm" class="form_content">
         <span class="option">
             <label>
                 <select id="category" name="category" class="selectClass">
@@ -86,204 +86,202 @@
                 <input type="button" value="검색" id="subBtn" name="subBtn"/>
             </label>
         </span>
-        </form>
-        <span class="titleSearchForm">
+            </form>
+            <span class="titleSearchForm">
     <span class="search_text">Search</span>
-    <form id="titleSearchForm" th:action="@{/mainboard/titleSearch}" method="post" class="form_content">
+    <form id="titleSearchForm" th:action="@{/mainboard/titleSearch}" method="get" class="form_content">
         <input type="search" placeholder="제목을 검색하세요." th:name="keyword" class="titleSearchInput">
         <input type="submit" value="검색">
     </form>
     </span>
-    </div>
-    <div id="noting"></div>
-    <!-- 반복문 시작 -->
-    <div class="petSitterContainer" id="petSitterContainer">
-        <th:block th:each="petSitter, loop :${petSitterPage}" id="thBlock">
-            <a th:href="@{|/mainboard/detail/${petSitter.sitterNo}|}" style="text-decoration: none; color: black;">
-                <div class="petSitterItem">
-                    <div class="thumbnail-crop">
-                        <div th:if="${petSitter == null or (petSitter.fileDTOList == null or petSitter.fileDTOList.isEmpty())}">
-                            <img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/logo.png" />
+        </div>
+        <div id="nothing" ></div>
+        <!-- 반복문 시작 -->
+        <div class="petSitterContainer" id="petSitterContainer">
+            <th:block th:each="petSitter, loop :${petSitterPage}" id="thBlock">
+                <a th:href="@{|/mainboard/detail/${petSitter.sitterNo}|}" style="text-decoration: none; color: black;">
+                    <div class="petSitterItem">
+                        <div class="thumbnail-crop">
+                            <div th:if="${petSitter == null or (petSitter.fileDTOList == null or petSitter.fileDTOList.isEmpty())}">
+                                <img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/logo.png" />
+                            </div>
+                            <div th:if="${petSitter != null and (petSitter.fileDTOList != null and !petSitter.fileDTOList.isEmpty())}">
+                                <img class="thumbnail" alt="petSitter" id="user_thumbnail" th:src="@{|/image/mainboard/${petSitter.fileDTOList[0].newFileName}|}" />
+                            </div>
                         </div>
-                        <div th:if="${petSitter != null and (petSitter.fileDTOList != null and !petSitter.fileDTOList.isEmpty())}">
-                            <img class="thumbnail" alt="petSitter" id="user_thumbnail" th:src="@{|/image/mainboard/${petSitter.fileDTOList[0].newFileName}|}" />
-                        </div>
+                        <div class="item_name" th:text="${petSitter.petTitle}"></div>
+                        <div th:data-sitterno="${petSitter.sitterNo}"></div>
+                        <div class="item-address" th:text="${petSitter.petAddress}"></div>
+                        <div class="item_cost" th:if="${petSitter.price!=0}" th:text="${petSitter.price}+원"></div>
+                        <div class="item_cost" th:if="${petSitter.price==0}" th:text="협의가능"></div>
+                        <div class="item_like"><span class="material-symbols-outlined"><img src="/mainboard/image/favorite.png" /></span><span th:text="관심 +${petSitter.likeCnt}"></span></div>
                     </div>
-                    <div class="item_name" th:text="${petSitter.petTitle}"></div>
-                    <div th:data-sitterno="${petSitter.sitterNo}"></div>
-                    <div class="item-address" th:text="${petSitter.petAddress}"></div>
-                    <div class="item_cost" th:if="${petSitter.price!=0}" th:text="${petSitter.price}+원"></div>
-                    <div class="item_place" th:if="${petSitter.price==0}" th:text="협의가능"></div>
-                </div>
-            </a>
-        </th:block>
+                </a>
+            </th:block>
+        </div>
     </div>
-</div>
-<button class="writeBtn btn-light mb-5"><a th:href="@{/mainboard/write}" class="aTag"><img src="/mainboard/image/edit_icon.png"></a></button>
-<!-- 반복문 끝 -->
-<div class="pagenations" id="pagenations" name="pagenations">
-    <div th:if="${!petSitterPage.isEmpty()}">
-        <ul class="pagination justify-content-center">
-            <!-- 이전 버튼 : 조건 충족시 노출 -->
-            <!-- 삼항 연산자 => 조건 ? true false -->
-            <li class="page-item" th:classappend="${!petSitterPage.hasPrevious} ? 'disabled'">
-                <!-- Page class의 hasPrevious() : 이전 페이지의 여부 / getNumber : 현재 페이지 번호-->
-                <a class="page-link" th:href="@{|?page=${petSitterPage.number-1}|}"><span>이전</span></a>
-            </li>
-            <!-- 페이지번호 : 반복& <a>태그 연결 & 부트스트랩 [1] [2] [3] ~ [10] -->
-            <!-- page : 반복변수명  / '?page=' : localhost:8090/question/list?page=페이지전호-->
-            <li class="page-item" th:each="page : ${#numbers.sequence(0,petSitterPage.totalPages-1)}" th:if="${page>=petSitterPage.number-3 and page<=petSitterPage.number+3}" th:classappend="${page==petSitterPage.number} ? 'active'">
-                <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page+1}"></a>
-            </li>
-            <!-- 다음 버튼 : 조건 충족시 노출 -->
-            <li class="page-item" th:classappend="${!petSitterPage.hasNext} ? 'disabled'">
-                <!-- Page class의 hasPrevious() : 이전 페이지의 여부 / getNumber : 현재 페이지 번호-->
-                <a class="page-link" th:href="@{|?page=${petSitterPage.number+1}|}"><span>다음</span></a>
-            </li>
-        </ul>
+    <button class="writeBtn btn-light mb-5"><a th:href="@{/mainboard/write}" class="aTag"><img src="/mainboard/image/edit_icon.png"></a></button>
+    <!-- 반복문 끝 -->
+    <div class="pagenations" id="pagenations" name="pagenations">
+        <div th:if="${!petSitterPage.isEmpty()}">
+            <ul class="pagination justify-content-center">
+                <!-- 이전 버튼 : 조건 충족시 노출 -->
+                <!-- 삼항 연산자 => 조건 ? true false -->
+                <li class="page-item" th:classappend="${!petSitterPage.hasPrevious} ? 'disabled'">
+                    <!-- Page class의 hasPrevious() : 이전 페이지의 여부 / getNumber : 현재 페이지 번호-->
+                    <a class="page-link" th:href="@{|?page=${petSitterPage.number-1}|}"><span>이전</span></a>
+                </li>
+                <!-- 페이지번호 : 반복& <a>태그 연결 & 부트스트랩 [1] [2] [3] ~ [10] -->
+                <!-- page : 반복변수명  / '?page=' : localhost:8090/question/list?page=페이지전호-->
+                <li class="page-item" th:each="page : ${#numbers.sequence(0,petSitterPage.totalPages-1)}" th:if="${page>=petSitterPage.number-3 and page<=petSitterPage.number+3}" th:classappend="${page==petSitterPage.number} ? 'active'">
+                    <a class="page-link" th:href="@{|?page=${page}|}" th:text="${page+1}"></a>
+                </li>
+                <!-- 다음 버튼 : 조건 충족시 노출 -->
+                <li class="page-item" th:classappend="${!petSitterPage.hasNext} ? 'disabled'">
+                    <!-- Page class의 hasPrevious() : 이전 페이지의 여부 / getNumber : 현재 페이지 번호-->
+                    <a class="page-link" th:href="@{|?page=${petSitterPage.number+1}|}"><span>다음</span></a>
+                </li>
+            </ul>
+        </div>
     </div>
-</div>
-</body>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-<script>
-    $(document).ready(function(){
-        let pno = 0;
-        $("#subBtn").click(function(){
-            let categoryVal = $("#category").val();
-            let petCategoryVal = $("#petCategory").val();
-            let addressVal = $("#address").val();
-            let dayVal = $("#day").val();
-            let timeVal = $("#time").val();
-            console.log(categoryVal+petCategoryVal+addressVal+dayVal+timeVal);
-
-            const searchParams =
-                `category=${categoryVal}` +
-                `&petCategory=${petCategoryVal}` +
-                `&address=${addressVal}` +
-                `&day=${dayVal}` +
-                `&time=${timeVal}`;
-
-            const searchObj = {
-                category: categoryVal,
-                petCategory: petCategoryVal,
-                address: addressVal,
-                day: dayVal,
-                time: timeVal
-            };
-
-            if(categoryVal.trim() === "선택" || petCategoryVal.trim() === "선택" || addressVal.trim() === "선택" || dayVal.trim() === "선택" || timeVal.trim() === "선택") {
+    </body>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            let pno = 0;
+            $("#subBtn").click(function(){
+                let categoryVal = $("#category").val();
+                let petCategoryVal = $("#petCategory").val();
+                let addressVal = $("#address").val();
+                let dayVal = $("#day").val();
+                let timeVal = $("#time").val();
                 console.log(categoryVal+petCategoryVal+addressVal+dayVal+timeVal);
-                alert("모든 카테고리를 선택하세요");
-                return false;
-            }
 
-            search(searchObj, pno);
+                const searchParams =
+                    `category=${categoryVal}` +
+                    `&petCategory=${petCategoryVal}` +
+                    `&address=${addressVal}` +
+                    `&day=${dayVal}` +
+                    `&time=${timeVal}`;
 
-        });
-    });
+                const searchObj = {
+                    category: categoryVal,
+                    petCategory: petCategoryVal,
+                    address: addressVal,
+                    day: dayVal,
+                    time: timeVal
+                };
 
-    function search(searchObj, pno){
-        const token = $("meta[name='_csrf']").attr("content");
-        const header = $("meta[name='_csrf_header']").attr("content");
-        $.ajax({
-            url : `/mainboard/search?pno=${pno}`,
-            type : "GET",
-            data : searchObj,
-            dataType: "json",
-            beforeSend : function(xhr) {
-                xhr.setRequestHeader(header, token);
-            },
-            success: function (data) {
-                console.log(data);
-                alert("성공 : " + data.content);
-                let searchRes = $("#petSitterContainer");
-                searchRes.empty();
-                var htmlList = "";
-
-                makePagination(data, pno, searchObj);
-
-                data.content.forEach(function (content){
-                    if (data.content.length === 0 || data.content.length === null) {
-                        htmlList += `<h2>등록된 게시글이 없습니다.</h2>`;
-                        $("#noting").html(htmlList);
-                    } else {
-                        htmlList += `<a href="/mainboard/detail/`+content.sitterNo+`" style="text-decoration: none; color: black;">
-                                 <div class="petSitterItem">
-                                 <div class="thumbnail-crop" >
-                                 <div class="text-left">`;
-                        if(content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
-                            htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/logo.png" />`;
-                        } else {
-                            htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/`+content.fileDTOList[0].newFileName+`" />`;
-                        }
-                        htmlList += `</div>
-                                     </div>
-                                     </div>
-                                     <div class="item_name">`+content.petTitle+`</div>`;
-                        htmlList += `<div class="item-address">`+content.petAddress+`</div>`;
-                        if(content.price !== 0) {
-                            htmlList += `<div class="item_cost">`+content.price+`원</div>`;
-                        } else {
-                            htmlList += `<div class="item_place">협의가능</div>`;
-                        }
-                        htmlList += `</a>`;
-                    }
-                });
-                $("#petSitterContainer").html(htmlList);
-            },
-            error: function (jqXHR, textStatus) {
-                console.log("error:", textStatus);
-                alert("실패 : " + textStatus + jqXHR);
-            }
-        });
-    }
-
-    function makePagination(data, pno, searchObj) {
-        let totalPages = data.totalPages;       // 전체 페이지 수
-        let hasPrevious = !data.first;          // 이전 페이지 존재 여부
-        let hasNext = !data.last;               // 다음 페이지 존재 여부
-
-        console.log(searchObj);
-
-        let cur = data.number + 1;              // 현재 페이지 번호 (1-based)
-        let startPage = Math.floor((cur - 1) / 5) * 5 + 1;
-        let endPage = Math.min(startPage + 4, totalPages);
-
-        var row = "";
-
-        if(!data.empty){
-            row += `<ul class="pagination justify-content-center">`;
-            if(hasPrevious){
-                row += `<li class="page-item">`;
-                row += `<a class="page-link prev-page" data-pno="${cur - 1}"><span>이전</span></a></li>`;
-            } else {
-                row += `<li class="page-item disabled">`;
-                row += `<a class="page-link"><span>이전</span></a></li>`;
-            }
-            for(let i=startPage; i<=endPage; i++) {
-                if(i === cur){
-                    row += `<li class="page-item active"><a class="page-link page-nav" data-pno="${i - 1}">${i}</a></li>`;
-                }else{
-                    row += `<li><a class="page-link page-nav" data-pno="${i - 1}">${i}</a></li>`;
+                if(categoryVal.trim() === "선택" || petCategoryVal.trim() === "선택" || addressVal.trim() === "선택" || dayVal.trim() === "선택" || timeVal.trim() === "선택") {
+                    console.log(categoryVal+petCategoryVal+addressVal+dayVal+timeVal);
+                    alert("모든 카테고리를 선택하세요");
+                    return false;
                 }
 
-            }
-            if(hasNext){
-                row += `<li class="page-item">`;
-                row += `<a class="page-link" data-pno="${cur}"><span>다음</span></a></li>`;
-            } else {
-                row += `<li class="page-item disabled">`;
-                row += `<a class="page-link"><span>다음</span></a></li>`;
-            }
+                search(searchObj, pno);
 
-            row += `</ul>`;
+            });
+        });
+
+        function search(searchObj, pno){
+            const token = $("meta[name='_csrf']").attr("content");
+            const header = $("meta[name='_csrf_header']").attr("content");
+            $.ajax({
+                url : `/mainboard/search?pno=${pno}`,
+                type : "GET",
+                data : searchObj,
+                dataType: "json",
+                beforeSend : function(xhr) {
+                    xhr.setRequestHeader(header, token);
+                },
+                success: function (data) {
+                    console.log(data);
+                    let searchRes = $("#petSitterContainer");
+                    searchRes.empty();
+                    var htmlList = "";
+
+                    makePagination(data, pno, searchObj);
+
+
+                    if (!data.content || data.content.length === 0) {
+                        htmlList += `<div class="content_nothing">등록된 게시글이 없습니다.</div>`;
+                    } else {
+                        data.content.forEach(function (content){
+                            htmlList += `<a href="/mainboard/detail/`+content.sitterNo+`" style="text-decoration: none; color: black;">
+                                 <div class="petSitterItem">
+                                 <div class="thumbnail-crop" >`;
+                            if(content === null || content.fileDTOList === null || content.fileDTOList.length === 0) {
+                                htmlList += `<img class="tem_thumbnail" alt="petSitter" id="temp_thumbnail" src="/mainboard/image/logo.png" />`;
+                            } else {
+                                htmlList += `<img class="thumbnail" alt="petSitter" id="user_thumbnail" src="/image/mainboard/`+content.fileDTOList[0].newFileName+`" />`;
+                            }
+                            htmlList += `</div>
+                                     <div class="item_name">`+content.petTitle+`</div>`;
+                            htmlList += `<div class="item-address">`+content.petAddress+`</div>`;
+                            if(content.price !== 0) {
+                                htmlList += `<div class="item_cost">`+content.price+`원</div>`;
+                            } else {
+                                htmlList += `<div class="item_place">협의가능</div>`;
+                            }
+                            htmlList += `<div class="item_like"><span class="material-symbols-outlined"><img src="/mainboard/image/favorite.png" /></span><span>관심 ` +content.likeCnt+`</span></div>`;
+                            htmlList += `</div></a>`;
+                        });
+                    }
+                    $("#petSitterContainer").html(htmlList);
+                },
+                error: function (jqXHR, textStatus) {
+                    console.log("error:", textStatus);
+                    alert("실패 : " + textStatus + jqXHR);
+                }
+            });
         }
 
-        $("#pagenations").html(row);
+        function makePagination(data, pno, searchObj) {
+            let totalPages = data.totalPages;       // 전체 페이지 수
+            let hasPrevious = !data.first;          // 이전 페이지 존재 여부
+            let hasNext = !data.last;               // 다음 페이지 존재 여부
 
-        $(".prev-page").click(function() { search(searchObj, $(this).data('pno')); });
-        $(".next-page").click(function() { search(searchObj, $(this).data('pno')); });
-        $(".page-nav").click(function() { search(searchObj, $(this).data('pno')); });
-    }
-</script>
+            console.log(searchObj);
+
+            let cur = data.number + 1;              // 현재 페이지 번호 (1-based)
+            let startPage = Math.floor((cur - 1) / 5) * 5 + 1;
+            let endPage = Math.min(startPage + 4, totalPages);
+
+            var row = "";
+
+            if(!data.empty){
+                row += `<ul class="pagination justify-content-center">`;
+                if(hasPrevious){
+                    row += `<li class="page-item">`;
+                    row += `<a class="page-link prev-page" data-pno="${cur - 1}"><span>이전</span></a></li>`;
+                } else {
+                    row += `<li class="page-item disabled">`;
+                    row += `<a class="page-link"><span>이전</span></a></li>`;
+                }
+                for(let i=startPage; i<=endPage; i++) {
+                    if(i === cur){
+                        row += `<li class="page-item active"><a class="page-link page-nav" data-pno="${i - 1}">${i}</a></li>`;
+                    }else{
+                        row += `<li><a class="page-link page-nav" data-pno="${i - 1}">${i}</a></li>`;
+                    }
+
+                }
+                if(hasNext){
+                    row += `<li class="page-item">`;
+                    row += `<a class="page-link" data-pno="${cur}"><span>다음</span></a></li>`;
+                } else {
+                    row += `<li class="page-item disabled">`;
+                    row += `<a class="page-link"><span>다음</span></a></li>`;
+                }
+
+                row += `</ul>`;
+            }
+
+            $("#pagenations").html(row);
+
+            $(".prev-page").click(function() { search(searchObj, $(this).data('pno')); });
+            $(".next-page").click(function() { search(searchObj, $(this).data('pno')); });
+            $(".page-nav").click(function() { search(searchObj, $(this).data('pno')); });
+        }
+    </script>
 </html>

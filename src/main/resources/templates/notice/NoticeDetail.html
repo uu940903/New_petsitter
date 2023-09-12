@@ -7,22 +7,22 @@
         <div class="row row1">
             <table class="table text-center">
                 <tr>
-                    <th class="col-2 text-center warning custom-bg">작성자</th>
-                    <td class="col-4 text-center table-data">관리자</td>
-                    <th class="col-2 text-center warning custom-bg">작성일</th>
-                    <th class="col-4 text-center table-data"
+                    <th class="col-2 text-center warning custom-bg tableLine">작성자</th>
+                    <td class="col-4 text-center table-data tableLine">관리자</td>
+                    <th class="col-2 text-center warning custom-bg tableLine">작성일</th>
+                    <th class="col-4 text-center table-data tableLine"
                         th:text="${#temporals.format(noticeDTO.noDate, 'yyyy-MM-dd HH:mm')}"></th>
                 </tr>
                 <tr>
-                    <th class="col-2 text-center warning custom-bg">조회수</th>
-                    <td class="col-4 text-center" th:text="${noticeDTO.getNoViewCnt()}"></td>
-                    <th class="col-2 text-center warning custom-bg">첨부파일</th>
-                    <td class="col-4 text-center" th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}"
+                    <th class="col-2 text-center warning custom-bg tableLine">조회수</th>
+                    <td class="col-4 text-center tableLine" th:text="${noticeDTO.getNoViewCnt()}"></td>
+                    <th class="col-2 text-center warning custom-bg tableLine">첨부파일</th>
+                    <td class="col-4 text-center tableLine" th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}"
                         th:text="${noticefile.noOrgNm}"></td>
                 </tr>
                 <tr>
-                    <th class="col-2 text-center warning custom-bg">제목</th>
-                    <td class="col-10 text-left" colspan="3" th:text="${noticeDTO.noTitle}"></td>
+                    <th class="col-2 text-center warning custom-bg tableLine">제목</th>
+                    <td class="col-10 text-left tableLine" colspan="3" th:text="${noticeDTO.noTitle}"></td>
                 </tr>
             </table>
             <div class="br">

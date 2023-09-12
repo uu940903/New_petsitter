@@ -47,6 +47,7 @@ public class AnswerController {
     @GetMapping("/modify/{id}")
     public String detail(@PathVariable("id") Long id, Principal principal, AnswerForm answerForm,Model model) {
         AnswerDTO answerDTO = answerService.getDetail(id);
+        QuestionDTO questionDTO = questionService.detail(id);
 
         if(!answerDTO.getMember().getMemberId().equals(principal.getName())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
@@ -54,8 +55,8 @@ public class AnswerController {
         answerForm.setContent(answerDTO.getContent());
         answerForm.setId(answerDTO.getId());
         answerForm.setCreatedDate(answerDTO.getCreatedDate());
-
         model.addAttribute("answerForm",answerForm);
+        model.addAttribute("questionDTO",questionDTO);
         return "qna/AnswerForm";
     }
 
@@ -75,14 +76,14 @@ public class AnswerController {
     }
 
     //답변 삭제
-   @GetMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String answerDelete(@PathVariable("id") Long id,Principal principal){
-       AnswerDTO answerDTO = answerService.getDetail(id);
-       if(!answerDTO.getMember().getMemberId().equals(principal.getName())){
-           throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
-       }
-       answerService.answerDelete(id);
-       return String.format("redirect:/question/detail/%d",answerDTO.getQuestion().getQnaNo());
-   }
+        AnswerDTO answerDTO = answerService.getDetail(id);
+        if(!answerDTO.getMember().getMemberId().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제 권한이 없습니다.");
+        }
+        answerService.answerDelete(id);
+        return String.format("redirect:/question/detail/%d",answerDTO.getQuestion().getQnaNo());
+    }
 
 }

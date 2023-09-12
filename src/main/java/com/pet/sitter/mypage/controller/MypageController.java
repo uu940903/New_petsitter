@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RequestMapping("/mypage")
@@ -69,9 +70,13 @@ public class MypageController {
 
     //내정보 보기
     @GetMapping("/info")
-    public String mypageinfo(Model model) {
+    public String mypageinfo(Model model, Principal principal) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String memberId = authentication.getName(); // 현재 로그인한 사용자의 ID 가져오기
+        System.out.println("memberId : "+memberId);
+        if(memberId.equals("anonymousUser")) {
+            return "/member/login";
+        }
         MemberDTO memberDTO = mypageService.getMember(memberId);
         model.addAttribute("memberDTO", memberDTO);
         return "mypage/myInfo";

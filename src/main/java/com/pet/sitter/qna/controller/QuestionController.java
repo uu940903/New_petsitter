@@ -51,8 +51,11 @@ public class QuestionController {
 
     //question list 조회
     @GetMapping("/list")
-    public String list(Model model,@RequestParam(value = "page", defaultValue = "0") int page){
+    public String list(Model model,@RequestParam(value = "page", defaultValue = "0") int page,Principal principal){
         Page<Question> questionPage = questionService.questionList(page);
+        if(principal==null){
+            return "member/login";
+        }
         model.addAttribute("questionPage",questionPage);
         return "qna/QuestionList";
 

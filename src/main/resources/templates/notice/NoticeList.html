@@ -23,7 +23,7 @@
 
         <tbody>
         <!-- CONTENTS !-->
-        <tr th:each="notice, loop: ${noticePage}"  style="height: 40px;" >
+        <tr class="tableLine" th:each="notice, loop: ${noticePage}"  style="height: 40px;" >
             <td th:text="${noticePage.getTotalElements() - (noticePage.number * noticePage.size) - loop.index}"></td>
             <!-- <td class="col-1" th:text="${notice.noNo}"></td> -->
             <td>

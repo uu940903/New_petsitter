@@ -136,7 +136,11 @@
             },
             content: message
         };
-        ws.send("/pub/chat/message", {}, JSON.stringify(chatMessageDTO));
+
+        if (message != null && message !== "") {
+            ws.send("/pub/chat/message", {}, JSON.stringify(chatMessageDTO));
+        }
+
         messageInput.value = '';
         document.body.scrollTop = document.body.scrollHeight;
         document.documentElement.scrollTop = document.documentElement.scrollHeight;

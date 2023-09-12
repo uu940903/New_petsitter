@@ -111,3 +111,7 @@ td {
     text-align: center;
     margin-bottom: 15px;
 }
+.tableLine{
+    border-top: solid 1px #d3d6d8;
+    border-bottom: solid 1px #d3d6d8;
+}

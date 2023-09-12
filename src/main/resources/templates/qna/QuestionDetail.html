@@ -7,23 +7,23 @@
         <div class="row row1 ">
             <table class="table ">
                 <tr>
-                    <th class="col-2 text-center warning custom-bg">작성자</th>
-                    <td class="col-4 text-center table-data" th:text="${questionDTO.member.getNickname}"></td>
-                    <th class="col-2 text-center warning custom-bg">작성일</th>
-                    <th class="col-4 text-center table-data"
+                    <th class="col-2 text-center warning custom-bg tableLine">작성자</th>
+                    <td class="col-4 text-center table-data tableLine" th:text="${questionDTO.member.getNickname}"></td>
+                    <th class="col-2 text-center warning custom-bg tableLine">작성일</th>
+                    <th class="col-4 text-center table-data tableLine"
                         th:text="${#temporals.format(questionDTO.qnaDate, 'yyyy-MM-dd HH:mm')}"></th>
 
                 </tr>
                 <tr>
-                    <th class="col-2 text-center warning custom-bg">조회수</th>
-                    <td class="col-4 text-center" th:text="${questionDTO.getQnaViewCnt()}"></td>
-                    <th class="col-2 text-center warning custom-bg">첨부파일</th>
-                    <td class="col-4 text-center" th:each="questionfile, loop : ${questionDTO.getQuestionList()}"
+                    <th class="col-2 text-center warning custom-bg tableLine">조회수</th>
+                    <td class="col-4 text-center tableLine" th:text="${questionDTO.getQnaViewCnt()}"></td>
+                    <th class="col-2 text-center warning custom-bg tableLine">첨부파일</th>
+                    <td class="col-4 text-center tableLine" th:each="questionfile, loop : ${questionDTO.getQuestionList()}"
                         th:text="${questionfile.QOrgNm}"></td>
                 </tr>
                 <tr>
-                    <th class="col-2 text-center warning custom-bg">제목</th>
-                    <td class="col-10 text-center" colspan="3" th:text="${questionDTO.qnaTitle}"></td>
+                    <th class="col-2 text-center warning custom-bg tableLine">제목</th>
+                    <td class="col-10 text-center tableLine" colspan="3" th:text="${questionDTO.qnaTitle}"></td>
                 </tr>
             </table>
             <div class="br">
@@ -62,12 +62,19 @@
         </div>
     </div>
 
-    <!-- &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&-->
     <div class="answer">
         <div th:each="answer:${questionDTO.getAnswerList()}">
             <div class="d-flex justify-content-between content"> <!-- 왼쪽과 오른쪽을 정렬하기 위해 justify-content-between 사용 -->
                 <div class="left-content">
-                    <div class="badge bg-light text-dark p-2 text-start" style="font-size: 15px;" th:text="${answer.member.nickname}"></div>
+                    <div class="icon_nickname">
+                        <span class="material-symbols-outlined">
+                            <img th:if="${answer.getId() % 2 != 0}" src="/mainboard/image/cat.png" class="petsIcon"/>
+                            <img th:if="${answer.getId() % 2 == 0}" src="/mainboard/image/dog.png" class="petsIcon"/>
+                        </span>
+                        <div class="badge bg-light text-dark p-2 text-start" style="font-size: 15px;"
+                             th:text="${answer.member.nickname}"></div>
+                    </div>
+
                 </div>
                 <div class="center-content">
                     <div th:text="${answer.content}"></div>
@@ -76,7 +83,7 @@
                     <div th:text="${#temporals.format(answer.createdDate,'yyyy-MM-dd HH:mm')}"></div>
                 </div>
             </div>
-            <div class="btns" >
+            <div class="btns">
                 <!-- 답변 수정 - 로그인 해야지 수정 가능, 로그인한 유저가 글쓴이와 동일해야 함 -->
                 <a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-modify-custom btn-outline-secondary"
                    sec:authorize="isAuthenticated()"
@@ -93,7 +100,6 @@
             </div>
         </div>
     </div>
-
 
 
     <!-- 답변 등록 폼 -->
