@@ -51,6 +51,7 @@ public class QuestionService {
                 .qnaTitle(questionForm.getTitle())
                 .qnaContent(questionForm.getContent())
                 .qnaDate(questionForm.getQnaDate())
+                .qnaPw(questionForm.getPassword())
                 .questionList(questionForm.getQuestionList())
                 .qnaViewCnt(0)
                 .member(member)

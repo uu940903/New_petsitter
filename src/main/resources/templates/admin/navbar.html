@@ -1,36 +1,45 @@
 <nav th:fragment="adminNavbarFragment" class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/" th:href="@{/}">HOME</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
-                </li>
-                <li class="nav-item">
-                    <!--로그인후 출력되는 영역: 유저정보님 로그아웃-->
-                    <a class="nav-link" sec:authorize="isAuthenticated()"
-                       th:href="@{/member/logout}" th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}"
-                       th:text="${#authentication.name +'님 로그아웃'}"></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/qna/QuestionList}">Q&A게시판</a>
-                </li>
+    <div id="header">
+        <div id="header_wrap">
+            <div id="header_content">
+                <a th:href="@{/mainboard/list}">
+                    <img class="nav-img" src="/layout/image/restore.png" width="150" height="auto">
+                </a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu_selected" style="text-decoration: none;" href="/notice/list">공지게시판</a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu" style="text-decoration: none;" href="/question/list">Q&A게시판</a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu hem1" style="text-decoration: none;" th:href="@{/admin/boardList}">관리자 게시판</a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu hem2" style="text-decoration: none;" th:href="@{/admin/memberList}">회원 목록</a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAnonymous()" th:href="@{/member/login}">로그인</a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu" style="text-decoration: none;" sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
+            </div>
+            <div id="header_content">
+                <a class="header_menu" style="text-decoration: none;"sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/memberList}">관리자 메뉴</a>
+            </div>
+            <div id="header_content">
+                <form id="titleSearchForm" th:action="@{/mainboard/titleSearch}" method="post">
+                    <div id="header_content">
+                        <input  class="search_input" placeholder="애완동물을 검색해주세요." th:name="keyword">
+                    </div>
+                    <div id="header_content">
+                        <input type="submit" class="chat_button" value="검색">
+                    </div>
+                </form>
+            </div>
 
-                <li class="nav-item nav-item-board-list">
-                    <a class="nav-link" th:href="@{/admin/boardList}">게시판</a>
-                </li>
-                <li class="nav-item nav-item-member-list">
-                    <a class="nav-link" th:href="@{/admin/memberList}">회원목록</a>
-                </li>
-
-
-
-            </ul>
         </div>
     </div>
+
 </nav>
 </html>

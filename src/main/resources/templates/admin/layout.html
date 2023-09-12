@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>GSSitter - Admin</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/layout/css/nav.css">
     <link rel="stylesheet" type="text/css" th:href="@{/admin/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/admin/css/adminboard.css}"/>
     <link rel="stylesheet" type="text/css" th:href="@{/admin/css/adminmember.css}"/>
@@ -45,11 +46,11 @@
 
         // 게시판 페이지에 있을 때 회원목록 링크를 숨깁니다.
         if (currentUrl.endsWith("/admin/boardList")) {
-            document.querySelector(".nav-item-board-list").style.display = "none";
+            document.querySelector(".hem1").style.display = "none";
         }
         // 회원목록 페이지에 있을 때 게시판 링크를 숨깁니다.
         else if (currentUrl.endsWith("/admin/memberList")) {
-            document.querySelector(".nav-item-member-list").style.display = "none";
+            document.querySelector(".hem2").style.display = "none";
         }
     });
 </script>
