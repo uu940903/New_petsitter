@@ -143,8 +143,11 @@
         </script>
         <div class="buttonSection">
         <span class="buttons">
-        <button class="button" type="button" th:onclick="'createAndEnterRoom(\'' + ${petSitter.sitterNo} + '\');'">연락하기</button>
-        <a sec:authorize="isAuthenticated()" th:if="${petSitter.member!=null and #authentication.getPrincipal().getUsername()==petSitter.member.memberId}" th:href="@{|/mainboard/modify/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2"><button type="button" class="button">수정하기</button></a>
+        <div th:if="${#authentication.name} != ${petSitter.member.memberId}">
+            <button class="btn btn-outline-dark btn-lg my-2" type="button"
+                    th:onclick="'createAndEnterRoom(\'' + ${petSitter.sitterNo} + '\');'">연락하기
+            </button>
+        </div>        <a sec:authorize="isAuthenticated()" th:if="${petSitter.member!=null and #authentication.getPrincipal().getUsername()==petSitter.member.memberId}" th:href="@{|/mainboard/modify/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2"><button type="button" class="button">수정하기</button></a>
         <a sec:authorize="isAuthenticated()" th:if="${petSitter.member!=null and #authentication.getPrincipal().getUsername()==petSitter.member.memberId}" th:href="@{|/mainboard/delete/${sitterNo}|}" class="btn btn-outline-dark btn-lg my-2"><button type="button" class="button">삭제하기</button></a>
         </span>
         </div>
