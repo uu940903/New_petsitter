@@ -212,7 +212,7 @@
                     xhr.setRequestHeader(header, token);
                 },
                 success: function (response) {
-                    alert(response.roomUUID + "채팅방에 입장합니다");
+                    alert("채팅방에 입장합니다");
                     if (guest !== "" && host !== guest) {
                         localStorage.setItem('sitter.hostId', host);
                         localStorage.setItem('sitter.guestId', guest);
