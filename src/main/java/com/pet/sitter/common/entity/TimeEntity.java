@@ -22,4 +22,5 @@ public class TimeEntity {
 
     @LastModifiedDate
     private LocalDateTime updateTime;
+
 }

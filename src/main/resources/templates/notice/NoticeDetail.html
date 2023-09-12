@@ -30,7 +30,7 @@
                 <!-- 파일네임을 명시해서 주소에 넘겨줌 -->
                 <div style="text-align: center">
                     <div th:each="noticefile, loop : ${noticeDTO.getNoticeFiles()}">
-                        <img th:src="@{|/image/notice/${noticefile.noSavedNm}|}" width="300" height="300">
+                    <img th:src="@{|/image/notice/${noticefile.noSavedNm}|}" width="300" height="300">
                     </div>
                 </div>
                 <!-- <img th:src="| '/notice/detail/'${noticeFile.getNoSavedNm()}(filename=${noticeFile.getNoSavedNm()})|" width="150" height="150"> -->

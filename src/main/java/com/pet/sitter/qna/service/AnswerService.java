@@ -17,7 +17,6 @@ import java.util.Optional;
 
 @Service
 public class AnswerService {
-
     private final QuestionRepository questionRepository;
     private final AnswerRepository answerRepository;
 
@@ -46,12 +45,11 @@ public class AnswerService {
         answerRepository.save(answer);
     }
 
-    //댓글 리스트
+   //댓글 리스트
     @Transactional
     public AnswerDTO getDetail(Long id) {
         Optional<Answer> answerOptional = answerRepository.findById(id);
         Answer answer = answerOptional.get();
-
         if (answerOptional.isPresent()) {
             answerRepository.save(answer);
         }
@@ -63,16 +61,14 @@ public class AnswerService {
                 .createdDate(LocalDateTime.now())
                 .member(answer.getMember())
                 .build();
-
         return answerDTO;
     }
 
-    //댓글 수정 처리
+  //댓글 수정 처리
     @Transactional
-    public void modify(Long id, AnswerDTO answerDTO, AnswerForm answerForm) {
+    public void modify(Long id, AnswerDTO answerDTO,AnswerForm answerForm) {
         Optional<Answer> answerOptional = answerRepository.findById(id);
         Answer answer = answerOptional.get();
-
         if (answerOptional.isPresent()) {
             answer.setId(answerForm.getId());
             answer.setContent(answerForm.getContent());
@@ -86,11 +82,12 @@ public class AnswerService {
     //댓글 삭제
     public void answerDelete(Long id) {
         Optional<Answer> answerOptional = answerRepository.findById(id);
-
-        if (answerOptional.isPresent()) {
+        if(answerOptional.isPresent()){
             Answer answer = answerOptional.get();
             answerRepository.delete(answer);
         }
+
     }
+
 }
 

@@ -64,7 +64,7 @@ public class ChatMessageController {
     }
 
     @GetMapping("/chat/room/delmatching")
-    public void delMatching(Principal principal, @RequestParam Map<String, Object> map) {
+    public void delMatching(Principal principal, @RequestParam Map<String, Object> map){
         chatMessageService.delMatching(chatRoomService.getChatRoomByRoomUUID((String) map.get("roomUUID")).getId());
     }
 }

@@ -2,10 +2,7 @@ package com.pet.sitter.mainboard.dto;
 
 import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.common.entity.PetsitterFile;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -24,6 +21,7 @@ public class PetSitterFileDTO {
     private String filePath; //
     private String type;
 
+
     @Builder
     public PetSitterFileDTO(PetsitterFile petsitterFile) {
         Petsitter petsitter = new Petsitter();
@@ -35,7 +33,7 @@ public class PetSitterFileDTO {
         this.type = petsitterFile.getType();
     }
 
-    public PetsitterFile toEntity() {
+    public PetsitterFile toEntity(){
         return PetsitterFile.builder()
                 .fileNo(this.fileNo)
                 .originFileName(this.originFileName)
@@ -44,4 +42,5 @@ public class PetSitterFileDTO {
                 .type(this.type)
                 .build();
     }
+
 }

@@ -12,7 +12,7 @@
     border: none;
 }
 
-.container {
+.container{
     font-size: 18px;
 }
 
@@ -20,7 +20,6 @@
     margin-left: 10px; /* 원하는 간격으로 조정 */
     border: none; /* 버튼의 테두리를 없앰 */
 }
-
 .boardlist {
     display: flex; /* 부모 요소를 Flex 컨테이너로 설정 */
     justify-content: center; /* 버튼 사이에 공간을 나누어 배치 */
@@ -31,7 +30,7 @@
     margin-right: 10px; /* 원하는 간격으로 조정 */
 }
 
-.text-center {
+.text-center{
 
 }
 
@@ -40,7 +39,7 @@ th.custom-bg {
     color: white;
 }
 
-.a {
+.a{
     border-radius: 16px;
 }
 
@@ -49,21 +48,21 @@ th.custom-bg {
     margin: auto;
 }
 
-.br {
+.br{
     margin-bottom: 80px;
     margin-top: 40px;
 }
 
-#text {
+#text{
     margin-top: 30px;
 }
 
-#submit {
+#submit{
     text-align: right;
     margin-top: 20px;
 }
 
-.answer {
+.answer{
     border: #ced4da solid 1px;
     border-radius: 10px;
     margin-top: 30px;
@@ -79,14 +78,13 @@ hr.hr-2 {
     border-bottom: 2px dashed #eee;
     background: #b4b9c2;;
 }
-
-.content {
+.content{
     margin-left: 30px;
     margin-right: 30px;
     margin-top: 20px;
 }
 
-.btns {
+.btns{
     text-align: right;
     margin-right: 30px;
     margin-top: 10px;
@@ -98,32 +96,31 @@ hr.hr-2 {
     border-color: #FFA500; /* 원하는 테두리 색상으로 변경하세요 */
 }
 
-.center-content {
-    margin: auto;
+.center-content{
+    margin:auto;
 }
 
-.save {
+.save{
     text-align: right;
 }
 
-.content1 {
+.content1{
     margin-bottom: 10px;
     margin-left: 12px;
 }
 
-.ml-2 {
+.ml-2{
     text-align: right;
     margin-left: 30px;
 }
-
-.h2 {
+.h2{
     font-size: 30px;
     font-weight: bold;
     text-align: center;
     margin-bottom: 15px;
 }
 
-.hh {
+.hh{
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 15px;

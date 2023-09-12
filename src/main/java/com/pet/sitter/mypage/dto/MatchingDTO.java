@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,8 +22,10 @@ public class MatchingDTO {
     private MemberDTO member2;
 
     @Builder
-    public MatchingDTO(Matching matching) {
-        this.petsitter = matching.getPetsitter();
-        this.creatdateMatching = matching.getCreatdateMatching();
+    public MatchingDTO(Matching matching){
+        this.petsitter=matching.getPetsitter();
+        this.creatdateMatching=matching.getCreatdateMatching();
+
     }
+
 }

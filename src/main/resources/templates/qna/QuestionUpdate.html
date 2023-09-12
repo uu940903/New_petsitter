@@ -2,7 +2,7 @@
 <div layout:fragment="content">
     <link rel="stylesheet" type="text/css" th:href="@{/qna/css/questionForm.css}">
 
-    <form th:action="@{/question/update}" enctype="multipart/form-data" method="post">
+    <form th:action="@{/question/update}"  enctype="multipart/form-data" method="post">
         <input type="hidden" name="qnaNo" th:value="${questionDTO.qnaNo}"/>
 
         <div class="container">
@@ -37,8 +37,7 @@
                 <div class="text-center">
                     <div class="btn-group">
                         <div class="col">
-                            <form th:action="@{'/question/update/' + ${questionDTO.qnaNo}}" method="post"
-                                  sec:authorize="isAuthenticated()"
+                            <form th:action="@{'/question/update/' + ${questionDTO.qnaNo}}" method="post" sec:authorize="isAuthenticated()"
                                   th:if="${questionDTO.member.memberId!=null and #authentication.getPrincipal().getUsername()==questionDTO.member.memberId}">
                                 <button type="submit" class="btn btn-modify-custom btn-outline-secondary">수정</button>
                             </form>

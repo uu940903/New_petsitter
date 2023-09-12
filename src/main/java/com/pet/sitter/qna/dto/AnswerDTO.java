@@ -3,10 +3,7 @@ package com.pet.sitter.qna.dto;
 import com.pet.sitter.common.entity.Answer;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Question;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +20,7 @@ public class AnswerDTO {
     private Question question;
     private Member member;
 
+
     public Answer toEntity() {
         Answer answer = Answer.builder()
                 .id(id)
@@ -32,17 +30,16 @@ public class AnswerDTO {
                 .modifiedDate(modifiedDate)
                 .member(member)
                 .build();
-
         return answer;
     }
 
     @Builder
-    public AnswerDTO(Long id, String content, LocalDateTime createdDate, LocalDateTime modifiedDate, Question question, Member member) {
-        this.id = id;
-        this.content = content;
-        this.question = question;
-        this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
-        this.member = member;
+    public AnswerDTO(Long id,String content,LocalDateTime createdDate, LocalDateTime modifiedDate,Question question,Member member){
+        this.id=id;
+        this.content=content;
+        this.question=question;
+        this.createdDate=createdDate;
+        this.modifiedDate=modifiedDate;
+        this.member=member;
     }
 }
