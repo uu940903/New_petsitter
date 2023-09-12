@@ -17,9 +17,14 @@ public class MainController {
     private MemberRepository memberRepository;
     //요청주소 http://localhost:8090/
     //메인화면이 보여줘야한다.
-    @GetMapping("/main")
-    public String index() {
 
+    @GetMapping("/")
+    public String index() {
         return "redirect:/mainboard/list"; // 사용자 정보를 포함한 메인 페이지로 이동
+    }
+
+    @GetMapping("/main")
+    public String toMain() {
+        return "redirect:/mainboard/list";
     }
 }
