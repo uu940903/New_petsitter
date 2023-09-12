@@ -226,3 +226,19 @@ ol, ul {
     background-color: #ff9100;
     text-align: center;
 }
+.petSitter-cover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30vh;
+}
+
+.cover-content {
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.petSitter-cover-image img {
+    max-height: 100%;
+    object-fit: contain;
+}
