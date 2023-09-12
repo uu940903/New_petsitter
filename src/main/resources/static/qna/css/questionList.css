@@ -1,4 +1,4 @@
-.boardlist{
+.boardlist {
     text-align: center;
     text-valign: middle;
 }
@@ -10,13 +10,13 @@
 }
 
 
-.table-nav-tr{
+.table-nav-tr {
     background-color: #ffb207;;
     color: #ffffff;
 
 }
 
-.container{
+.container {
     font-size: 18px;
 }
 
@@ -35,7 +35,7 @@
     margin-top: 2px;
 }
 
-.writebtn{
+.writebtn {
     text-align: right;
 }
 
@@ -54,8 +54,9 @@ td {
 .btn-modify-boardDetail {
     background-color: #ffb207;;
     color: #ffb207;
-} /*게시판상세보기 수정버튼*/
+}
 
+/*게시판상세보기 수정버튼*/
 
 
 /* PageNation Styles */
@@ -105,7 +106,8 @@ td {
     background-color: #FFA500; /* 원하는 배경색으로 변경하세요 */
     border-color: #FFA500; /* 원하는 테두리 색상으로 변경하세요 */
 }
-.h2{
+
+.h2 {
     font-size: 30px;
     font-weight: bold;
     text-align: center;
