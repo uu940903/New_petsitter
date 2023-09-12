@@ -3,10 +3,13 @@ package com.pet.sitter.mainboard.dto;
 import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.common.entity.PetsitterFile;
 import com.pet.sitter.member.dto.MemberDTO;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class PetSitterDTO {
+    
     private Long sitterNo;
     private String petTitle;
     private String petContent;
@@ -39,7 +43,6 @@ public class PetSitterDTO {
     private List<String> filePath;
     private List<Integer> fileSize;
     private int fileAttached;
-
 
     @Builder
     public PetSitterDTO(Petsitter petsitter) {
@@ -78,9 +81,7 @@ public class PetSitterDTO {
         }
     }
 
-
-
-    public Petsitter toEntity(){
+    public Petsitter toEntity() {
         return Petsitter.builder()
                 .sitterNo(this.sitterNo)
                 .petTitle(this.petTitle)
@@ -97,7 +98,7 @@ public class PetSitterDTO {
                 .build();
     }
 
-    public Petsitter dtoToEntity (PetSitterDTO petSitterDTO) {
+    public Petsitter dtoToEntity(PetSitterDTO petSitterDTO) {
         Petsitter petsitter = new Petsitter();
         petsitter.setPetsitterFileList(petSitterDTO.toEntity().getPetsitterFileList());
         petsitter.setPetTitle(petSitterDTO.getPetTitle());
@@ -111,5 +112,4 @@ public class PetSitterDTO {
         petsitter.setPetContent(petSitterDTO.getPetContent());
         return petsitter;
     }
-
 }

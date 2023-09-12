@@ -5,7 +5,11 @@ import com.pet.sitter.common.entity.Answer;
 import com.pet.sitter.common.entity.Member;
 import com.pet.sitter.common.entity.Question;
 import com.pet.sitter.common.entity.QuestionFile;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -20,7 +24,7 @@ public class QuestionDTO {
     private Long qnaNo;
     private String qnaTitle;
     private String qnaContent;
-    private LocalDateTime qnaDate =LocalDateTime.now();
+    private LocalDateTime qnaDate = LocalDateTime.now();
     private String qnaPw;
     private Integer qnaViewCnt = 0;
     private String qnaFile;
@@ -33,7 +37,7 @@ public class QuestionDTO {
     //새로운 업로드 파일을 저장
     private List<MultipartFile> newImageFiles;
 
-    public Question toEntity(){
+    public Question toEntity() {
         Question build = Question.builder()
                 .qnaNo(qnaNo)
                 .qnaTitle(qnaTitle)
@@ -44,11 +48,12 @@ public class QuestionDTO {
                 .qnaFile(qnaFile)
                 .member(member)
                 .build();
+
         return build;
     }
 
     @Builder
-    public QuestionDTO(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, Member member,List<MultipartFile> file,List<QuestionFile> questionList,List<MultipartFile> newImageFiles,List<Answer> answerList) {
+    public QuestionDTO(Long qnaNo, String qnaTitle, String qnaContent, LocalDateTime qnaDate, String qnaPw, Integer qnaViewCnt, String qnaFile, Member member, List<MultipartFile> file, List<QuestionFile> questionList, List<MultipartFile> newImageFiles, List<Answer> answerList) {
         this.qnaNo = qnaNo;
         this.qnaTitle = qnaTitle;
         this.qnaContent = qnaContent;

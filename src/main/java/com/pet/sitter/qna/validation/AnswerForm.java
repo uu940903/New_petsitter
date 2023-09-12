@@ -19,10 +19,4 @@ public class AnswerForm {
     private Long id;
 
     private Member member;
-
-
-
-
-
-
 }

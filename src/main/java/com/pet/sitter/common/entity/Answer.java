@@ -1,7 +1,16 @@
 package com.pet.sitter.common.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -12,7 +21,7 @@ import java.time.LocalDateTime;
 @Getter
 @Entity
 @Setter
-public class Answer  {
+public class Answer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,12 +47,12 @@ public class Answer  {
     private Member member;
 
     @Builder
-    public Answer(Long id,String content,LocalDateTime createdDate, LocalDateTime modifiedDate,Question question,Member member){
-        this.id= id;
+    public Answer(Long id, String content, LocalDateTime createdDate, LocalDateTime modifiedDate, Question question, Member member) {
+        this.id = id;
         this.content = content;
-        this.question =question ;
-        this.createdDate =createdDate ;
-        this.modifiedDate =modifiedDate ;
-        this.member =member ;
+        this.question = question;
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
+        this.member = member;
     }
 }

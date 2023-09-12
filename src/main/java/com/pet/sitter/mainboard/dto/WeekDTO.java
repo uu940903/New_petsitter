@@ -2,7 +2,11 @@ package com.pet.sitter.mainboard.dto;
 
 import com.pet.sitter.common.entity.Petsitter;
 import com.pet.sitter.common.entity.Week;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
@@ -11,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WeekDTO {
+
     private Long sitterNo;
     private String day;
 
@@ -20,7 +25,7 @@ public class WeekDTO {
         this.day = week.getDay();
     }
 
-    public Week toEntity(){
+    public Week toEntity() {
         return Week.builder()
                 .petsitter(Petsitter.builder().sitterNo(this.sitterNo).build())
                 .day(this.day)

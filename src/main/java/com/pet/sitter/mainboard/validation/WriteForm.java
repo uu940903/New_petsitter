@@ -1,7 +1,6 @@
 package com.pet.sitter.mainboard.validation;
 
 import com.pet.sitter.mainboard.dto.PetSitterDTO;
-import com.pet.sitter.mainboard.dto.PetSitterFileDTO;
 import com.pet.sitter.mainboard.dto.WeekDTO;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -22,13 +21,13 @@ public class WriteForm {
     private List<MultipartFile> boardFile;
     private List<String> weekList;
 
-    @NotBlank (message = "제목은 필수 입력 사항입니다.")
+    @NotBlank(message = "제목은 필수 입력 사항입니다.")
     private String petTitle;
 
-    @NotBlank (message = "펫종류는 필수 입력 사항입니다.")
+    @NotBlank(message = "펫종류는 필수 입력 사항입니다.")
     private String petCategory;
 
-    @NotBlank (message = "구인구직은 필수 입력 사항입니다.")
+    @NotBlank(message = "구인구직은 필수 입력 사항입니다.")
     private String category;
 
     private Integer price;
@@ -41,7 +40,7 @@ public class WriteForm {
 
     private LocalDateTime endTime;
 
-    @NotBlank (message = "내용은 필수 입력 사항입니다.")
+    @NotBlank(message = "내용은 필수 입력 사항입니다.")
     private String petContent;
 
     public PetSitterDTO convertToPetSitterDTO() {
@@ -71,5 +70,4 @@ public class WriteForm {
 
         return dto;
     }
-
 }
