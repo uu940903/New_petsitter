@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css"
-      href="/mainboard/css/bootstrap.min.css" th:href="@{/mainboard/css/bootstrap.min.css}"/>
+          href="/mainboard/css/bootstrap.min.css" th:href="@{/mainboard/css/bootstrap.min.css}"/>
     <title>비밀번호 업데이트</title>
 </head>
 <body>
 <script src="/mainboard/js/bootstrap.min.js" th:src="@{/mainboard/js/bootstrap.min.js}"></script>
-  <div class="my-5 mb-5">
+<div class="my-5 mb-5">
     <h2 style="text-align: center;">비밀번호 업데이트</h2>
     <div class="my-5 mb-5" style="margin-left: 20px;">
-    <p class="font-monospace fw-bold">아이디: <span th:text="${memberId}"></span></p>
+        <p class="font-monospace fw-bold">아이디: <span th:text="${memberId}"></span></p>
     </div>
-  </div>
+</div>
 <form id="updateForm" th:action="@{/member/updatePw}" th:object="${userCreateForm2}" method="post">
     <input type="hidden" name="memberId" th:value="${memberId}">
 
@@ -25,18 +25,22 @@
             </div>
 
             <div class="mb-4">
-                <input class="form-control" type="password" th:field="*{newPassword1}" id="newPassword1" name="newPassword1" required>
+                <input class="form-control" type="password" th:field="*{newPassword1}" id="newPassword1"
+                       name="newPassword1" required>
             </div>
-            <div style="color:red;" th:if="${#fields.hasErrors('newPassword1')}" th:errors="*{newPassword1}" class="error"></div>
+            <div style="color:red;" th:if="${#fields.hasErrors('newPassword1')}" th:errors="*{newPassword1}"
+                 class="error"></div>
 
             <div class="mb-4">
                 <label for="newPassword2">새 비밀번호 확인</label>
             </div>
 
             <div class="mb-4">
-                <input class="form-control" type="password" th:field="*{newPassword2}" id="newPassword2" name="newPassword2" required>
+                <input class="form-control" type="password" th:field="*{newPassword2}" id="newPassword2"
+                       name="newPassword2" required>
             </div>
-            <div style="color:red;" th:if="${#fields.hasErrors('newPassword2')}" th:errors="*{newPassword2}" class= "error"></div>
+            <div style="color:red;" th:if="${#fields.hasErrors('newPassword2')}" th:errors="*{newPassword2}"
+                 class="error"></div>
 
         </div> <!-- end of row -->
     </div> <!-- end of container -->

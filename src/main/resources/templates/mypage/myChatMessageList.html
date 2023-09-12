@@ -14,8 +14,8 @@
         <tr th:each="question, loop : ${chatMessageDTO}">
 
 
-            <td  th:if="${question.sender!=null}" th:text="${question.sender.memberId}"></td>
-            <td  th:if="${question.content!=null}" th:text="${question.content}"></td>
+            <td th:if="${question.sender!=null}" th:text="${question.sender.memberId}"></td>
+            <td th:if="${question.content!=null}" th:text="${question.content}"></td>
             <td th:text="${#temporals.format(question.sendTime,'yyyy-MM-dd HH:mm')}"></td>
 
 

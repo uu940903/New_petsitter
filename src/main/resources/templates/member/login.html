@@ -23,59 +23,60 @@
             <a th:href="@{/member/join}" id="signup">SIGN UP</a>
         </li>
     </ul>
-<form th:action="@{/member/login}" method="post">
+    <form th:action="@{/member/login}" method="post">
 
-    <div class="first-input input__block first-input__block">
-     <input type="text" class="form-control" id="username" name="username" placeholder="Id" required="required" />
-    </div>
+        <div class="first-input input__block first-input__block">
+            <input type="text" class="form-control" id="username" name="username" placeholder="Id" required="required"/>
+        </div>
 
-    <div class="input__block">
-     <input type="password" id="password" name="password" required="required" placeholder="Password" class="input"/>
-    </div>
+        <div class="input__block">
+            <input type="password" id="password" name="password" required="required" placeholder="Password"
+                   class="input"/>
+        </div>
 
-    <!-- 로그인 버튼 -->
-    <button class="signin__btn">
-        Sign in
-    </button>
-    <div class="separator">
-        <p>OR</p>
-    </div>
-<!--    <a href="/member/join" class="btn active" role="button">회원가입</a>-->
+        <!-- 로그인 버튼 -->
+        <button class="signin__btn">
+            Sign in
+        </button>
+        <div class="separator">
+            <p>OR</p>
+        </div>
+        <!--    <a href="/member/join" class="btn active" role="button">회원가입</a>-->
         <a href="/oauth2/authorization/kakao" img class="btn active">
-          <img class="kakao_btn" src="/member/image/kakao_login_large_wide.png" alt="Kakao Logo">
+            <img class="kakao_btn" src="/member/image/kakao_login_large_wide.png" alt="Kakao Logo">
         </a>
-    <div class = "id_find_btn">
-        <input class = "google__btn" type="button" onclick="findID()" value="아이디찾기"></input>
+        <div class="id_find_btn">
+            <input class="google__btn" type="button" onclick="findID()" value="아이디찾기"></input>
 
-    <div class = "pw_find_btn">
-        <input class = "google__btn" type="button" onclick="findPw()" value="비밀번호찾기"></input>
-    </div>
-</div>
-    <footer>
-        <p>
-            Thank you for watching
-        </p>
-        <p>
-            Pet Sitter :
-            <a href="https://www.kakao.com/" >
-                <img id="icon-img" src="https://t1.daumcdn.net/cfile/tistory/992DA6415B743DB62B">
-                <i id="kakao-box" class="fa fa-facebook"></i>
-            </a>
-            <a href="http://twitter.com/">
-                <i class="fa fa-twitter"></i>
-            </a>
-            <a href="http://instagram.com/">
-                <i class="fa fa-instagram"></i>
-            </a>
-            <a href="http://linkedin.com/in/">
-                <i class="fa fa-linkedin"></i>
-            </a>
-            <a href="https://www.behance.net/">
-                <i class="fa fa-behance"></i>
-            </a>
-        </p>
-    </footer>
-</form>
+            <div class="pw_find_btn">
+                <input class="google__btn" type="button" onclick="findPw()" value="비밀번호찾기"></input>
+            </div>
+        </div>
+        <footer>
+            <p>
+                Thank you for watching
+            </p>
+            <p>
+                Pet Sitter :
+                <a href="https://www.kakao.com/">
+                    <img id="icon-img" src="https://t1.daumcdn.net/cfile/tistory/992DA6415B743DB62B">
+                    <i id="kakao-box" class="fa fa-facebook"></i>
+                </a>
+                <a href="http://twitter.com/">
+                    <i class="fa fa-twitter"></i>
+                </a>
+                <a href="http://instagram.com/">
+                    <i class="fa fa-instagram"></i>
+                </a>
+                <a href="http://linkedin.com/in/">
+                    <i class="fa fa-linkedin"></i>
+                </a>
+                <a href="https://www.behance.net/">
+                    <i class="fa fa-behance"></i>
+                </a>
+            </p>
+        </footer>
+    </form>
 </body>
 <script>
     function findID() {
