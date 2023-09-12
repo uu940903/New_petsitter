@@ -1,9 +1,9 @@
 <nav th:fragment="navbarFragment">
-    <div id="header">
-        <div id="header_wrap">
+    <div id="header" style="display: flex; justify-content: space-between;">
+        <div style="display: flex;">
             <div id="header_content">
                 <a th:href="@{/mainboard/list}">
-                <img class="nav-img" src="/layout/image/restore.png" width="150" height="auto">
+                    <img class="nav-img" src="/layout/image/restore.png" width="150" height="auto">
                 </a>
             </div>
             <div id="header_content">
@@ -22,22 +22,14 @@
                 <a class="header_menu" style="text-decoration: none;" sec:authorize="isAuthenticated()" th:href="@{/member/logout}">로그아웃</a>
             </div>
             <div id="header_content">
-                 <a class="header_menu" style="text-decoration: none;"sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/memberList}">관리자 메뉴</a>
+                <a class="header_menu" style="text-decoration: none;" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin/memberList}">관리자 메뉴</a>
             </div>
-            <div id="header_content">
-                <form id="titleSearchForm" th:action="@{/mainboard/titleSearch}" method="post">
-                <div id="header_content">
-                    <input  class="search_input" placeholder="애완동물을 검색해주세요." th:name="keyword">
-                </div>
-                <div id="header_content">
-                    <input type="submit" class="chat_button" value="검색">
-                </div>
-                </form>
-            </div>
-
+        </div>
+        <div id="header_content" style="margin-left: 20px;">
+            <form id="titleSearchForm" th:action="@{/mainboard/titleSearch}" method="post">
+                <input class="search_input" placeholder="애완동물을 검색해주세요." th:name="keyword">
+                <input type="submit" class="chat_button" value="검색">
+            </form>
         </div>
     </div>
-<!--        <form role="search">
-                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-            </form>-->
 </nav>
