@@ -113,6 +113,20 @@ hr.hr-2 {
     text-align: right;
     margin-left: 30px;
 }
+
+
+.h2{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.hh{
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
 .h2{
     font-size: 30px;
     font-weight: bold;
@@ -135,6 +149,7 @@ hr.hr-2 {
     display:flex;
     justify-content:flex-start;
 }
+
 .tableLine{
     border-top: solid 1px #d3d6d8;
     border-bottom: solid 1px #d3d6d8;
