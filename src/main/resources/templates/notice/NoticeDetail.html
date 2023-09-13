@@ -5,7 +5,7 @@
     <div class="h2">공지게시판</div>
     <form enctype="multipart/form-data">
         <div class="row row1">
-            <table class="table text-center">
+            <table class="table text-center tableLine">
                 <tr>
                     <th class="col-2 text-center warning custom-bg tableLine">작성자</th>
                     <td class="col-4 text-center table-data tableLine">관리자</td>
@@ -22,7 +22,8 @@
                 </tr>
                 <tr>
                     <th class="col-2 text-center warning custom-bg tableLine">제목</th>
-                    <td class="col-10 text-left tableLine" colspan="3" th:text="${noticeDTO.noTitle}"></td>
+                    <td class="col-10 text-left" colspan="3" th:text="${noticeDTO.noTitle}"></td>
+
                 </tr>
             </table>
             <div class="br">

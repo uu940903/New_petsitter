@@ -105,11 +105,23 @@ td {
     background-color: #FFA500; /* 원하는 배경색으로 변경하세요 */
     border-color: #FFA500; /* 원하는 테두리 색상으로 변경하세요 */
 }
+
 .h2{
     font-size: 30px;
     font-weight: bold;
     text-align: center;
     margin-bottom: 15px;
+}
+.h2{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.tableLine{
+    border-top: solid 1px #d3d6d8;
+    border-bottom: solid 1px #d3d6d8;
 }
 .tableLine{
     border-top: solid 1px #d3d6d8;

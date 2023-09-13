@@ -53,7 +53,6 @@ public class AnswerService {
         if (answerOptional.isPresent()) {
             answerRepository.save(answer);
         }
-
         AnswerDTO answerDTO = AnswerDTO.builder()
                 .id(answer.getId())
                 .content(answer.getContent())

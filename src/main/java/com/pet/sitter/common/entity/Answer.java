@@ -6,8 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Builder
 @NoArgsConstructor
 @Getter
 @Entity
@@ -36,6 +36,7 @@ public class Answer  {
     @ManyToOne
     @JoinColumn(name = "memberId")
     private Member member;
+
 
     @Builder
     public Answer(Long id,String content,LocalDateTime createdDate, LocalDateTime modifiedDate,Question question,Member member){

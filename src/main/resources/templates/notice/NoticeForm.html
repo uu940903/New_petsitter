@@ -1,9 +1,11 @@
 <html layout:decorate="~{layout}" class="container my-3">
 <div layout:fragment="content">
     <link rel="stylesheet" type="text/css" th:href="@{/qna/css/questionForm.css}">
+
+
+    <div class="hh">공지게시판</div>
     <form id="NoticeForm" th:action="@{/notice/write}" enctype="multipart/form-data" method="post">
         <div class="container">
-            <div class="hh">공지게시판</div>
             <div class="row row1">
                 <table class="table">
                     <tr>

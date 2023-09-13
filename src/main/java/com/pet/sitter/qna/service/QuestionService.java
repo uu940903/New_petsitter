@@ -93,7 +93,6 @@ public class QuestionService {
         }
     }
 
-
     //Question게시판 목록 전체조회
     @Transactional
     public Page<Question> questionList(int page){

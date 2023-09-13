@@ -43,6 +43,7 @@ public class QuestionDTO {
                 .qnaViewCnt(qnaViewCnt)
                 .qnaFile(qnaFile)
                 .member(member)
+                .answerList(answerList)
                 .build();
         return build;
     }

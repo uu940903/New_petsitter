@@ -65,6 +65,7 @@ public class QuestionController {
     @GetMapping("/detail/{qnaNo}")
     public String detail(@PathVariable Long qnaNo, Model model, AnswerForm answerForm){
         QuestionDTO questionDTO = questionService.detail(qnaNo);
+
         model.addAttribute("questionDTO",questionDTO);
         return "qna/QuestionDetail";
     }
